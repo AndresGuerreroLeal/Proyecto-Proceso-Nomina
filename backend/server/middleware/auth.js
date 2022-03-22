@@ -3,6 +3,7 @@
  *
  * @author Juan-CamiloF
  */
+
 const jwt = require("jsonwebtoken");
 
 function auth(req, res, next) {
@@ -11,13 +12,12 @@ function auth(req, res, next) {
   token = token.split(" ")[1];
 
   if (!token) return res.status(401).send("Sin autorización");
-
-  try{
-    const payload = jwt.verify(token,process.env.S3CRET)
+  try {
+    const payload = jwt.verify(token, process.env.SECR3T);
     req.usuario = payload;
-    next()
-  }catch(err){
-      console.log(err)
+    next();
+  } catch (err) {
+    console.log(err);
     res.status(403).send("Sin autorización");
   }
 }
