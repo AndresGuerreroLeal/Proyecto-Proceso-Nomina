@@ -4,13 +4,14 @@
   "description": "Proyecto proceso nómina",
   "main": "index.js",
   "scripts": {
-    "start":"node server/index.js",
+    "start": "node server/index.js",
     "dev": "nodemon server/index.js",
-    "test" : "jest --watchAll"
+    "test": "jest --watchAll"
   },
   "author": "Juan-CamiloF, AndresGuerreroLeal",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "cors": "^2.8.5",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
