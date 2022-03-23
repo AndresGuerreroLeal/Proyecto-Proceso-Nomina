@@ -5,6 +5,7 @@
  */
 
 const jwt = require("jsonwebtoken");
+const log  = require("../config/logger");
 
 function auth(req, res, next) {
   let token = req.header("Authorization");
@@ -17,7 +18,7 @@ function auth(req, res, next) {
     req.usuario = payload;
     next();
   } catch (err) {
-    console.log(err);
+    log.err(err);
     res.status(403).send("Sin autorización");
   }
 }

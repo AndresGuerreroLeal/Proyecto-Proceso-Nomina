@@ -37,7 +37,6 @@ const AuthController = {
         return res.status(401).send("Credenciales erróneas");
       }
 
-      console.log(Date.now());
       const dateUpdate = await Usuario.findByIdAndUpdate(usuario.id, {
         ultimoAcceso: Date.now(),
       });
@@ -45,7 +44,7 @@ const AuthController = {
 
       const jwt = usuario.generateJWT();
       log.info(`Inicio de sesión éxitoso: ${jwt}`);
-      res.status(201).send({ jwt });
+      res.status(200).send({ jwt });
     } catch (err) {
       httpError(res, err);
     }
@@ -89,12 +88,13 @@ const AuthController = {
       }
 
       const informacion = {
+        usuario: usuario.usuario,
         nombre: usuario.nombre,
         correo: usuario.correo,
         ultimoAcceso: usuario.ultimoAcceso,
       };
 
-      log.info(`Información obtenida ${informacion}`);
+      log.info(`Información obtenida ${JSON.stringify(informacion)}`);
       return res.status(200).send(informacion);
     } catch (err) {
       httpError(res, err);
