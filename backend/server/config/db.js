@@ -8,8 +8,11 @@ const mongoose = require("mongoose");
 const { data } = require("./data");
 const log = require("./logger");
 
+const {MONGO_DB_URI, MONGO_DB_URI_TEST, NODE_ENV} = process.env;
+
+const DB_URI = NODE_ENV === 'test' ? MONGO_DB_URI_TEST : MONGO_DB_URI;
+
 const connection = () => {
-  const DB_URI = process.env.MONGO_DB_URI;
   mongoose
     .connect(DB_URI, {
       useNewUrlParser: true,
