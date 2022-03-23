@@ -1,5 +1,5 @@
 /**
- * Arvhico de configuración de errores para los controladores
+ * Archivo de configuración de errores para los controladores
  *
  * @author Juan-CamiloF
  */
