@@ -5,7 +5,6 @@
  */
 
 const mongoose = require("mongoose");
-const generarId = require("../helpers/generateId");
 const log = require("./logger");
 const data = () => {
   mongoose.connection.db
@@ -19,7 +18,6 @@ const data = () => {
           contrasenia:
             "$2a$10$mC77qjUBQz5SiyZ1jtcHa.2GKrJ/PgKFw7Q19ahCeoCHJKqefCCOq",
           ultimoAcceso: new Date(),
-          tokenCuenta: generarId(),
           createdAt: new Date(),
           updatedAt: new Date()
         });

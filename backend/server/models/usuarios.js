@@ -6,7 +6,6 @@
 
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
-const generarId = require("../helpers/generateId");
 
 const UsuarioSchema = new mongoose.Schema(
   {
@@ -34,7 +33,6 @@ const UsuarioSchema = new mongoose.Schema(
     },
     tokenCuenta: {
       type: String,
-      default: generarId(),
     },
   },
   {
