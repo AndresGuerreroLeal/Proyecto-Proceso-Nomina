@@ -13,7 +13,7 @@ const data = () => {
       if (!usuarios) {
         mongoose.connection.collection("usuarios").insertOne({
           nombre: process.env.NOMBRE,
-          correo: process.env.CORREO,
+          correo: process.env.CORREO_ADMIN,
           usuario: "admin",
           contrasenia:
             "$2a$10$mC77qjUBQz5SiyZ1jtcHa.2GKrJ/PgKFw7Q19ahCeoCHJKqefCCOq",
