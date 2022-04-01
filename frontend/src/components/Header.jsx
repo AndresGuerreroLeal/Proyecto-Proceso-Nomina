@@ -5,7 +5,7 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import MenuIcon from "@material-ui/icons/Menu";
 import Avatar from "@mui/material/Avatar";
 import Badge from "@mui/material/Badge";
@@ -72,7 +72,13 @@ const Header = ({ toggleDrawer }) => {
 
   const classes = useStyles();
 
-  const { auth } = useContext(AuthContext);
+  const { auth,cerrarSesion,autenticarUsuario } = useContext(AuthContext);
+
+
+  useEffect(()=>{
+    autenticarUsuario()
+  },[])
+
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -151,11 +157,11 @@ const Header = ({ toggleDrawer }) => {
           </ListItemIcon>
           Cambiar contraseña
         </MenuItem>
-        <MenuItem>
+        <MenuItem onClick={cerrarSesion}>
           <ListItemIcon>
             <Logout fontSize="small" />
           </ListItemIcon>
-          Logout
+          Cerrar Sesión
         </MenuItem>
       </Menu>
         </div>

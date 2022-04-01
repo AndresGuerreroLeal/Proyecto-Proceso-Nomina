@@ -8,29 +8,38 @@ const AuthState = ({ children }) => {
   const [cargando, setCargando] = useState(true);
 
   useEffect(() => {
-    const autenticarUsuario = async () => {
-      const token = localStorage.getItem("token");
-
-      if (!token) {
-        setCargando(false);
-        return;
-      }
-
-      try {
-        const { data } = await clienteAxios.get(
-          "/api/1.0/auth/info",
-          TokenAuth(token)
-        );
-        
-        setAuth(data);
-      } catch (err) {
-        console.log(err);
-      }
-
-      setCargando(false);
-    };
     autenticarUsuario();
   }, []);
+  
+  const autenticarUsuario = async () => {
+    const token = localStorage.getItem("token");
+
+    if (!token) {
+      setCargando(false);
+      return;
+    }
+
+    try {
+      const { data } = await clienteAxios.get(
+        "/api/1.0/auth/info",
+        TokenAuth(token)
+      );
+      
+      setAuth(data);
+    } catch (err) {
+      console.log(err);
+    }
+
+    setCargando(false);
+  };
+  
+  
+
+  const cerrarSesion = ()=>{
+    localStorage.removeItem("token")
+    setAuth({})
+  }
+
 
   return (
     <AuthContext.Provider
@@ -38,6 +47,8 @@ const AuthState = ({ children }) => {
         auth,
         cargando,
         setAuth,
+        cerrarSesion,
+        autenticarUsuario
       }}
     >
       {children}
