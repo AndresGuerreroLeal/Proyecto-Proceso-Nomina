@@ -27,7 +27,7 @@ const DashboardLayout = () => {
 
   return (
     <>
-      {auth?.correo ? (
+      {auth?.correo || auth?.jwt ? (
         <div className={classes.root}>
           <NavBar />
           <main className={classes.content}>
