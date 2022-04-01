@@ -7,19 +7,20 @@
 const express = require("express");
 const router = express.Router();
 const fileSystem = require("fs");
+const log  = require("../config/logger");
 
 const pathRouter = `${__dirname}`;
 
 const removeExtension = (fileName) => {
-  return fileName.split(".")[0];
+  return fileName.split(".").shift();
 };
 
 fileSystem.readdirSync(pathRouter).filter((file) => {
-  const fileWithoutExtension = removeExtension(file);
-  const skip = ["index"].includes(fileWithoutExtension);
-  if (!skip) {
-    router.use(`/${fileWithoutExtension}`, require(`./${fileWithoutExtension}`));
-    console.log("Rutas cargadas", fileWithoutExtension);
+  const fileWithoutExt = removeExtension(file)
+  const skip = ['index'].includes(fileWithoutExt);
+  if(!skip){
+   router.use(`/${fileWithoutExt}`, require(`./${fileWithoutExt}`));
+   log.info(`Ruta cargada ---> ${fileWithoutExt}`)
   }
 });
 

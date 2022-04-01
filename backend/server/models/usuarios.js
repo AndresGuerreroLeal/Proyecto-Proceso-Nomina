@@ -3,8 +3,9 @@
  * 
  * @author Juan-CamiloF
  */
+
 const mongoose = require("mongoose");
-const jwt = require("jsonwebtoke");
+const jwt = require("jsonwebtoken");
 const generarId = require("../helpers/generateId");
 
 const UsuarioSchema = new mongoose.Schema(
@@ -48,9 +49,12 @@ UsuarioSchema.methods.generateJWT = function () {
       _id: this._id,
       nombre: this.nombre,
     },
-    process.env.SECRET
+    process.env.SECR3T,
+    {
+      expiresIn: "1d"
+    }
   );
 };
 
-const Usuario = mongoose.model("usuario", esquemaUsuario);
+const Usuario = mongoose.model("usuario", UsuarioSchema);
 module.exports.Usuario = Usuario;
