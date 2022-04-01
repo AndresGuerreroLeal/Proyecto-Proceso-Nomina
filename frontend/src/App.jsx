@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import {BrowserRouter as Router,Routes,Route} from "react-router-dom"
+import AuthState from './context/Auth/AuthState'
 import DashboardLayout from './layout/DashboardLayout'
 import FormLayout from './layout/FormLayout'
 import Contratos from './pages/Contratos'
@@ -16,26 +17,27 @@ function App() {
 
   return (
     <Router>
-      <Routes>
-        <Route path="/" element={<FormLayout />}>
-          <Route index element={<Login />} />
-        </Route>
+      <AuthState>
+        <Routes>
+          <Route path="/" element={<FormLayout />}>
+            <Route index element={<Login />} />
+          </Route>
 
-        <Route path="/admin" element={<DashboardLayout />}>
-          <Route index element={<Dashboard />} />
+          <Route path="/admin" element={<DashboardLayout />}>
+            <Route index element={<Dashboard />} />
 
-          <Route path="empleados" element={<Empleados />} />
-          <Route path="nuevo-empleado" element={<EmpleadoForm />} />
-          <Route path="reportes-empleados" element={<ReportesEmpleados />} /> 
+            <Route path="empleados" element={<Empleados />} />
+            <Route path="nuevo-empleado" element={<EmpleadoForm />} />
+            <Route path="reportes-empleados" element={<ReportesEmpleados />} />
 
-          <Route path="contratos" element={<Contratos />} />
-          <Route path="reportes-contratos" element={<ReportesContratos />} /> 
-          
-          <Route path="nominas" element={<Nominas />} /> 
-          <Route path="reportes-nominas" element={<ReportesNominas />} /> 
+            <Route path="contratos" element={<Contratos />} />
+            <Route path="reportes-contratos" element={<ReportesContratos />} />
 
-        </Route>
-      </Routes>
+            <Route path="nominas" element={<Nominas />} />
+            <Route path="reportes-nominas" element={<ReportesNominas />} />
+          </Route>
+        </Routes>
+      </AuthState>
     </Router>
   );
 }

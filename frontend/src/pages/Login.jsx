@@ -1,12 +1,15 @@
 import { makeStyles } from "@material-ui/core";
 import { Container, Typography } from "@mui/material";
 import { display } from "@mui/system";
-import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import React, { useContext, useState } from "react";
+import { Link,useNavigate } from "react-router-dom";
+import clienteAxios from "../config/axios";
+import AuthContext from "../context/Auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   title: {
     textTransform: "uppercase",
+    textAlign:"center"
   },
   form: {
     marginTop: theme.spacing(2),
@@ -41,6 +44,10 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
   const classes = useStyles();
 
+  const {setAuth} = useContext(AuthContext)
+
+  const navigate = useNavigate()
+
   const [usuariologin,setUsuarioLogin] = useState({
     usuario:"",
     contrasenia:""
@@ -56,12 +63,40 @@ const Login = () => {
   }
 
 
+  const handleSubmit = async (e)=>{
+    e.preventDefault()
+
+    if([usuario,contrasenia].includes("")){
+      return 
+    }
+
+    try{
+     const {data} = await clienteAxios.post("/api/1.0/auth",{
+       usuario,contrasenia
+     })
+
+     
+     localStorage.setItem("token",data.jwt)
+
+     navigate("/admin");
+
+     setUsuario({
+       email: "",
+       password: "",
+     });
+
+    }catch(err){
+      return
+    }
+
+  }
+
   return (
     <>
       <Typography variant="h4" component="h4" className={classes.title}>
         Iniciar Sesión
       </Typography>
-      <form className={classes.form}>
+      <form className={classes.form} onSubmit={handleSubmit}>
         <div className={classes.containerInput}>
           <label className={classes.label} htmlFor="usuario">Usuario</label>
           <input
