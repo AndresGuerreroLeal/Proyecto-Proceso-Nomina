@@ -20,6 +20,7 @@ const Dashboard = () => {
           marginTop: 2,
         }}
       >
+        
         <Grid item xs={12} lg={4}>
           <Paper
             sx={{
@@ -28,13 +29,14 @@ const Dashboard = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              gap: 2,
               flexDirection: "column",
             }}
           >
             <Typography component="h3" variant="h5">
-              Ver empleado
+              Ver empleados
             </Typography>
-            <Typography component="p" variant="h4">
+            <Typography component="p" variant="body1">
               Total empleados: 30
             </Typography>
           </Paper>
