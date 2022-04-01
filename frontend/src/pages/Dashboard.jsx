@@ -34,7 +34,7 @@ const Dashboard = () => {
             <Typography component="h3" variant="h5">
               Ver empleado
             </Typography>
-            <Typography component="p" variant="body5">
+            <Typography component="p" variant="h4">
               Total empleados: 30
             </Typography>
           </Paper>
