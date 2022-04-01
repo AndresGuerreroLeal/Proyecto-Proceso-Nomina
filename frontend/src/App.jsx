@@ -1,45 +1,43 @@
 import { useState } from 'react'
-import logo from './logo.svg'
-import './App.css'
+import {BrowserRouter as Router,Routes,Route} from "react-router-dom"
+import DashboardLayout from './layout/DashboardLayout'
+import FormLayout from './layout/FormLayout'
+import Contratos from './pages/Contratos'
+import Dashboard from './pages/Dashboard'
+import EmpleadoForm from './pages/EmpleadoForm'
+import Empleados from './pages/Empleados'
+import Login from './pages/Login'
+import Nominas from './pages/Nominas'
+import ReportesContratos from './pages/ReportesContratos'
+import ReportesEmpleados from './pages/ReportesEmpleados'
+import ReportesNominas from './pages/ReportesNominas'
 
 function App() {
-  const [count, setCount] = useState(0)
 
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>Hello Vite + React!</p>
-        <p>
-          <button type="button" onClick={() => setCount((count) => count + 1)}>
-            count is: {count}
-          </button>
-        </p>
-        <p>
-          Edit <code>App.jsx</code> and save to test HMR updates.
-        </p>
-        <p>
-          <a
-            className="App-link"
-            href="https://reactjs.org"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn React
-          </a>
-          {' | '}
-          <a
-            className="App-link"
-            href="https://vitejs.dev/guide/features.html"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Vite Docs
-          </a>
-        </p>
-      </header>
-    </div>
-  )
+    <Router>
+      <Routes>
+        <Route path="/" element={<FormLayout />}>
+          <Route index element={<Login />} />
+        </Route>
+
+        <Route path="/admin" element={<DashboardLayout />}>
+          <Route index element={<Dashboard />} />
+
+          <Route path="empleados" element={<Empleados />} />
+          <Route path="nuevo-empleado" element={<EmpleadoForm />} />
+          <Route path="reportes-empleados" element={<ReportesEmpleados />} /> 
+
+          <Route path="contratos" element={<Contratos />} />
+          <Route path="reportes-contratos" element={<ReportesContratos />} /> 
+          
+          <Route path="nominas" element={<Nominas />} /> 
+          <Route path="reportes-nominas" element={<ReportesNominas />} /> 
+
+        </Route>
+      </Routes>
+    </Router>
+  );
 }
 
 export default App
