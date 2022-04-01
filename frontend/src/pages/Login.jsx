@@ -1,16 +1,15 @@
 import { makeStyles } from "@material-ui/core";
 import { Container, Typography } from "@mui/material";
 import { display } from "@mui/system";
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   title: {
     textTransform: "uppercase",
-    marginTop: theme.spacing(1),
   },
   form: {
-    padding: theme.spacing(4),
+    marginTop: theme.spacing(2),
   },
   containerInput: {
     marginBottom: theme.spacing(3),
@@ -42,27 +41,51 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
   const classes = useStyles();
 
+  const [usuariologin,setUsuarioLogin] = useState({
+    usuario:"",
+    contrasenia:""
+  })
+
+  const {usuario,contrasenia} = usuariologin
+
+  const handleChange = (e)=>{
+    setUsuarioLogin({
+      ...usuariologin,
+      [e.target.name]:e.target.value
+    })
+  }
+
+
   return (
     <>
       <Typography variant="h4" component="h4" className={classes.title}>
-        Login
+        Iniciar Sesión
       </Typography>
       <form className={classes.form}>
         <div className={classes.containerInput}>
-          <label className={classes.label}>Email</label>
+          <label className={classes.label} htmlFor="usuario">Usuario</label>
           <input
             type="text"
-            placeholder="Ingresa tu email"
+            placeholder="Ingrese su usuario"
             className={classes.input}
+            value={usuario}
+            name="usuario"
+            id="usuario"
+            onChange={handleChange}
           />
+          
         </div>
 
         <div className={classes.containerInput}>
-          <label className={classes.label}>Password</label>
+          <label className={classes.label} htmlFor="contrasenia">Contraseña</label>
           <input
             type="password"
-            placeholder="Ingresa tu password"
+            placeholder="Ingrese su contraseña"
             className={classes.input}
+            value={contrasenia}
+            name="contrasenia"
+            id="contrasenia"
+            onChange={handleChange}
           />
         </div>
 
