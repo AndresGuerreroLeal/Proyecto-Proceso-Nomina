@@ -75,12 +75,13 @@ const Login = () => {
        usuario,contrasenia
      })
 
-     
-     localStorage.setItem("token",data.jwt)
+    localStorage.setItem("token",data.jwt)
 
-     navigate("/admin");
+    setAuth(data)
 
-     setUsuario({
+    navigate("/admin");
+
+    setUsuario({
        email: "",
        password: "",
      });
