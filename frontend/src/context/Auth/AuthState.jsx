@@ -21,7 +21,7 @@ const AuthState = ({ children }) => {
           "/api/1.0/auth/info",
           TokenAuth(token)
         );
-
+        
         setAuth(data);
       } catch (err) {
         console.log(err);
