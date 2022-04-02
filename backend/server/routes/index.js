@@ -1,13 +1,13 @@
 /**
  * Archivo de configuración para rutas dinámicas.
- * 
+ *
  * @author Juan-CamiloF
  */
 
 const express = require("express");
 const router = express.Router();
 const fileSystem = require("fs");
-const log  = require("../config/logger");
+const log = require("../config/logger");
 
 const pathRouter = `${__dirname}`;
 
@@ -16,11 +16,11 @@ const removeExtension = (fileName) => {
 };
 
 fileSystem.readdirSync(pathRouter).filter((file) => {
-  const fileWithoutExt = removeExtension(file)
-  const skip = ['index'].includes(fileWithoutExt);
-  if(!skip){
-   router.use(`/${fileWithoutExt}`, require(`./${fileWithoutExt}`));
-   log.info(`Ruta cargada ---> ${fileWithoutExt}`)
+  const fileWithoutExt = removeExtension(file);
+  const skip = ["index"].includes(fileWithoutExt);
+  if (!skip) {
+    log.info(`Ruta cargada ---> ${fileWithoutExt}`);
+    return router.use(`/${fileWithoutExt}`, require(`./${fileWithoutExt}`));
   }
 });
 

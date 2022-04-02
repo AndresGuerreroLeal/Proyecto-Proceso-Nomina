@@ -8,7 +8,8 @@ const log = require("../config/logger");
 const { Usuario } = require("../models/usuarios");
 const bcrypt = require("bcrypt");
 const httpError = require("../helpers/handleError");
-
+const jwt = require("jsonwebtoken");
+const emailOlvideContrasenia = require("../helpers/emailOlvideContrasenia");
 const AuthController = {
   /**
    * @code POST /auth : Inicia sesión en el sistema
@@ -25,7 +26,7 @@ const AuthController = {
       const usuario = await Usuario.findOne({ usuario: req.body.usuario });
       if (!usuario) {
         log.info("Credenciales erróneas");
-        return res.status(401).send("Credenciales erróneas");
+        return res.status(401).send({ message: "Credenciales erróneas" });
       }
 
       let contraseniaCorrecta = await bcrypt.compare(
@@ -34,7 +35,7 @@ const AuthController = {
       );
       if (!contraseniaCorrecta) {
         log.info("Credenciales erróneas");
-        return res.status(401).send("Credenciales erróneas");
+        return res.status(401).send({ message: "Credenciales erróneas" });
       }
 
       const dateUpdate = await Usuario.findByIdAndUpdate(usuario.id, {
@@ -42,9 +43,9 @@ const AuthController = {
       });
       await dateUpdate.save();
 
-      const jwt = usuario.generateJWT();
-      log.info(`Inicio de sesión éxitoso: ${jwt}`);
-      res.status(200).send({ jwt });
+      const token = usuario.generateJWT();
+      log.info(`Inicio de sesión éxitoso: ${token}`);
+      res.status(200).send({ token });
     } catch (err) {
       httpError(res, err);
     }
@@ -84,7 +85,7 @@ const AuthController = {
       const usuario = await Usuario.findById(req.usuario._id);
       if (!usuario) {
         log.info("El usuario no existe");
-        return res.status(404).send("El usuario no existe");
+        return res.status(404).send({ message: "El usuario no existe" });
       }
 
       const informacion = {
@@ -96,6 +97,88 @@ const AuthController = {
 
       log.info(`Información obtenida ${JSON.stringify(informacion)}`);
       return res.status(200).send(informacion);
+    } catch (err) {
+      httpError(res, err);
+    }
+  },
+
+  /**
+   * @code PUT /forgot-password : Olvide mi contraseña
+   *
+   * @param correo -> correo para crear una nueva contraseña
+   *
+   * @return información enviado al correo @code 200 o mensaje @code 400
+   *
+   */
+  olvideContrasenia: async function (req, res) {
+    log.info("[PUT] Petición olvide mi contraseña");
+
+    try {
+      const correo = req.body.correo;
+      const usuario = await Usuario.findOne({ correo: correo });
+      if (!usuario) {
+        log.info(`El usuario no existe, correo: ${correo}`);
+        return res.status(400).send({
+          message:
+            "No se ha enviado las instrucciones al correo electrónico proporcionado",
+        });
+      }
+
+      const token = jwt.sign(
+        { userId: usuario.id, usuario: usuario.usuario },
+        process.env.SECR3T,
+        { expiresIn: "5m" }
+      );
+      usuario.tokenCuenta = token;
+      await usuario.save();
+
+      //Función para enviar correo
+      emailOlvideContrasenia(correo, usuario.nombre, token);
+
+      log.info(
+        `Se envio por correo las intrucciones para cambio de contraseña, correo: ${correo}`
+      );
+      return res.status(200).send({
+        message:
+          "Se ha enviado las instrucciones al correo electrónico proporcionado",
+      });
+    } catch (err) {
+      httpError(res, err);
+    }
+  },
+
+  /**
+   * @code PUT /create-new-password : Crear una nueva contraseña
+   *
+   * @param contrasenia, @param token -> nueva contraseña y token
+   *
+   * @return contraseña cambiada @code 201 o no se pudo cambiar la contraseña @code 400
+   *
+   */
+  crearNuevaContrasenia: async function (req, res) {
+    log.info("[PUT] Petición crea nueva contraseña");
+
+    try {
+      const nuevaContrasenia = req.body.nuevaContrasenia;
+      const tokenCuenta = req.params.reset;
+      if (!tokenCuenta) {
+        return res
+          .status(400)
+          .send({ message: "No se puede cambiar la contraseña" });
+      }
+      jwt.verify(tokenCuenta, process.env.SECR3T);
+
+      const usuario = await Usuario.findOne({ tokenCuenta: tokenCuenta });
+      if (!usuario) {
+        return res
+          .status(400)
+          .send({ message: "No se puede cambiar la contraseña" });
+      }
+      usuario.contrasenia = await bcrypt.hash(nuevaContrasenia, 10);
+      await usuario.save();
+      return res
+        .status(201)
+        .send({ message: "Se ha cambiado la contraseña éxitosamente" });
     } catch (err) {
       httpError(res, err);
     }
