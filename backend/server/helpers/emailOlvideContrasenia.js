@@ -26,7 +26,7 @@ const emailOlvideContrasenia = async (email, nombre, token) => {
             <h1>Proyecto Proceso Nómina </h1>
             <br>
             <p> Hola ${nombre}, se solicito un cambio de contraseña, para seguir con el proceso por favor haga click en el siguente enlace: 
-              <a href="${process.env.FRONTEND_URL}/olvide-contrasenia/${token}" target="_blank">Link</a> 
+              <a href="${process.env.FRONTEND_URL}olvide-contrasenia/${token}" target="_blank">Link</a> 
             </p>
            
             <br>
