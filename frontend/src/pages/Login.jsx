@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 import { Container, Typography } from "@mui/material";
 import { display } from "@mui/system";
 import React, { useContext, useState } from "react";
-import { Link,useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Alerta from "../components/Alerta";
 import clienteAxios from "../config/axios";
 import AlertaContext from "../context/Alerta/AlertaContext";
@@ -11,7 +11,7 @@ import AuthContext from "../context/Auth/AuthContext";
 const useStyles = makeStyles((theme) => ({
   title: {
     textTransform: "uppercase",
-    textAlign:"center"
+    textAlign: "center",
   },
   form: {
     marginTop: theme.spacing(2),
@@ -46,59 +46,61 @@ const useStyles = makeStyles((theme) => ({
 const Login = () => {
   const classes = useStyles();
 
-  const {setAuth} = useContext(AuthContext)
-  const {alerta,mostrarAlerta} = useContext(AlertaContext)
+  const { setAuth } = useContext(AuthContext);
+  const { alerta, mostrarAlerta } = useContext(AlertaContext);
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
-  const [usuariologin,setUsuarioLogin] = useState({
-    usuario:"",
-    contrasenia:""
-  })
+  const [usuariologin, setUsuarioLogin] = useState({
+    usuario: "",
+    contrasenia: "",
+  });
 
-  const {usuario,contrasenia} = usuariologin
+  const { usuario, contrasenia } = usuariologin;
 
-  const handleChange = (e)=>{
+  const handleChange = (e) => {
     setUsuarioLogin({
       ...usuariologin,
-      [e.target.name]:e.target.value
-    })
-  }
+      [e.target.name]: e.target.value,
+    });
+  };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-  const handleSubmit = async (e)=>{
-    e.preventDefault()
-
-    if([usuario,contrasenia].includes("")){
+    if ([usuario, contrasenia].includes("")) {
       mostrarAlerta({
-          message:"Todos los campos son obligatorios",
-          categoria:"error"        
-      })
-      return
+        message: "Todos los campos son obligatorios",
+        categoria: "error",
+      });
+      return;
     }
 
-    try{
-     const {data} = await clienteAxios.post("/api/1.0/auth",{
-       usuario,contrasenia
-     })
+    try {
+      const { data } = await clienteAxios.post("/api/1.0/auth", {
+        usuario,
+        contrasenia,
+      });
 
-    localStorage.setItem("token",data.jwt)
+      localStorage.setItem("token", data.jwt);
 
-    setAuth(data)
+      setAuth(data);
 
-    navigate("/admin");
+      navigate("/admin");
 
-    setUsuario({
-       email: "",
-       password: "",
-     });
-
-    }catch(err){
-   
+      setUsuario({
+        email: "",
+        password: "",
+      });
+    } catch (err) {
+      mostrarAlerta({
+        message: err.response.data,
+        categoria: "error",
+      });
     }
-  }
+  };
 
-  const {message} = alerta
+  const { message } = alerta;
 
   return (
     <>
