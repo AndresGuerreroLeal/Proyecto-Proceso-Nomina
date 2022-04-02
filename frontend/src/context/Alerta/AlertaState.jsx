@@ -1,21 +1,21 @@
 import { useState } from "react";
 import AlertaContext from "./AlertaContext";
 
-const AlertaState = () => {
+const AlertaState = ({children}) => {
   const [alerta, setAlerta] = useState({
     message: "",
-    categoria: "",
+    categoria: "error",
   });
 
-  const mostrarAlerta = (message, categoria) => {
+  const mostrarAlerta = ({message, categoria}) => {
     setAlerta({ message, categoria });
 
     setTimeout(() => {
       setAlerta({
         message: "",
-        categoria: false,
+        categoria: "error",
       });
-    }, 1000);
+    }, 3000);
   };
 
   return (
@@ -24,7 +24,9 @@ const AlertaState = () => {
         alerta,
         mostrarAlerta,
       }}
-    ></AlertaContext.Provider>
+    >
+        {children}
+    </AlertaContext.Provider>
   );
 };
 

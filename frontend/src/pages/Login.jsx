@@ -3,7 +3,9 @@ import { Container, Typography } from "@mui/material";
 import { display } from "@mui/system";
 import React, { useContext, useState } from "react";
 import { Link,useNavigate } from "react-router-dom";
+import Alerta from "../components/Alerta";
 import clienteAxios from "../config/axios";
+import AlertaContext from "../context/Alerta/AlertaContext";
 import AuthContext from "../context/Auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -45,6 +47,7 @@ const Login = () => {
   const classes = useStyles();
 
   const {setAuth} = useContext(AuthContext)
+  const {alerta,mostrarAlerta} = useContext(AlertaContext)
 
   const navigate = useNavigate()
 
@@ -67,7 +70,11 @@ const Login = () => {
     e.preventDefault()
 
     if([usuario,contrasenia].includes("")){
-      return 
+      mostrarAlerta({
+          message:"Todos los campos son obligatorios",
+          categoria:"error"        
+      })
+      return
     }
 
     try{
@@ -87,19 +94,23 @@ const Login = () => {
      });
 
     }catch(err){
-      return
+   
     }
-
   }
+
+  const {message} = alerta
 
   return (
     <>
+      {message && <Alerta />}
       <Typography variant="h4" component="h4" className={classes.title}>
         Iniciar Sesión
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
         <div className={classes.containerInput}>
-          <label className={classes.label} htmlFor="usuario">Usuario</label>
+          <label className={classes.label} htmlFor="usuario">
+            Usuario
+          </label>
           <input
             type="text"
             placeholder="Ingrese su usuario"
@@ -109,11 +120,12 @@ const Login = () => {
             id="usuario"
             onChange={handleChange}
           />
-          
         </div>
 
         <div className={classes.containerInput}>
-          <label className={classes.label} htmlFor="contrasenia">Contraseña</label>
+          <label className={classes.label} htmlFor="contrasenia">
+            Contraseña
+          </label>
           <input
             type="password"
             placeholder="Ingrese su contraseña"
