@@ -25,7 +25,6 @@ const AuthState = ({ children }) => {
           TokenAuth(token)
         );
 
-        console.log(data);
         setPerfil(data);
 
         navigate("/admin");
