@@ -1,6 +1,11 @@
-import { Alert } from "@mui/material";
 import React, { useContext } from "react";
+
+//Context
 import AlertaContext from "../context/alerta/AlertaContext";
+
+//Material ui
+import { Alert } from "@mui/material";
+
 
 const Alerta = () => {
   const { alerta } = useContext(AlertaContext);

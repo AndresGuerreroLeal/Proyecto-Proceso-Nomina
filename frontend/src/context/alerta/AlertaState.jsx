@@ -1,4 +1,6 @@
 import { useState } from "react";
+
+//Context
 import AlertaContext from "./AlertaContext";
 
 const AlertaState = ({ children }) => {
@@ -6,7 +8,7 @@ const AlertaState = ({ children }) => {
     message: "",
     categoria: "",
   });
-  
+
   const mostrarAlerta = (alerta) => {
     setAlerta(alerta);
 

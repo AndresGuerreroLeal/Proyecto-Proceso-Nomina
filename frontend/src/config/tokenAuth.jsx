@@ -1,4 +1,3 @@
-
 const TokenAuth = (token) => {
   return {
     headers: {
@@ -8,4 +7,4 @@ const TokenAuth = (token) => {
   };
 };
 
-export default TokenAuth
+export default TokenAuth;

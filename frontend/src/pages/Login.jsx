@@ -1,17 +1,24 @@
-import { makeStyles } from "@material-ui/core";
-import { Container, Typography } from "@mui/material";
-import { display } from "@mui/system";
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import Alerta from "../components/Alerta";
+
+//Config
 import clienteAxios from "../config/axios";
+
+//Context
 import AlertaContext from "../context/alerta/AlertaContext";
 import AuthContext from "../context/auth/AuthContext";
+
+//Components
+import Alerta from "../components/Alerta";
+
+//Material ui
+import { makeStyles } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   title: {
     textTransform: "uppercase",
-    marginButton: "8px" ,
+    marginButton: "8px",
   },
   form: {
     padding: theme.spacing(3),
@@ -111,7 +118,7 @@ const Login = () => {
   return (
     <>
       <Typography variant="h4" component="h4" className={classes.title}>
-          Login
+        Login
       </Typography>
 
       {alerta.message && <Alerta />}

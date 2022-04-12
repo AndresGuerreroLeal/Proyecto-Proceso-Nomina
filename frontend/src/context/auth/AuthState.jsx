@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+
+//Context
+import AuthContext from "./AuthContext";
+
+//Config
 import clienteAxios from "../../config/axios";
 import TokenAuth from "../../config/tokenAuth";
-import AuthContext from "./AuthContext";
 
 const AuthState = ({ children }) => {
   const [token, setToken] = useState({});
@@ -38,9 +42,6 @@ const AuthState = ({ children }) => {
     };
     autenticarUsuario();
   }, [token]);
-
-  
-
 
   return (
     <AuthContext.Provider

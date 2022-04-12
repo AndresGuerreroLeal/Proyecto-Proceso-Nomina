@@ -1,9 +1,15 @@
-import { useState } from "react";
+//Router
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+
+//Context
 import AlertaState from "./context/alerta/AlertaState";
 import AuthState from "./context/auth/AuthState";
+
+//Layout
 import DashboardLayout from "./layout/DashboardLayout";
 import FormLayout from "./layout/FormLayout";
+
+//Pages
 import Contratos from "./pages/Contratos";
 import Dashboard from "./pages/Dashboard";
 import EmpleadoForm from "./pages/EmpleadoForm";

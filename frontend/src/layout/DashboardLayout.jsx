@@ -1,8 +1,14 @@
-import { makeStyles, Toolbar } from "@material-ui/core";
 import React, { useContext } from "react";
 import { Outlet, Navigate } from "react-router-dom";
-import NavBar from "../components/NavBar";
+
+//Context
 import AuthContext from "../context/auth/AuthContext";
+
+//Components
+import NavBar from "../components/NavBar";
+
+//Material ui
+import { makeStyles, Toolbar } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,17 +33,17 @@ const DashboardLayout = () => {
 
   return (
     <>
-    {perfil?.usuario ? 
-      <div className={classes.root}>
-        <NavBar />
-        <main className={classes.content}>
-          <Toolbar />
-          <Outlet />
-        </main>
-      </div>
-      :
-      <Navigate to="/" />
-    }
+      {perfil?.usuario ? (
+        <div className={classes.root}>
+          <NavBar />
+          <main className={classes.content}>
+            <Toolbar />
+            <Outlet />
+          </main>
+        </div>
+      ) : (
+        <Navigate to="/" />
+      )}
     </>
   );
 };

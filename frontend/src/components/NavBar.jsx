@@ -1,7 +1,10 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
+
+//Material ui
 import { makeStyles, useTheme } from "@material-ui/core/styles";
-import useMediaQuery from "@material-ui/core/useMediaQuery";
 import Drawer from "@material-ui/core/Drawer";
+import useMediaQuery from "@material-ui/core/useMediaQuery";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import List from "@material-ui/core/List";
 import Divider from "@material-ui/core/Divider";
@@ -9,24 +12,19 @@ import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
 import Header from "./Header";
 import { Collapse, ListSubheader } from "@material-ui/core";
-import { ListItemButton } from "@mui/material";
-import PersonIcon from "@mui/icons-material/Person";
 import FormatListBulletedIcon from "@mui/icons-material/FormatListBulleted";
-import AssessmentIcon from "@mui/icons-material/Assessment";
+import { ListItemButton } from "@mui/material";
+
+//Material ui icons
+import PersonIcon from "@mui/icons-material/Person";
 import BusinessCenterIcon from "@mui/icons-material/BusinessCenter";
+import AssessmentIcon from "@mui/icons-material/Assessment";
 import WorkHistoryIcon from "@mui/icons-material/WorkHistory";
 import ArticleIcon from "@mui/icons-material/Article";
 import FindInPageIcon from "@mui/icons-material/FindInPage";
-import {
-  Drafts,
-  ExpandLess,
-  ExpandMore,
-  Inbox,
-  Send,
-  StarBorder,
-} from "@material-ui/icons";
-import { Link } from "react-router-dom";
+import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
+//Imagenes
 import logosm from "../images/logosm.png";
 
 const drawerWidth = 281;

@@ -1,3 +1,9 @@
+import React, { useContext, useState } from "react";
+
+//Context
+import AuthContext from "../context/auth/AuthContext";
+
+//Material ui
 import {
   AppBar,
   IconButton,
@@ -5,13 +11,13 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import React, { useContext, useState } from "react";
+
+//Material ui icos
 import MenuIcon from "@material-ui/icons/Menu";
 import Avatar from "@mui/material/Avatar";
-import Badge from "@mui/material/Badge";
+
+//Imagenes
 import logo from "../images/logo.png";
-import MailIcon from "@mui/icons-material/Mail";
-import AuthContext from "../context/auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +56,7 @@ const useStyles = makeStyles((theme) => ({
 const Header = ({ toggleDrawer }) => {
   const classes = useStyles();
 
-  const {perfil} = useContext(AuthContext)
+  const { perfil } = useContext(AuthContext);
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
@@ -66,7 +72,7 @@ const Header = ({ toggleDrawer }) => {
           <MenuIcon />
         </IconButton>
         <div className={classes.icons}>
-          <Typography component="p" variant="p" >
+          <Typography component="p" variant="p">
             Ultimo Acceso: {perfil.ultimoAcceso}
           </Typography>
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />

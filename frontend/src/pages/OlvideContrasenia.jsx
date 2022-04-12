@@ -1,12 +1,18 @@
-import { makeStyles } from "@material-ui/core";
-import { Container, Typography } from "@mui/material";
-import { display } from "@mui/system";
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
-import Alerta from "../components/Alerta";
+
+//Config
 import clienteAxios from "../config/axios";
+
+//Context
 import AlertaContext from "../context/alerta/AlertaContext";
-import AuthContext from "../context/auth/AuthContext";
+
+//Components
+import Alerta from "../components/Alerta";
+
+//Material ui
+import { makeStyles } from "@material-ui/core";
+import { Typography } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -79,7 +85,9 @@ const OlvideContrasenia = () => {
     } catch (err) {
       console.log(err.response.data);
       mostrarAlerta({
-        message: err.response.data.message ? err.response.data.message : "Email no válido",
+        message: err.response.data.message
+          ? err.response.data.message
+          : "Email no válido",
         categoria: "error",
       });
     }
