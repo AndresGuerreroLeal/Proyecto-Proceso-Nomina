@@ -1,5 +1,5 @@
 /**
- * Archivo de ruta para todo lo relacionado con autenticación
+ * Archivo de controlador para todo lo relacionado con autenticación
  *
  * @author Juan-CamiloF
  */
@@ -14,7 +14,7 @@ const AuthController = {
   /**
    * @code POST /auth : Inicia sesión en el sistema
    *
-   * @param usuarios -> usuario y contraseña
+   * @param usuario -> usuario y contraseña
    *
    * @return token de acceso @code 201 o credenciales errónes @code 401
    *
@@ -100,6 +100,7 @@ const AuthController = {
         usuario: usuario.usuario,
         nombre: usuario.nombre,
         correo: usuario.correo,
+        rol: usuario.roles,
         ultimoAcceso: usuario.ultimoAcceso,
       };
 

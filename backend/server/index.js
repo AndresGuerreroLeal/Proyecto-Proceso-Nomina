@@ -20,7 +20,7 @@ connection();
 connectionEmail();
 
 const server = app.listen(PORT, () => {
-  log.info(`-----Servidor funcionando en puerto ${PORT} ------`);
+  log.info(`----- Servidor funcionando en puerto ${PORT} ------`);
 });
 
 module.exports = { app, server };
