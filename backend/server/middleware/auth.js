@@ -6,8 +6,10 @@
 
 const jwt = require("jsonwebtoken");
 const log = require("../config/logger");
+const { Roles } = require("../models/roles");
 
-function auth(req, res, next) {
+const { Usuario } = require("../models/usuarios");
+const auth = (req, res, next) => {
   let token = req.header("Authorization");
 
   token = token.split(" ")[1];
@@ -21,6 +23,34 @@ function auth(req, res, next) {
     log.error(err);
     res.status(403).send({ message: "Sin autorización" });
   }
-}
+};
 
-module.exports = auth;
+const admin = async (req, res, next) => {
+  const usuario = await Usuario.findById(req.usuario._id);
+  const roles = await Roles.find({ _id: { $in: usuario.roles } });
+
+  for (let rol of roles) {
+    if (rol._id === "ADMIN") {
+      next();
+      return;
+    }
+  }
+  log.warn(`Sin autorización de admin, usuario: ${JSON.stringify(usuario)}`);
+  return res.status(403).send({ message: "Sin autorización" });
+};
+
+const reports = async (req, res, next) => {
+  const usuario = await Usuario.findById(req.usuario._id);
+  const roles = await Roles.find({ _id: { $in: usuario.roles } });
+
+  for (let rol of roles) {
+    if (rol._id === "REPORTS") {
+      next();
+      return;
+    }
+  }
+  log.warn(`Sin autorización de reportes, usuario: ${JSON.stringify(usuario)}`);
+  return res.status(403).send({ message: "Sin autorización" });
+};
+
+module.exports = { admin, auth, reports };

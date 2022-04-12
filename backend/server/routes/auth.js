@@ -1,14 +1,14 @@
 /**
- * Archivo de controlador para todo lo relacionado con inicio de sesión
+ * Archivo de rutas para todo lo relacionado con inicio de sesión
  *
  * @author Juan-CamiloF
  */
 
 const express = require("express");
 const router = express.Router();
-const auth = require("../middleware/auth.js");
+const { auth } = require("../middleware/auth.js");
 /**
- * {@link AuthController}
+ *@see AuthController
  *
  * Se extrae métodos del objeto AuthController
  */
@@ -27,7 +27,7 @@ const {
   validacionForgot,
   validacionCreate,
   validacionUpdate,
-  validacionUpdateInfo
+  validacionUpdateInfo,
 } = require("../validators/auth.js");
 
 //Ruta de inicio de sesión [POST]

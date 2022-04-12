@@ -28,6 +28,12 @@ const UsuarioSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
+    roles: [
+      {
+        ref: "Roles",
+        type: String,
+      },
+    ],
     ultimoAcceso: {
       type: Date,
     },
@@ -49,7 +55,7 @@ UsuarioSchema.methods.generateJWT = function () {
     },
     process.env.SECR3T,
     {
-      expiresIn: "1d"
+      expiresIn: "1d",
     }
   );
 };
