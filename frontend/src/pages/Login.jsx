@@ -3,16 +3,18 @@ import { Container, Typography } from "@mui/material";
 import { display } from "@mui/system";
 import React, { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Alerta from "../components/Alerta";
 import clienteAxios from "../config/axios";
+import AlertaContext from "../context/alerta/AlertaContext";
 import AuthContext from "../context/auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   title: {
     textTransform: "uppercase",
-    marginTop: theme.spacing(1),
+    marginButton: "8px" ,
   },
   form: {
-    padding: theme.spacing(4),
+    padding: theme.spacing(3),
   },
   containerInput: {
     marginBottom: theme.spacing(3),
@@ -51,11 +53,11 @@ const Login = () => {
     contrasenia: "",
   });
 
-  const [alerta, setAlerta] = useState({});
-
   const { usuario, contrasenia } = usuariologin;
 
-  const {setToken} = useContext(AuthContext)
+  const { setToken } = useContext(AuthContext);
+
+  const { alerta, mostrarAlerta } = useContext(AlertaContext);
 
   const handleChange = (e) => {
     setusuarioLogin({
@@ -68,27 +70,28 @@ const Login = () => {
     e.preventDefault();
 
     if ([usuario, contrasenia].includes("")) {
-      return setAlerta({
-        msg: "Todos los campos son obligatorios",
-        error: true,
+      return mostrarAlerta({
+        message: "Todos los campos son obligatorios",
+        categoria: "error",
       });
     }
 
-    setAlerta({});
+    mostrarAlerta({});
+
     try {
       const { data } = await clienteAxios.post(`/api/1.0/auth`, {
         usuario,
         contrasenia,
       });
 
-      setAlerta({
+      mostrarAlerta({
         msg: data.msg,
-        error: false,
+        categoria: false,
       });
 
-      localStorage.setItem("token",data.jwt)
+      localStorage.setItem("token", data.jwt);
 
-      setToken(data)
+      setToken(data);
 
       setusuarioLogin({
         usuario: "",
@@ -96,23 +99,23 @@ const Login = () => {
       });
 
       navigate("/admin");
-      
     } catch (err) {
-      console.log(err)
-      setAlerta({
-        msg: err.response.data,
-        error: true,
+      console.log(err);
+      mostrarAlerta({
+        message: err.response.data,
+        categoria: true,
       });
     }
   };
 
-  const { msg } = alerta;
-
   return (
     <>
       <Typography variant="h4" component="h4" className={classes.title}>
-        Login
+          Login
       </Typography>
+
+      {alerta.message && <Alerta />}
+
       <form className={classes.form} onSubmit={handleSubmit}>
         <div className={classes.containerInput}>
           <label className={classes.label}>Usuario</label>

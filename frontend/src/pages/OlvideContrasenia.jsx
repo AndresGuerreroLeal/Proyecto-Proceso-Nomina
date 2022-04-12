@@ -3,7 +3,9 @@ import { Container, Typography } from "@mui/material";
 import { display } from "@mui/system";
 import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import Alerta from "../components/Alerta";
 import clienteAxios from "../config/axios";
+import AlertaContext from "../context/alerta/AlertaContext";
 import AuthContext from "../context/auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -46,49 +48,51 @@ const OlvideContrasenia = () => {
 
   const [correo, setCorreo] = useState("");
 
-  const [alerta, setAlerta] = useState({});
+  const { alerta, mostrarAlerta } = useContext(AlertaContext);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
     if ([correo].includes("")) {
-      return setAlerta({
-        msg: "Se requiere obligatoriamente el correo registrado",
-        error: true,
+      return mostrarAlerta({
+        message: "Se requiere obligatoriamente el correo registrado",
+        categoria: "error",
       });
     }
 
-    setAlerta({});
+    mostrarAlerta({
+      message: "",
+      categoria: "",
+    });
 
     try {
-        console.log(correo)
-      const { data } = await clienteAxios.put(`api/1.0/auth/forgot-password/`,{correo});
-        
-        console.log(data)
+      const { data } = await clienteAxios.put(`api/1.0/auth/forgot-password/`, {
+        correo,
+      });
 
-      setAlerta({
-        msg: data.msg,
-        error: false,
+      mostrarAlerta({
+        message: data.message,
+        categoria: "info",
       });
 
       setCorreo("");
-      
     } catch (err) {
-      console.log(err.response.data)
-      setAlerta({
-        msg: err.response.data,
-        error: true,
+      console.log(err.response.data);
+      mostrarAlerta({
+        message: err.response.data.message ? err.response.data.message : "Email no válido",
+        categoria: "error",
       });
     }
   };
-
-  const { msg } = alerta;
 
   return (
     <>
       <Typography variant="h4" component="h4" className={classes.title}>
         Olvide Contraseña
       </Typography>
+
+      {alerta.message && <Alerta />}
+
       <form className={classes.form} onSubmit={handleSubmit}>
         <div className={classes.containerInput}>
           <label className={classes.label}>Correo</label>
@@ -97,7 +101,7 @@ const OlvideContrasenia = () => {
             placeholder="Ingrese su correo"
             className={classes.input}
             value={correo}
-            onChange={(e)=>setCorreo(e.target.value)}
+            onChange={(e) => setCorreo(e.target.value)}
           />
         </div>
 
@@ -108,11 +112,11 @@ const OlvideContrasenia = () => {
         />
 
         <Link to="/" className={classes.opcion}>
-             Iniciar Sesión
+          Iniciar Sesión
         </Link>
       </form>
     </>
   );
 };
 
-export default OlvideContrasenia
+export default OlvideContrasenia;

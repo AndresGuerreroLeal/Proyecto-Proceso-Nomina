@@ -3,7 +3,9 @@ import { Container, Typography } from "@mui/material";
 import { display } from "@mui/system";
 import React, { useContext, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
+import Alerta from "../components/Alerta";
 import clienteAxios from "../config/axios";
+import AlertaContext from "../context/alerta/AlertaContext";
 import AuthContext from "../context/auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -43,86 +45,84 @@ const useStyles = makeStyles((theme) => ({
 
 const NuevaContrasenia = () => {
   const classes = useStyles();
-  
+
   const { token } = useParams();
 
-    const Navigate = useNavigate()
+  const Navigate = useNavigate();
 
   const [nuevacontraseniaform, setNuevaContraseniaForm] = useState({
-    nuevacontrasenia:"",
-    confirmarnuevacontrasenia:""
+    nuevacontrasenia: "",
+    confirmarnuevacontrasenia: "",
   });
 
-  const {nuevacontrasenia,confirmarnuevacontrasenia} = nuevacontraseniaform
+  const { nuevacontrasenia, confirmarnuevacontrasenia } = nuevacontraseniaform;
 
-  const [alerta, setAlerta] = useState({});
+  const { alerta, mostrarAlerta } = useContext(AlertaContext);
 
-  const handleChange = (e)=>{
+  const handleChange = (e) => {
     setNuevaContraseniaForm({
-        ...nuevacontraseniaform,
-        [e.target.name]:e.target.value        
-    })  
-  }
+      ...nuevacontraseniaform,
+      [e.target.name]: e.target.value,
+    });
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if ([nuevacontrasenia,confirmarnuevacontrasenia].includes("")) {
-      return setAlerta({
-        msg: "Todos los campos son obligatorios",
-        error: true,
+    if ([nuevacontrasenia, confirmarnuevacontrasenia].includes("")) {
+      return mostrarAlerta({
+        message: "Todos los campos son obligatorios",
+        categoria: "error",
       });
     }
 
     if (nuevacontrasenia !== confirmarnuevacontrasenia) {
-      return setAlerta({
-        msg: "Las contraseñas no coinciden",
-        error: true,
+      return mostrarAlerta({
+        message: "Las contraseñas no coinciden",
+        categoria: "error",
       });
     }
 
-    setAlerta({});
+    mostrarAlerta({
+      message: "",
+      categoria: "",
+    });
 
     try {
-        
       const { data } = await clienteAxios.put(
         `/api/1.0/auth/create-new-password/${token}`,
         { nuevaContrasenia: nuevacontrasenia }
       );
-        
-        console.log(data)
 
-      setAlerta({
-        msg: data + ", pronto sera redirigido al inicio de sesión",
-        error: false,
-      });   
+      mostrarAlerta({
+        message: data.message + ", pronto sera redirigido al inicio de sesión",
+        categoria: "success",
+      });
 
       setNuevaContraseniaForm({
         nuevacontrasenia: "",
         confirmarnuevacontrasenia: "",
       });
 
-      setTimeout(()=>{
-        Navigate("/")
-      },3000)
-
-      
+      setTimeout(() => {
+        Navigate("/");
+      }, 3000);
     } catch (err) {
-      console.log(err.response.data)
-      setAlerta({
-        msg: err.response.data,
-        error: true,
+      mostrarAlerta({
+        message: "Error interno, intentelo mas tarde",
+        categoria: "error",
       });
     }
   };
 
-  const { msg } = alerta;
-
   return (
     <>
       <Typography variant="h4" component="h4" className={classes.title}>
-            Nueva Contraseña
+        Nueva Contraseña
       </Typography>
+
+      {alerta.message && <Alerta />}
+
       <form className={classes.form} onSubmit={handleSubmit}>
         <div className={classes.containerInput}>
           <label className={classes.label}>Contraseña</label>
@@ -135,7 +135,6 @@ const NuevaContrasenia = () => {
             name="nuevacontrasenia"
           />
         </div>
-
 
         <div className={classes.containerInput}>
           <label className={classes.label}>Confirmar contraseña</label>
@@ -154,10 +153,9 @@ const NuevaContrasenia = () => {
           value="Guardar nueva contraseña"
           className={classes.submit}
         />
-
       </form>
     </>
   );
 };
 
-export default NuevaContrasenia
+export default NuevaContrasenia;
