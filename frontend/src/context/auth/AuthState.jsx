@@ -39,6 +39,9 @@ const AuthState = ({ children }) => {
     autenticarUsuario();
   }, [token]);
 
+  
+
+
   return (
     <AuthContext.Provider
       value={{

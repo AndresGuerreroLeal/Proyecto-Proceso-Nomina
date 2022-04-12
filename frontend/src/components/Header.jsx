@@ -5,12 +5,13 @@ import {
   Toolbar,
   Typography,
 } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import MenuIcon from "@material-ui/icons/Menu";
 import Avatar from "@mui/material/Avatar";
 import Badge from "@mui/material/Badge";
 import logo from "../images/logo.png";
 import MailIcon from "@mui/icons-material/Mail";
+import AuthContext from "../context/auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -48,6 +49,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Header = ({ toggleDrawer }) => {
   const classes = useStyles();
+
+  const {perfil} = useContext(AuthContext)
+
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.navbar}>
@@ -62,9 +66,9 @@ const Header = ({ toggleDrawer }) => {
           <MenuIcon />
         </IconButton>
         <div className={classes.icons}>
-          <Badge badgeContent={4} color="success">
-            <MailIcon color="action" />
-          </Badge>
+          <Typography component="p" variant="p" >
+            Ultimo Acceso: {perfil.ultimoAcceso}
+          </Typography>
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         </div>
       </Toolbar>

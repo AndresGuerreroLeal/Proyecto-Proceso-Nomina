@@ -2,7 +2,7 @@ import { makeStyles } from "@material-ui/core";
 import { Container, Typography } from "@mui/material";
 import { display } from "@mui/system";
 import React, { useContext, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import clienteAxios from "../config/axios";
 import AuthContext from "../context/auth/AuthContext";
 
@@ -41,64 +41,40 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const Login = () => {
+const OlvideContrasenia = () => {
   const classes = useStyles();
 
-  const navigate = useNavigate();
-
-  const [usuariologin, setusuarioLogin] = useState({
-    usuario: "",
-    contrasenia: "",
-  });
+  const [correo, setCorreo] = useState("");
 
   const [alerta, setAlerta] = useState({});
-
-  const { usuario, contrasenia } = usuariologin;
-
-  const {setToken} = useContext(AuthContext)
-
-  const handleChange = (e) => {
-    setusuarioLogin({
-      ...usuariologin,
-      [e.target.name]: e.target.value,
-    });
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    if ([usuario, contrasenia].includes("")) {
+    if ([correo].includes("")) {
       return setAlerta({
-        msg: "Todos los campos son obligatorios",
+        msg: "Se requiere obligatoriamente el correo registrado",
         error: true,
       });
     }
 
     setAlerta({});
+
     try {
-      const { data } = await clienteAxios.post(`/api/1.0/auth`, {
-        usuario,
-        contrasenia,
-      });
+        console.log(correo)
+      const { data } = await clienteAxios.put(`api/1.0/auth/forgot-password/`,{correo});
+        
+        console.log(data)
 
       setAlerta({
         msg: data.msg,
         error: false,
       });
 
-      localStorage.setItem("token",data.jwt)
-
-      setToken(data)
-
-      setusuarioLogin({
-        usuario: "",
-        contrasenia: "",
-      });
-
-      navigate("/admin");
+      setCorreo("");
       
     } catch (err) {
-      console.log(err)
+      console.log(err.response.data)
       setAlerta({
         msg: err.response.data,
         error: true,
@@ -111,45 +87,32 @@ const Login = () => {
   return (
     <>
       <Typography variant="h4" component="h4" className={classes.title}>
-        Login
+        Olvide Contraseña
       </Typography>
       <form className={classes.form} onSubmit={handleSubmit}>
         <div className={classes.containerInput}>
-          <label className={classes.label}>Usuario</label>
+          <label className={classes.label}>Correo</label>
           <input
             type="text"
-            placeholder="Ingrese su usuario"
+            placeholder="Ingrese su correo"
             className={classes.input}
-            value={usuario}
-            onChange={handleChange}
-            name="usuario"
-          />
-        </div>
-
-        <div className={classes.containerInput}>
-          <label className={classes.label}>Contraseña</label>
-          <input
-            type="password"
-            placeholder="Ingrese su contraseña"
-            className={classes.input}
-            value={contrasenia}
-            onChange={handleChange}
-            name="contrasenia"
+            value={correo}
+            onChange={(e)=>setCorreo(e.target.value)}
           />
         </div>
 
         <input
           type="submit"
-          value="Iniciar Sesión"
+          value="Enviar instrucciones"
           className={classes.submit}
         />
 
-        <Link to="/olvide-contrasenia" className={classes.opcion}>
-          ¿Olvidaste tu contraseña?
+        <Link to="/" className={classes.opcion}>
+             Iniciar Sesión
         </Link>
       </form>
     </>
   );
 };
 
-export default Login;
+export default OlvideContrasenia

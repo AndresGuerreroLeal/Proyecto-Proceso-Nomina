@@ -9,6 +9,8 @@ import EmpleadoForm from "./pages/EmpleadoForm";
 import Empleados from "./pages/Empleados";
 import Login from "./pages/Login";
 import Nominas from "./pages/Nominas";
+import NuevaContrasenia from "./pages/NuevaContrasenia";
+import OlvideContrasenia from "./pages/OlvideContrasenia";
 import ReportesContratos from "./pages/ReportesContratos";
 import ReportesEmpleados from "./pages/ReportesEmpleados";
 import ReportesNominas from "./pages/ReportesNominas";
@@ -20,6 +22,8 @@ function App() {
         <Routes>
           <Route path="/" element={<FormLayout />}>
             <Route index element={<Login />} />
+            <Route path="olvide-contrasenia" element={<OlvideContrasenia />} />
+            <Route path="olvide-contrasenia/:token" element={<NuevaContrasenia />} />
           </Route>
 
           <Route path="/admin" element={<DashboardLayout />}>
