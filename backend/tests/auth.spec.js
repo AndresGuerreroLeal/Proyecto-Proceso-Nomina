@@ -7,6 +7,8 @@
 const mongoose = require("mongoose");
 const { app, server } = require("../server/index");
 const request = require("supertest");
+const { Usuario } = require("../server/models/usuarios");
+const { Roles } = require("../server/models/roles");
 
 const admin = {
   usuario: "admin",
@@ -62,6 +64,24 @@ const usuarioEnUso = {
 };
 
 let jwt;
+
+beforeAll(async () => {
+  await Promise.all([
+    new Roles({ _id: "ADMIN" }).save(),
+    new Roles({ _id: "REPORTS" }).save(),
+    new Usuario({
+      nombre: process.env.NOMBRE,
+      correo: process.env.CORREO_ADMIN,
+      usuario: "admin",
+      roles: ["ADMIN", "REPORTS"],
+      contrasenia:
+        "$2a$10$mC77qjUBQz5SiyZ1jtcHa.2GKrJ/PgKFw7Q19ahCeoCHJKqefCCOq",
+      ultimoAcceso: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }).save(),
+  ]);
+});
 
 beforeEach(async () => {
   //Inicio de sesión y captura del token
@@ -247,11 +267,8 @@ describe("-----Test de endpoint actualizar información------", () => {
 });
 
 afterAll(async () => {
-  await mongoose.connection
-    .collection("usuarios")
-    .deleteOne({ correo: "usuarioCorreoNuevo" })
-    .then((err) => console.log("Usuario nuevo eliminado"))
-    .catch((err) => console.log("Usuario nuevo no eliminado"));
+  await Usuario.deleteMany({ usuario: ["admin" , "usuarioNuevo"]});
+  await Roles.deleteMany({ _id: ["ADMIN", "REPORTS"] });
   mongoose.connection.close();
   server.close();
 });
