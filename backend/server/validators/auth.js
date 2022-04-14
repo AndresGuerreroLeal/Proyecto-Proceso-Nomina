@@ -5,7 +5,7 @@
  */
 
 const { check } = require("express-validator");
-const validate = require("../helpers/validate");
+const validate = require("./validate");
 
 //Validación de datos de autenticación
 exports.validacionAuth = [
