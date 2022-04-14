@@ -39,4 +39,5 @@ const emailOlvideContrasenia = async (email, nombre, token) => {
     });
   }
 };
+
 module.exports = emailOlvideContrasenia;

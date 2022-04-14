@@ -10,6 +10,7 @@ const bcrypt = require("bcrypt");
 const httpError = require("../helpers/handleError");
 const jwt = require("jsonwebtoken");
 const emailOlvideContrasenia = require("../helpers/emailOlvideContrasenia");
+
 const AuthController = {
   /**
    * @code POST /auth : Inicia sesión en el sistema
