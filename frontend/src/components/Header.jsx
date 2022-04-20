@@ -73,7 +73,7 @@ const Header = ({ toggleDrawer }) => {
         </IconButton>
         <div className={classes.icons}>
           <Typography component="p" variant="p">
-            Ultimo Acceso: {perfil.ultimoAcceso}
+            Ultimo Acceso: {perfil.ultimoAcceso.split("T")[0]}
           </Typography>
           <Avatar alt="Remy Sharp" src="/static/images/avatar/1.jpg" />
         </div>
