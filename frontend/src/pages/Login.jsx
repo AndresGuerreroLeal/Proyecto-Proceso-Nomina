@@ -123,9 +123,10 @@ const Login = () => {
 
       navigate("/admin");
     } catch (err) {
+      console.log(err)
       mostrarAlerta({
-        message: err.response.data,
-        categoria: true,
+        message: err.response.data.message,
+        categoria: "error",
       });
     }
   };
