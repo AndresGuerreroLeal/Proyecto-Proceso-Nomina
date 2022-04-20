@@ -13,6 +13,13 @@ import Alerta from "../components/Alerta";
 //Material ui
 import { makeStyles } from "@material-ui/core";
 import { Typography } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Container from "@mui/material/Container";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -61,6 +68,17 @@ const NuevaContrasenia = () => {
     confirmarnuevacontrasenia: "",
   });
 
+  const [errornuevacontrasenia, setErrorNuevaContrasenia] = useState({
+    message: "",
+    error: false,
+  });
+
+  const [errorconfirmarnuevacontrasenia, setConfirmarErrorNuevaContrasenia] =
+    useState({
+      message: "",
+      error: false,
+    });
+
   const { nuevacontrasenia, confirmarnuevacontrasenia } = nuevacontraseniaform;
 
   const { alerta, mostrarAlerta } = useContext(AlertaContext);
@@ -76,18 +94,35 @@ const NuevaContrasenia = () => {
     e.preventDefault();
 
     if ([nuevacontrasenia, confirmarnuevacontrasenia].includes("")) {
-      return mostrarAlerta({
-        message: "Todos los campos son obligatorios",
-        categoria: "error",
+      setErrorNuevaContrasenia({
+        message: "Campo de nueva contraseña requerido",
+        error: true,
       });
+      setConfirmarErrorNuevaContrasenia({
+        message: "Campo de confirmar nueva contraseña requerido",
+        error: true,
+      });
+      return;
+    } else if (nuevacontrasenia !== confirmarnuevacontrasenia) {
+      setErrorNuevaContrasenia({
+        message: "",
+        error: false,
+      });
+      setConfirmarErrorNuevaContrasenia({
+        message: "Las contraseña no coincide",
+        error: true,
+      });
+      return;
     }
 
-    if (nuevacontrasenia !== confirmarnuevacontrasenia) {
-      return mostrarAlerta({
-        message: "Las contraseñas no coinciden",
-        categoria: "error",
-      });
-    }
+    setErrorNuevaContrasenia({
+      message: "",
+      error: false,
+    });
+    setConfirmarErrorNuevaContrasenia({
+      message: "Campo de confirmar nueva contraseña requerido",
+      error: false,
+    });
 
     mostrarAlerta({
       message: "",
@@ -121,45 +156,72 @@ const NuevaContrasenia = () => {
     }
   };
 
+  const {message} = alerta
+
   return (
     <>
-      <Typography variant="h4" component="h4" className={classes.title}>
-        Nueva Contraseña
-      </Typography>
+      <CssBaseline />
 
-      {alerta.message && <Alerta />}
+      {message && <Alerta />} 
 
-      <form className={classes.form} onSubmit={handleSubmit}>
-        <div className={classes.containerInput}>
-          <label className={classes.label}>Contraseña</label>
-          <input
-            type="password"
-            placeholder="Ingrese su nueva contraseña"
-            className={classes.input}
-            value={nuevacontrasenia}
-            onChange={handleChange}
-            name="nuevacontrasenia"
-          />
-        </div>
+      <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            marginTop: 2,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: "#757ce8" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Nueva Contraseña
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Contraseña Nueva"
+              name="nuevacontrasenia"
+              onChange={handleChange}
+              value={nuevacontrasenia}
+              error={errornuevacontrasenia?.error}
+              helperText={errornuevacontrasenia.message}
+              type="password"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="confirmarnuevacontrasenia"
+              label="Confirmar nueva contraseña"
+              type="password"
+              onChange={handleChange}
+              value={confirmarnuevacontrasenia}
+              error={errorconfirmarnuevacontrasenia?.error}
+              helperText={errorconfirmarnuevacontrasenia.message}
+              id="password"
+            />
 
-        <div className={classes.containerInput}>
-          <label className={classes.label}>Confirmar contraseña</label>
-          <input
-            type="password"
-            placeholder="Confirme contraseña"
-            className={classes.input}
-            value={confirmarnuevacontrasenia}
-            onChange={handleChange}
-            name="confirmarnuevacontrasenia"
-          />
-        </div>
-
-        <input
-          type="submit"
-          value="Guardar nueva contraseña"
-          className={classes.submit}
-        />
-      </form>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Iniciar Sesión
+            </Button>
+          </Box>
+        </Box>
+      </Container>
     </>
   );
 };

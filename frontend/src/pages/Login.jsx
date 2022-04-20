@@ -14,39 +14,25 @@ import Alerta from "../components/Alerta";
 //Material ui
 import { makeStyles } from "@material-ui/core";
 import { Typography } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Button from "@mui/material/Button";
+import CssBaseline from "@mui/material/CssBaseline";
+import TextField from "@mui/material/TextField";
+import FormControlLabel from "@mui/material/FormControlLabel";
+import Checkbox from "@mui/material/Checkbox";
+import Grid from "@mui/material/Grid";
+import Box from "@mui/material/Box";
+import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
+import Container from "@mui/material/Container";
 
 const useStyles = makeStyles((theme) => ({
-  title: {
-    textTransform: "uppercase",
-    marginButton: "8px",
-  },
-  form: {
-    padding: theme.spacing(3),
-  },
-  containerInput: {
-    marginBottom: theme.spacing(3),
-  },
-  label: {
-    display: "block",
-    marginBottom: theme.spacing(1),
-    fontSize: "18px",
-  },
-  input: {
-    width: "100%",
-    padding: theme.spacing(1),
-    borderRadius: theme.spacing(1),
-    border: "1px solid gray",
-  },
-  submit: {
-    width: "105%",
-    margin: "0 auto",
-    padding: theme.spacing(1),
-    marginBottom: theme.spacing(2),
-    cursor: "pointer",
+  containerGrid: {
+    alignItems: "center",
+    justifyContent: "center",
   },
   opcion: {
-    fontSize: "12px",
-    color: "lightGray",
+    color: "gray",
+    textDecoration: "none",
   },
 }));
 
@@ -66,6 +52,16 @@ const Login = () => {
 
   const { alerta, mostrarAlerta } = useContext(AlertaContext);
 
+  const [errorusario, setErrorUsuario] = useState({
+    message: "",
+    error: false,
+  });
+
+  const [errorcontrasenia, setErrorContrasenia] = useState({
+    message: "",
+    error: false,
+  });
+
   const handleChange = (e) => {
     setusuarioLogin({
       ...usuariologin,
@@ -77,23 +73,43 @@ const Login = () => {
     e.preventDefault();
 
     if ([usuario, contrasenia].includes("")) {
-      return mostrarAlerta({
-        message: "Todos los campos son obligatorios",
-        categoria: "error",
+      setErrorUsuario({
+        message: "Campo de usuario requerido",
+        error: true,
       });
+      setErrorContrasenia({
+        message: "Campo de contraseña requerido",
+        error: true,
+      });
+      return;
+    } else if (usuario === "") {
+      setErrorUsuario({
+        message: "Campo de usuario requerido",
+        error: true,
+      });
+      return;
+    } else if (contrasenia === "") {
+      setErrorContrasenia({
+        message: "Campo de contraseña requerido",
+        error: true,
+      });
+      return;
     }
 
-    mostrarAlerta({});
+    setErrorUsuario({
+      message: "",
+      error: false,
+    });
+
+    setErrorContrasenia({
+      message: "",
+      error: false,
+    });
 
     try {
       const { data } = await clienteAxios.post(`/api/1.0/auth`, {
         usuario,
         contrasenia,
-      });
-
-      mostrarAlerta({
-        msg: data.msg,
-        categoria: false,
       });
 
       localStorage.setItem("token", data.jwt);
@@ -107,7 +123,6 @@ const Login = () => {
 
       navigate("/admin");
     } catch (err) {
-      console.log(err);
       mostrarAlerta({
         message: err.response.data,
         categoria: true,
@@ -115,49 +130,87 @@ const Login = () => {
     }
   };
 
+  const { message } = alerta;
+
   return (
     <>
-      <Typography variant="h4" component="h4" className={classes.title}>
-        Login
-      </Typography>
+      <CssBaseline />
+      {message && <Alerta />}
 
-      {alerta.message && <Alerta />}
-
-      <form className={classes.form} onSubmit={handleSubmit}>
-        <div className={classes.containerInput}>
-          <label className={classes.label}>Usuario</label>
-          <input
-            type="text"
-            placeholder="Ingrese su usuario"
-            className={classes.input}
-            value={usuario}
-            onChange={handleChange}
-            name="usuario"
-          />
-        </div>
-
-        <div className={classes.containerInput}>
-          <label className={classes.label}>Contraseña</label>
-          <input
-            type="password"
-            placeholder="Ingrese su contraseña"
-            className={classes.input}
-            value={contrasenia}
-            onChange={handleChange}
-            name="contrasenia"
-          />
-        </div>
-
-        <input
-          type="submit"
-          value="Iniciar Sesión"
-          className={classes.submit}
-        />
-
-        <Link to="/olvide-contrasenia" className={classes.opcion}>
-          ¿Olvidaste tu contraseña?
-        </Link>
-      </form>
+      <Container component="main" maxWidth="xs">
+        <Box
+          sx={{
+            marginTop: 2,
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+          }}
+        >
+          <Avatar sx={{ m: 1, bgcolor: "#757ce8" }}>
+            <LockOutlinedIcon />
+          </Avatar>
+          <Typography component="h1" variant="h5">
+            Iniciar Sesión
+          </Typography>
+          <Box
+            component="form"
+            onSubmit={handleSubmit}
+            noValidate
+            sx={{ mt: 1 }}
+          >
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              label="Usuario registrado"
+              error={errorusario.error}
+              helperText={errorusario?.message}
+              name="usuario"
+              onChange={handleChange}
+              value={usuario}
+              type="text"
+            />
+            <TextField
+              margin="normal"
+              required
+              fullWidth
+              name="contrasenia"
+              label="Contraseña"
+              error={errorcontrasenia.error}
+              helperText={errorcontrasenia?.message}
+              type="password"
+              onChange={handleChange}
+              value={contrasenia}
+              id="password"
+            />
+            <Grid container className={classes.containerGrid}>
+              <Grid item xs>
+                <FormControlLabel
+                  control={<Checkbox value="remember" color="primary" />}
+                  label="Recordarme"
+                />
+              </Grid>
+              <Grid item xs textAlign={"right"}>
+                <Link
+                  to="/olvide-contrasenia"
+                  variant="body2"
+                  className={classes.opcion}
+                >
+                  ¿Olvide contraseña?
+                </Link>
+              </Grid>
+            </Grid>
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              sx={{ mt: 3, mb: 2 }}
+            >
+              Iniciar Sesión
+            </Button>
+          </Box>
+        </Box>
+      </Container>
     </>
   );
 };
