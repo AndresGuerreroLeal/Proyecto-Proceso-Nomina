@@ -1,7 +1,8 @@
-import { Container, makeStyles, Paper } from "@material-ui/core";
-import { display } from "@mui/system";
 import React from "react";
 import { Outlet } from "react-router-dom";
+
+//Material ui
+import { Container, makeStyles, Paper } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   main: {
