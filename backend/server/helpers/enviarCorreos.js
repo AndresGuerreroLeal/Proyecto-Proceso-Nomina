@@ -22,7 +22,7 @@ const emailOlvideContrasenia = async (email, nombre, token) => {
   if (process.env.NODE_ENV !== "test") {
     let transporter = transport();
     await transporter.sendMail({
-      from: `Olvido su contraseña <${process.env.CORREO}>`, // sender address
+      from: `Proyecto Proceso Nómina Libertadores <${process.env.CORREO}>`, // sender address
       to: `${email}`, // list of receivers
       subject: "Olvido su contraseña", // Subject line
       html: `
@@ -48,7 +48,7 @@ const emailRegistroEmpleado = async (email, nombre) => {
   if (process.env.NODE_ENV !== "test") {
     let transporter = transport();
     await transporter.sendMail({
-      from: `¡Bienvenido! <${process.env.CORREO}>`,
+      from: `Proyecto Proceso Nómina Libertadores <${process.env.CORREO}>`,
       to: `${email}`,
       subject: "Bienvenido empleado",
       html: `
