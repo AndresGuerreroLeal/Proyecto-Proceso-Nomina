@@ -28,7 +28,7 @@ const data = async () => {
           nombre: process.env.NOMBRE,
           correo: process.env.CORREO_ADMIN,
           usuario: "admin",
-          roles: ["ADMIN","REPORTS"],
+          roles: ["ADMIN", "REPORTS"],
           contrasenia:
             "$2a$10$mC77qjUBQz5SiyZ1jtcHa.2GKrJ/PgKFw7Q19ahCeoCHJKqefCCOq",
           ultimoAcceso: new Date(),

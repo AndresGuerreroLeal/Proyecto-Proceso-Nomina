@@ -27,4 +27,4 @@ const connectionEmail = () => {
     });
 };
 
-module.exports = { connectionEmail };
+module.exports = connectionEmail;

@@ -9,7 +9,8 @@ const { Usuario } = require("../models/usuarios");
 const bcrypt = require("bcrypt");
 const httpError = require("../helpers/handleError");
 const jwt = require("jsonwebtoken");
-const emailOlvideContrasenia = require("../helpers/emailOlvideContrasenia");
+const { emailOlvideContrasenia } = require("../helpers/enviarCorreos");
+
 const AuthController = {
   /**
    * @code POST /auth : Inicia sesión en el sistema
@@ -100,7 +101,7 @@ const AuthController = {
         usuario: usuario.usuario,
         nombre: usuario.nombre,
         correo: usuario.correo,
-        rol: usuario.roles,
+        roles: usuario.roles,
         ultimoAcceso: usuario.ultimoAcceso,
       };
 

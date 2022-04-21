@@ -8,7 +8,7 @@ const express = require("express");
 const router = express.Router();
 const { auth } = require("../middleware/auth.js");
 /**
- *@see AuthController
+ * @see AuthController
  *
  * Se extrae métodos del objeto AuthController
  */

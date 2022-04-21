@@ -7,6 +7,8 @@
 const mongoose = require("mongoose");
 const { app, server } = require("../server/index");
 const request = require("supertest");
+const { Usuario } = require("../server/models/usuarios");
+const { Roles } = require("../server/models/roles");
 
 const admin = {
   usuario: "admin",
@@ -63,6 +65,24 @@ const usuarioEnUso = {
 
 let jwt;
 
+beforeAll(async () => {
+  await Promise.all([
+    new Roles({ _id: "ADMIN" }).save(),
+    new Roles({ _id: "REPORTS" }).save(),
+    new Usuario({
+      nombre: process.env.NOMBRE,
+      correo: process.env.CORREO_ADMIN,
+      usuario: "admin",
+      roles: ["ADMIN", "REPORTS"],
+      contrasenia:
+        "$2a$10$mC77qjUBQz5SiyZ1jtcHa.2GKrJ/PgKFw7Q19ahCeoCHJKqefCCOq",
+      ultimoAcceso: new Date(),
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    }).save(),
+  ]);
+});
+
 beforeEach(async () => {
   //Inicio de sesión y captura del token
   const response = await request(app).post("/api/1.0/auth").send(admin);
@@ -116,6 +136,8 @@ describe("-----Test de endpoint para información de la sesión-----", () => {
     expect(response.body.usuario).toBe("admin");
     expect(response.body.nombre).toBe(process.env.NOMBRE);
     expect(response.body.correo).toBe(process.env.CORREO_ADMIN);
+    expect(response.body.roles[0]).toBe("ADMIN");
+    expect(response.body.roles[1]).toBe("REPORTS");
   });
 
   test("[GET code 200] [/api/1.0/auth/info] Test de información de la sesión con token inválido", async () => {
@@ -247,11 +269,8 @@ describe("-----Test de endpoint actualizar información------", () => {
 });
 
 afterAll(async () => {
-  await mongoose.connection
-    .collection("usuarios")
-    .deleteOne({ correo: "usuarioCorreoNuevo" })
-    .then((err) => console.log("Usuario nuevo eliminado"))
-    .catch((err) => console.log("Usuario nuevo no eliminado"));
+  await Usuario.deleteMany({ usuario: ["admin", "usuarioNuevo"] });
+  await Roles.deleteMany({ _id: ["ADMIN", "REPORTS"] });
   mongoose.connection.close();
   server.close();
 });
