@@ -30,7 +30,7 @@ const info = {
   metodo_pago: "metodo pago",
   entidad_bancaria: "entidad bancaria",
   tipo_cuenta: "tipo cuenta",
-  numero_cuenta: "numero_cuenta",
+  numero_cuenta: "1234567890",
 };
 
 let ruta = "";
@@ -133,7 +133,7 @@ describe("-----Test de endpoint de crear empleado------", () => {
       .field("nombres", info.nombres)
       .field("apellidos", info.apellidos)
       .field("tipo_documento", info.tipo_documento)
-      .field("numero_documento", "documento válido")
+      .field("numero_documento", "0987654321")
       .field("correo", info.correo)
       .field("numero_celular", info.numero_celular)
       .field("ciudad_residencia", info.ciudad_residencia)
@@ -158,7 +158,7 @@ describe("-----Test de endpoint de crear empleado------", () => {
       .field("nombres", info.nombres)
       .field("apellidos", info.apellidos)
       .field("tipo_documento", info.tipo_documento)
-      .field("numero_documento", "documento válido")
+      .field("numero_documento", "0987654321")
       .field("correo", "correovalido@gmail.com")
       .field("numero_celular", info.numero_celular)
       .field("ciudad_residencia", info.ciudad_residencia)
@@ -183,7 +183,7 @@ describe("-----Test de endpoint de crear empleado------", () => {
       .field("nombres", info.nombres)
       .field("apellidos", info.apellidos)
       .field("tipo_documento", info.tipo_documento)
-      .field("numero_documento", "documento válido")
+      .field("numero_documento", "0987654321")
       .field("correo", "correovalido@gmail.com")
       .field("numero_celular", "0987654321")
       .field("ciudad_residencia", info.ciudad_residencia)
@@ -207,7 +207,7 @@ describe("-----Test de endpoint de crear empleado------", () => {
       .field("nombres", info.nombres)
       .field("apellidos", info.apellidos)
       .field("tipo_documento", info.tipo_documento)
-      .field("numero_documento", "documento válido")
+      .field("numero_documento", "0987654321")
       .field("correo", "correovalido@gmail.com")
       .field("numero_celular", "0987654321")
       .field("ciudad_residencia", info.ciudad_residencia)
@@ -231,7 +231,7 @@ describe("-----Test de endpoint de crear empleado------", () => {
       .field("nombres", info.nombres)
       .field("apellidos", info.apellidos)
       .field("tipo_documento", info.tipo_documento)
-      .field("numero_documento", "documento válido")
+      .field("numero_documento", "0987654321")
       .field("correo", "correovalido@gmail.com")
       .field("numero_celular", "0987654321")
       .field("ciudad_residencia", info.ciudad_residencia)

@@ -136,6 +136,8 @@ describe("-----Test de endpoint para información de la sesión-----", () => {
     expect(response.body.usuario).toBe("admin");
     expect(response.body.nombre).toBe(process.env.NOMBRE);
     expect(response.body.correo).toBe(process.env.CORREO_ADMIN);
+    expect(response.body.roles[0]).toBe("ADMIN");
+    expect(response.body.roles[1]).toBe("REPORTS");
   });
 
   test("[GET code 200] [/api/1.0/auth/info] Test de información de la sesión con token inválido", async () => {
@@ -267,7 +269,7 @@ describe("-----Test de endpoint actualizar información------", () => {
 });
 
 afterAll(async () => {
-  await Usuario.deleteMany({ usuario: ["admin" , "usuarioNuevo"]});
+  await Usuario.deleteMany({ usuario: ["admin", "usuarioNuevo"] });
   await Roles.deleteMany({ _id: ["ADMIN", "REPORTS"] });
   mongoose.connection.close();
   server.close();
