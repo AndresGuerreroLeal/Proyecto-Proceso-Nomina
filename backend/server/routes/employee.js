@@ -1,5 +1,5 @@
 /**
- * Archivo de rutas para todo lo relacionado con empleados
+ * Archivo de rutas para los controladores relacionados con empleados
  *
  * @author Juan-CamiloF
  */

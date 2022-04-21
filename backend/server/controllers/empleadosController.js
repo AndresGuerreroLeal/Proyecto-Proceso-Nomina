@@ -1,5 +1,5 @@
 /**
- * Archivo de controlador para todo lo relacionado con empleados
+ * Archivo de controlador para las funciones relacionadas con empleados
  *
  * @author Juan-CamiloF
  */
@@ -26,7 +26,7 @@ const EmpleadosController = {
       //Validar número de documento
       const numeroDocumento = await Empleado.findOne({
         numero_documento: req.body.numero_documento,
-      });
+      }).exec();
       if (numeroDocumento) {
         log.error("Número de documento ya registrado");
         return res
@@ -35,7 +35,7 @@ const EmpleadosController = {
       }
 
       //Validar correo
-      const correo = await Empleado.findOne({ correo: req.body.correo });
+      const correo = await Empleado.findOne({ correo: req.body.correo }).exec();
       if (correo) {
         log.error("Correo ya registrado");
         return res.status(400).send({ message: "Correo ya registrado" });
@@ -44,7 +44,7 @@ const EmpleadosController = {
       //Validar número de celular
       const numeroCelular = await Empleado.findOne({
         numero_celular: req.body.numero_celular,
-      });
+      }).exec();
       if (numeroCelular) {
         log.error("Número de celular ya registrado");
         return res
@@ -55,7 +55,7 @@ const EmpleadosController = {
       //Validar número de cuenta
       const numeroCuenta = await Empleado.findOne({
         numero_cuenta: req.body.numero_cuenta,
-      });
+      }).exec();
       if (numeroCuenta) {
         log.error("Número de cuenta ya registrado");
         return res

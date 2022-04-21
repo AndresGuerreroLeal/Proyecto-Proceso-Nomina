@@ -269,8 +269,10 @@ describe("-----Test de endpoint actualizar información------", () => {
 });
 
 afterAll(async () => {
-  await Usuario.deleteMany({ usuario: ["admin", "usuarioNuevo"] });
-  await Roles.deleteMany({ _id: ["ADMIN", "REPORTS"] });
+  await Promise.all([
+    Usuario.deleteMany({ usuario: ["admin", "usuarioNuevo"] }),
+    Roles.deleteMany({ _id: ["ADMIN", "REPORTS"] }),
+  ]);
   mongoose.connection.close();
   server.close();
 });

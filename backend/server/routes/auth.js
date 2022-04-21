@@ -1,5 +1,5 @@
 /**
- * Archivo de rutas para todo lo relacionado con inicio de sesión
+ * Archivo de rutas para los controladores relacionados con inicio de sesión
  *
  * @author Juan-CamiloF
  */

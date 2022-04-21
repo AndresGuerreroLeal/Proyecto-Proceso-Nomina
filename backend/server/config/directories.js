@@ -9,23 +9,17 @@ const log = require("./logger");
 
 const pathArchivos = `${__dirname}/../archivos`;
 const pathDocumentos = `${__dirname}/../archivos/documentos`;
+const paths = [pathArchivos, pathDocumentos];
 const createDirectories = () => {
-  //Directorio padres "archivos"
-  if (!fs.existsSync(pathArchivos)) {
-    fs.mkdir(pathArchivos, (err) => {
-      if (err) {
-        log.error(`Error al crear directorios ${err}`);
-      }
-    });
-  }
-  //Directorio hijo para "documentos"
-  if (!fs.existsSync(pathDocumentos)) {
-    fs.mkdir(pathDocumentos, (err) => {
-      if (err) {
-        log.error(`Error al crear directorios ${err}`);
-      }
-    });
-    log.info("Directorios creados éxitosamente");
+  //Recorrer rutas y crear directorios
+  for (let dir of paths) {
+    if (!fs.existsSync(dir)) {
+      fs.mkdir(dir, (err) => {
+        if (err) {
+          log.error(`Error al crear directorios ${err}`);
+        }
+      });
+    }
   }
 };
 
