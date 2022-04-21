@@ -9,6 +9,7 @@ const httpError = require("../helpers/handleError");
 const { Empleado } = require("../models/empleados");
 const validarDocumento = require("../validators/file");
 const subirDocumento = require("../helpers/subirDocumento");
+const { emailRegistroEmpleado } = require("../helpers/enviarCorreos");
 const EmpleadosController = {
   /**
    * @code POST /create : Crear un empleado
@@ -93,6 +94,7 @@ const EmpleadosController = {
       const documentoUrl =
         url + "/api/1.0/employee/download/" + documentoInformacion.nombre;
 
+      /* Crear empleado */
       const empleado = new Empleado({
         nombres: req.body.nombres,
         apellidos: req.body.apellidos,
@@ -111,6 +113,9 @@ const EmpleadosController = {
         concepto: `Empleado creado`,
       });
       await empleado.save();
+
+      //Función para enviar correo
+      emailRegistroEmpleado(empleado.correo, empleado.nombres);
 
       log.info(`Empleado creado ${JSON.stringify(empleado)}`);
       return res.status(201).send(empleado);
