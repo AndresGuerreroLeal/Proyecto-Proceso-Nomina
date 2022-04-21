@@ -16,10 +16,10 @@ const {
   descargarArchivo,
 } = require("../controllers/empleadosController");
 const { auth, admin } = require("../middleware/auth");
-const { validacion } = require("../validators/empleados");
+const { validacionCrear } = require("../validators/empleados");
 
 //Ruta de crear empleado [POST]
-router.post("/create", [auth, admin], validacion, crearEmpleado);
+router.post("/create", [auth, admin], validacionCrear, crearEmpleado);
 
 //Ruta de descargar documento empleados [GET]
 router.get("/download/:file", [auth, admin], descargarArchivo);
