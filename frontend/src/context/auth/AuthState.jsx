@@ -68,13 +68,44 @@ const AuthState = ({ children }) => {
       setTimeout(() => {
         setAlertaAuth({});
       }, 3000);
+
     } catch (err) {
+      console.log(err)
       setAlertaAuth({
         message: err.response.data.message,
         categoria: "error",
       });
     }
   };
+
+  const ActualizarContrasenia = async (datos) => {
+    console.log(datos)
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.put(
+        "/api/1.0/auth/update-password/",
+        datos,
+        TokenAuth(token)
+      );
+
+      setAlertaAuth({
+        message: data.message,
+        categoria: "success",
+      });
+
+      setTimeout(() => {
+        setAlertaAuth({});
+      }, 3000);
+
+    } catch (err) {
+      console.log(err)
+      setAlertaAuth({
+        message: err.response.data.message,
+        categoria: "error",
+      });
+    }
+  };  
 
   return (
     <AuthContext.Provider
@@ -87,6 +118,7 @@ const AuthState = ({ children }) => {
         cerrarSesion,
         actualizarPerfil,
         setAlertaAuth,
+        ActualizarContrasenia
       }}
     >
       {children}
