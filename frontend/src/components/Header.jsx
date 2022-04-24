@@ -15,7 +15,7 @@ import {
 import Avatar from "@mui/material/Avatar";
 import { Divider, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material";
 
-//Material ui icos
+//Material ui icons
 import MenuIcon from "@material-ui/icons/Menu";
 import PasswordIcon from "@mui/icons-material/Password";
 import LogoutIcon from "@mui/icons-material/Logout";
