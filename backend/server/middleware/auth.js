@@ -9,8 +9,11 @@ const log = require("../config/logger");
 const { Roles } = require("../models/roles");
 
 const { Usuario } = require("../models/usuarios");
+
 const auth = (req, res, next) => {
   let token = req.header("Authorization");
+
+  if (!token) return res.status(401).send({ message: "Sin autorización" });
 
   token = token.split(" ")[1];
 
@@ -26,8 +29,8 @@ const auth = (req, res, next) => {
 };
 
 const admin = async (req, res, next) => {
-  const usuario = await Usuario.findById(req.usuario._id);
-  const roles = await Roles.find({ _id: { $in: usuario.roles } });
+  const usuario = await Usuario.findById(req.usuario._id).exec();
+  const roles = await Roles.find({ _id: { $in: usuario.roles } }).exec();
 
   for (let rol of roles) {
     if (rol._id === "ADMIN") {
@@ -40,8 +43,8 @@ const admin = async (req, res, next) => {
 };
 
 const reports = async (req, res, next) => {
-  const usuario = await Usuario.findById(req.usuario._id);
-  const roles = await Roles.find({ _id: { $in: usuario.roles } });
+  const usuario = await Usuario.findById(req.usuario._id).exec();
+  const roles = await Roles.find({ _id: { $in: usuario.roles } }).exec();
 
   for (let rol of roles) {
     if (rol._id === "REPORTS") {

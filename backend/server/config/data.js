@@ -11,7 +11,7 @@ const log = require("./logger");
 const data = async () => {
   try {
     //Cargar roles
-    const cantidadRoles = await Roles.estimatedDocumentCount();
+    const cantidadRoles = await Roles.estimatedDocumentCount().exec();
     if (!cantidadRoles) {
       await Promise.all([
         new Roles({ _id: "ADMIN" }).save(),
@@ -21,14 +21,14 @@ const data = async () => {
     }
 
     //Cargar usuarios
-    const cantidadUsuarios = await Usuario.estimatedDocumentCount();
+    const cantidadUsuarios = await Usuario.estimatedDocumentCount().exec();
     if (!cantidadUsuarios) {
       await Promise.all([
         new Usuario({
           nombre: process.env.NOMBRE,
           correo: process.env.CORREO_ADMIN,
           usuario: "admin",
-          roles: ["ADMIN","REPORTS"],
+          roles: ["ADMIN", "REPORTS"],
           contrasenia:
             "$2a$10$mC77qjUBQz5SiyZ1jtcHa.2GKrJ/PgKFw7Q19ahCeoCHJKqefCCOq",
           ultimoAcceso: new Date(),

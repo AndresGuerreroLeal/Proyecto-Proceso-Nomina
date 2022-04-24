@@ -1,5 +1,5 @@
 /**
- * Archivo de rutas para todo lo relacionado con inicio de sesión
+ * Archivo de rutas para los controladores relacionados con inicio de sesión
  *
  * @author Juan-CamiloF
  */
@@ -8,7 +8,7 @@ const express = require("express");
 const router = express.Router();
 const { auth } = require("../middleware/auth.js");
 /**
- *@see AuthController
+ * @see AuthController
  *
  * Se extrae métodos del objeto AuthController
  */
