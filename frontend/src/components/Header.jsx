@@ -1,4 +1,5 @@
 import React, { useContext, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 //Context
 import AuthContext from "../context/auth/AuthContext";
@@ -16,8 +17,8 @@ import { Divider, ListItemIcon, Menu, MenuItem, Tooltip } from "@mui/material";
 
 //Material ui icos
 import MenuIcon from "@material-ui/icons/Menu";
-import PasswordIcon from '@mui/icons-material/Password';
-import LogoutIcon from '@mui/icons-material/Logout';
+import PasswordIcon from "@mui/icons-material/Password";
+import LogoutIcon from "@mui/icons-material/Logout";
 
 //Imagenes
 import logo from "../images/logo.png";
@@ -59,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
 const Header = ({ toggleDrawer }) => {
   const classes = useStyles();
 
-  const { perfil } = useContext(AuthContext);
+  const { perfil, cerrarSesion } = useContext(AuthContext);
 
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
@@ -68,6 +69,12 @@ const Header = ({ toggleDrawer }) => {
   };
   const handleClose = () => {
     setAnchorEl(null);
+  };
+
+  const navigate = useNavigate();
+
+  const handleRute = (ruta) => {
+    navigate(`${ruta}`);
   };
 
   return (
@@ -88,71 +95,73 @@ const Header = ({ toggleDrawer }) => {
             Último Acceso: {perfil.ultimoAcceso.split("T")[0]}
           </Typography>
           <Tooltip title="Account settings">
-          <IconButton
-            onClick={handleClick}
-            size="small"
-            sx={{ ml: 2 }}
-            aria-controls={open ? 'account-menu' : undefined}
-            aria-haspopup="true"
-            aria-expanded={open ? 'true' : undefined}
-          >
-          <Avatar alt="Remy Sharp" sx={{ width: 32, height: 32 }}>A</Avatar>
-          </IconButton>
-        </Tooltip>
+            <IconButton
+              onClick={handleClick}
+              size="small"
+              sx={{ ml: 2 }}
+              aria-controls={open ? "account-menu" : undefined}
+              aria-haspopup="true"
+              aria-expanded={open ? "true" : undefined}
+            >
+              <Avatar alt="Remy Sharp" sx={{ width: 32, height: 32 }}>
+                A
+              </Avatar>
+            </IconButton>
+          </Tooltip>
         </div>
         <Menu
-        anchorEl={anchorEl}
-        id="account-menu"
-        open={open}
-        onClose={handleClose}
-        onClick={handleClose}
-        PaperProps={{
-          elevation: 0,
-          sx: {
-            overflow: 'visible',
-            filter: 'drop-shadow(0px 2px 8px rgba(0,0,0,0.32))',
-            mt: 1.5,
-            '& .MuiAvatar-root': {
-              width: 32,
-              height: 32,
-              ml: -0.5,
-              mr: 1,
+          anchorEl={anchorEl}
+          id="account-menu"
+          open={open}
+          onClose={handleClose}
+          onClick={handleClose}
+          PaperProps={{
+            elevation: 0,
+            sx: {
+              overflow: "visible",
+              filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
+              mt: 1.5,
+              "& .MuiAvatar-root": {
+                width: 32,
+                height: 32,
+                ml: -0.5,
+                mr: 1,
+              },
+              "&:before": {
+                content: '""',
+                display: "block",
+                position: "absolute",
+                top: 0,
+                right: 14,
+                width: 10,
+                height: 10,
+                bgcolor: "background.paper",
+                transform: "translateY(-50%) rotate(45deg)",
+                zIndex: 0,
+              },
             },
-            '&:before': {
-              content: '""',
-              display: 'block',
-              position: 'absolute',
-              top: 0,
-              right: 14,
-              width: 10,
-              height: 10,
-              bgcolor: 'background.paper',
-              transform: 'translateY(-50%) rotate(45deg)',
-              zIndex: 0,
-            },
-          },
-        }}
-        transformOrigin={{ horizontal: 'right', vertical: 'top' }}
-        anchorOrigin={{ horizontal: 'right', vertical: 'bottom' }}
-      >
-        <MenuItem>
-          <Avatar /> Mi cuenta
-        </MenuItem>
-        <Divider />
-        <MenuItem>
-          <ListItemIcon>
-            <PasswordIcon fontSize="small"/>
-          </ListItemIcon>
-          Cambiar contraseña
-        </MenuItem>
-            
-        <MenuItem>
-          <ListItemIcon>
-            <LogoutIcon fontSize="small" />
-          </ListItemIcon>
-          Logout
-        </MenuItem>
-      </Menu>
+          }}
+          transformOrigin={{ horizontal: "right", vertical: "top" }}
+          anchorOrigin={{ horizontal: "right", vertical: "bottom" }}
+        >
+          <MenuItem onClick={() => handleRute("perfil")}>
+            <Avatar /> Mi cuenta
+          </MenuItem>
+          <Divider />
+          <MenuItem onClick={() => handleRute("actualizar-contrasenia")}>
+            <ListItemIcon>
+              <PasswordIcon fontSize="small" />
+            </ListItemIcon>
+            Cambiar contraseña
+          </MenuItem>
+
+          <MenuItem onClick={cerrarSesion}>
+            <ListItemIcon>
+              <LogoutIcon fontSize="small" />
+            </ListItemIcon>
+            Logout
+          </MenuItem>
+        </Menu>
       </Toolbar>
     </AppBar>
   );
