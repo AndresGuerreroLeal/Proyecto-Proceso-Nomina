@@ -8,6 +8,7 @@ import AuthState from "./context/auth/AuthState";
 //Layout
 import DashboardLayout from "./layout/DashboardLayout";
 import FormLayout from "./layout/FormLayout";
+import ActualizarContrasenia from "./pages/ActualizarContrasenia";
 
 //Pages
 import Contratos from "./pages/Contratos";
@@ -18,6 +19,7 @@ import Login from "./pages/Login";
 import Nominas from "./pages/Nominas";
 import NuevaContrasenia from "./pages/NuevaContrasenia";
 import OlvideContrasenia from "./pages/OlvideContrasenia";
+import Perfil from "./pages/Perfil";
 import ReportesContratos from "./pages/ReportesContratos";
 import ReportesEmpleados from "./pages/ReportesEmpleados";
 import ReportesNominas from "./pages/ReportesNominas";
@@ -40,8 +42,11 @@ function App() {
               />
             </Route>
 
-            <Route path="/admin" element={<DashboardLayout />}>
+            <Route path="/home" element={<DashboardLayout />}>
               <Route index element={<Dashboard />} />
+
+              <Route path="perfil" element={<Perfil/>}/>
+              <Route path="actualizar-contrasenia" element={<ActualizarContrasenia/>}/>
 
               <Route path="empleados" element={<Empleados />} />
               <Route path="nuevo-empleado" element={<EmpleadoForm />} />

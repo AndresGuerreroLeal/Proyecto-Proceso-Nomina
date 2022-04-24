@@ -31,7 +31,7 @@ const AuthState = ({ children }) => {
 
         setPerfil(data);
 
-        navigate("/admin");
+        navigate("/home");
       } catch (err) {
         setToken({});
         setPerfil({});
@@ -43,6 +43,13 @@ const AuthState = ({ children }) => {
     autenticarUsuario();
   }, [token]);
 
+  const cerrarSesion = ()=>{
+    localStorage.removeItem("token")
+    setToken({})
+    setPerfil({})
+  }
+
+
   return (
     <AuthContext.Provider
       value={{
@@ -50,6 +57,7 @@ const AuthState = ({ children }) => {
         perfil,
         cargando,
         setToken,
+        cerrarSesion
       }}
     >
       {children}

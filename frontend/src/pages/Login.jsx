@@ -131,7 +131,7 @@ const Login = () => {
         contrasenia: "",
       });
 
-      navigate("/admin");
+      navigate("/home");
     } catch (err) {
       if (!err.response) {
         mostrarAlerta({
