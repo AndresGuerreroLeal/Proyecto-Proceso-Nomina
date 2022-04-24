@@ -39,6 +39,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("md")]: {
       display: "none",
     },
+    cursor: "pointer",
   },
   navbar: {
     display: "flex",
@@ -62,8 +63,10 @@ const Header = ({ toggleDrawer }) => {
 
   const { perfil, cerrarSesion } = useContext(AuthContext);
 
-  const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorEl, setAnchorEl] = useState(null);
+
   const open = Boolean(anchorEl);
+
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -80,7 +83,11 @@ const Header = ({ toggleDrawer }) => {
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.navbar}>
-        <img src={logo} className={classes.logo} />
+        <img
+          src={logo}
+          className={classes.logo}
+          onClick={() => handleRute("")}
+        />
         <IconButton
           color="inherit"
           aria-label="open drawer"
@@ -91,10 +98,9 @@ const Header = ({ toggleDrawer }) => {
           <MenuIcon />
         </IconButton>
         <div className={classes.icons}>
-          <Typography component="p" variant="p">
-            Último Acceso: {perfil.ultimoAcceso.split("T")[0]}
-          </Typography>
-          <Tooltip title="Account settings">
+          <p>Último Acceso: {perfil.ultimoAcceso.split("T")[0]}</p>
+
+          <Tooltip title="Ajustes de usuario">
             <IconButton
               onClick={handleClick}
               size="small"
@@ -111,7 +117,6 @@ const Header = ({ toggleDrawer }) => {
         </div>
         <Menu
           anchorEl={anchorEl}
-          id="account-menu"
           open={open}
           onClose={handleClose}
           onClick={handleClose}
@@ -159,7 +164,7 @@ const Header = ({ toggleDrawer }) => {
             <ListItemIcon>
               <LogoutIcon fontSize="small" />
             </ListItemIcon>
-            Logout
+            Cerrar Sesión
           </MenuItem>
         </Menu>
       </Toolbar>

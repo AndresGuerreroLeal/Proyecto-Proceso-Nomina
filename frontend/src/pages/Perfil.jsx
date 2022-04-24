@@ -122,16 +122,19 @@ const Perfil = () => {
         Perfil - Datos registrados
       </Typography>
 
-      <Box sx={{ width: "70%", margin: "1.5rem auto" }}>
-        {message && <Alerta />}
-      </Box>
+      {message && (
+        <Box sx={{ width: "70%", margin: " 1rem auto 0 ", display:"flex",
+        justifyContent:"center" }}>
+          <Alerta />
+        </Box>
+      )}
 
       <Box
         component="form"
         onSubmit={handleSubmit}
         noValidate
         sx={{
-          mt: 3,
+          mt: 1,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",

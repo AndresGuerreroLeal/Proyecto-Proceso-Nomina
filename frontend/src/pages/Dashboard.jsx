@@ -30,15 +30,14 @@ const Dashboard = () => {
               display: "flex",
               justifyContent: "center",
               alignItems: "center",
+              gap: 2,
               flexDirection: "column",
             }}
           >
             <Typography component="h3" variant="h5">
-              Ver empleado
+              Ver Empleados
             </Typography>
-            <Typography component="p" variant="body5">
-              Total empleados: 30
-            </Typography>
+            <p>Total empleados: 30</p>
           </Paper>
         </Grid>
 
@@ -57,9 +56,8 @@ const Dashboard = () => {
             <Typography component="h3" variant="h5">
               Ver contactos
             </Typography>
-            <Typography component="p" variant="body1">
-              Total contratos: 30
-            </Typography>
+
+            <p>Total contratos: 30</p>
           </Paper>
         </Grid>
 
@@ -78,9 +76,7 @@ const Dashboard = () => {
             <Typography component="h3" variant="h5">
               Ver nóminas
             </Typography>
-            <Typography component="p" variant="body1">
-              Total nóminas: 30
-            </Typography>
+            <p>Total nóminas: 30</p>
           </Paper>
         </Grid>
       </Grid>
