@@ -135,7 +135,7 @@ const Login = () => {
     } catch (err) {
       if (!err.response) {
         mostrarAlerta({
-          message: "Fallas internas por favor intentelo mas tarde",
+          message: "Fallas internas, por favor inténtelo más tarde.",
           categoria: "error",
         });
       } else {
