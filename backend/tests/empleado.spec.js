@@ -251,9 +251,11 @@ describe("-----Test de endpoint de crear empleado------", () => {
 afterAll(async () => {
   ruta = ruta.split("/");
   const nombreArchivo = ruta[ruta.length - 1];
-  await Usuario.deleteMany({ usuario: ["admin"] });
-  await Roles.deleteMany({ _id: ["ADMIN", "REPORTS"] });
-  await Empleado.deleteOne({ correo: info.correo });
+  await Promise.all([
+    Usuario.deleteMany({ usuario: ["admin"] }),
+    Roles.deleteMany({ _id: ["ADMIN", "REPORTS"] }),
+    Empleado.deleteOne({ correo: info.correo }),
+  ])
   mongoose.connection.close();
   server.close();
   ruta = path.normalize(

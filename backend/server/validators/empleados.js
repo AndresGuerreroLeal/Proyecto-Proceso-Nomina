@@ -16,22 +16,22 @@ exports.validacionCrear = [
     .exists()
     .notEmpty()
     .custom((value) => {
-      const regex = /^([0-9])*$/;
+      const regex = /^[0-9]*$/;
       if (value.length < 5 || value.length > 10)
         return Promise.reject("No es un número de cédula válido");
       if (!regex.test(value)) return Promise.reject("Debe ser solo números");
-      return true;
+      return Promise.resolve(true);
     }),
   check("correo").exists().notEmpty().isEmail(),
   check("numero_celular")
     .exists()
     .notEmpty()
     .custom((value) => {
-      const regex = /^([0-9])*$/;
+      const regex = /^[0-9]*$/;
       if (value.length !== 10)
         return Promise.reject("No es un número de telefono");
       if (!regex.test(value)) return Promise.reject("Debe ser solo números");
-      return true;
+      return Promise.resolve(true);
     }),
   check("ciudad_residencia").exists().notEmpty(),
   check("direccion_residencia").exists().notEmpty(),
@@ -42,11 +42,11 @@ exports.validacionCrear = [
     .exists()
     .notEmpty()
     .custom((value) => {
-      const regex = /^([0-9])*$/;
+      const regex = /^[0-9]*$/;
       if (value.length < 10 || value.length > 16)
         return Promise.reject("No es un número de cuenta válido");
       if (!regex.test(value)) return Promise.reject("Debe ser solo números");
-      return true;
+      return Promise.resolve(true);
     }),
   (req, res, next) => {
     validate(req, res, next);
