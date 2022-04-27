@@ -5,6 +5,7 @@
  */
 
 const mongoose = require("mongoose");
+const mongoosePaginate = require("mongoose-paginate-v2");
 
 const EmpleadoSchema = new mongoose.Schema(
   {
@@ -84,5 +85,5 @@ const EmpleadoSchema = new mongoose.Schema(
   }
 );
 
-const Empleado = mongoose.model("empleado", EmpleadoSchema);
-module.exports.Empleado = Empleado;
+EmpleadoSchema.plugin(mongoosePaginate);
+module.exports = mongoose.model("empleado", EmpleadoSchema);;
