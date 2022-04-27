@@ -5,7 +5,7 @@
  */
 
 const log = require("../config/logger");
-const { Usuario } = require("../models/usuarios");
+const Usuario = require("../models/usuarios");
 const bcrypt = require("bcrypt");
 const httpError = require("../helpers/handleError");
 const jwt = require("jsonwebtoken");

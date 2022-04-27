@@ -1,6 +1,6 @@
 /**
  * Archivo de modelo "roles" para base de datos.
- * 
+ *
  * @author Juan-CamiloF
  */
 
@@ -13,5 +13,4 @@ const RolesSchema = new mongoose.Schema(
   { versionKey: false }
 );
 
-const Roles = mongoose.model("role", RolesSchema);
-module.exports.Roles = Roles;
+module.exports = mongoose.model("role", RolesSchema);

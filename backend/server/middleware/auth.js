@@ -6,9 +6,8 @@
 
 const jwt = require("jsonwebtoken");
 const log = require("../config/logger");
-const { Roles } = require("../models/roles");
-
-const { Usuario } = require("../models/usuarios");
+const Roles  = require("../models/roles");
+const Usuario  = require("../models/usuarios");
 
 const auth = (req, res, next) => {
   let token = req.header("Authorization");
