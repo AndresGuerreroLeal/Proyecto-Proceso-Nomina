@@ -6,7 +6,7 @@
 
 const log = require("../config/logger");
 const httpError = require("../helpers/handleError");
-const { Empleado } = require("../models/empleados");
+const Empleado = require("../models/empleados");
 const validarDocumento = require("../validators/file");
 const subirDocumento = require("../helpers/subirDocumento");
 const { emailRegistroEmpleado } = require("../helpers/enviarCorreos");
@@ -110,7 +110,7 @@ const EmpleadosController = {
         tipo_cuenta: req.body.tipo_cuenta,
         numero_cuenta: req.body.numero_cuenta,
         estado: "ACTIVO",
-        concepto: `Empleado creado`,
+        concepto: "Empleado creado",
       });
       await empleado.save();
 
@@ -123,6 +123,7 @@ const EmpleadosController = {
       httpError(res, err);
     }
   },
+
   /**
    * @code GET /create : Descargar documento de un empleado
    *
@@ -135,6 +136,67 @@ const EmpleadosController = {
     try {
       const archivo = `${__dirname}/../archivos/documentos/${req.params.file}`;
       res.download(archivo, req.params.file);
+    } catch (err) {
+      httpError(res, err);
+    }
+  },
+
+  /**
+   * @code GET /list-active : Obtener lista de empleados activos
+   *
+   * @param pageSize y @param pageNumber
+   *
+   * @return lista de empleados activos @code 200 o mensaje @code 400
+   */
+  listarActivos: async (req, res) => {
+    log.info("[GET] Petición para obtener lista de empleados activos");
+
+    try {
+      const { pageNumber, pageSize } = req.query;
+      if (!pageNumber || !pageSize) {
+        log.error("Sin datos de paginación");
+        return res
+          .status(400)
+          .send({ message: "No hay parametros de paginación" });
+      }
+      let options = {
+        page: parseInt(pageNumber, 10) < 0 ? 0 : parseInt(pageNumber, 10),
+        limit: parseInt(pageSize, 10) < 0 ? 10 : parseInt(pageSize, 10),
+      };
+      const empleados = await Empleado.paginate({ estado: "ACTIVO" }, options);
+      res.status(200).send(empleados);
+    } catch (err) {
+      httpError(res, err);
+    }
+  },
+
+  /**
+   * @code GET /list-inactive : Obtener lista de empleados inactivos
+   *
+   * @param pageSize y @param pageNumber
+   *
+   * @return lista de empleados inactivos @code 200 o mensaje @code 400
+   */
+  listarInactivos: async (req, res) => {
+    log.info("[GET] Petición para obtener lista de empleados inactivos");
+
+    try {
+      const { pageNumber, pageSize } = req.query;
+      if (!pageNumber || !pageSize) {
+        log.error("Sin datos de paginación");
+        return res
+          .status(400)
+          .send({ message: "No hay parametros de paginación" });
+      }
+      let options = {
+        page: parseInt(pageNumber, 10) < 0 ? 0 : parseInt(pageNumber, 10),
+        limit: parseInt(pageSize, 10) < 0 ? 10 : parseInt(pageSize, 10),
+      };
+      const empleados = await Empleado.paginate(
+        { estado: "INACTIVO" },
+        options
+      );
+      res.status(200).send(empleados);
     } catch (err) {
       httpError(res, err);
     }

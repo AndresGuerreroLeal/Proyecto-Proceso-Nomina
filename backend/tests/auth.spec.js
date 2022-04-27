@@ -7,8 +7,8 @@
 const mongoose = require("mongoose");
 const { app, server } = require("../server/index");
 const request = require("supertest");
-const { Usuario } = require("../server/models/usuarios");
-const { Roles } = require("../server/models/roles");
+const Usuario = require("../server/models/usuarios");
+const Roles = require("../server/models/roles");
 
 const admin = {
   usuario: "admin",

@@ -4,8 +4,8 @@
  * @author Juan-CamiloF
  */
 
-const  Roles  = require("../models/roles");
-const  Usuario  = require("../models/usuarios");
+const Roles = require("../models/roles");
+const Usuario = require("../models/usuarios");
 
 const log = require("./logger");
 const data = async () => {
@@ -33,7 +33,7 @@ const data = async () => {
             "$2a$10$mC77qjUBQz5SiyZ1jtcHa.2GKrJ/PgKFw7Q19ahCeoCHJKqefCCOq",
           ultimoAcceso: new Date(),
           createdAt: new Date(),
-          updatedAt: new Date(), 
+          updatedAt: new Date(),
         }).save(),
         new Usuario({
           nombre: "Reports",
@@ -54,4 +54,4 @@ const data = async () => {
   }
 };
 
-module.exports =  data ;
+module.exports = data;
