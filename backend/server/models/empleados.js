@@ -86,4 +86,4 @@ const EmpleadoSchema = new mongoose.Schema(
 );
 
 EmpleadoSchema.plugin(mongoosePaginate);
-module.exports = mongoose.model("empleado", EmpleadoSchema);;
+module.exports = mongoose.model("empleado", EmpleadoSchema);

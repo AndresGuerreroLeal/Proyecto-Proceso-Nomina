@@ -477,35 +477,36 @@ describe("-----Test de endpoint de listar empleados inactivos-----", () => {
   });
 
   test("[GET code 200] [api/1.0/employee/list-inactive] Test de listar empleados inactivos cantidad[3] ", async () => {
-    await Empleado.findOneAndUpdate(
-      { correo: empleado1.correo },
-      {
-        estado: "INACTIVO",
-        concepto: "Desactivado",
-      },
-      { new: true }
-    ).exec();
-    await Empleado.findOneAndUpdate(
-      { correo: empleado2.correo },
-      {
-        estado: "INACTIVO",
-        concepto: "Desactivado",
-      },
-      { new: true }
-    ).exec();
-    await Empleado.findOneAndUpdate(
-      { correo: empleado3.correo },
-      {
-        estado: "INACTIVO",
-        concepto: "Desactivado",
-      },
-      { new: true }
-    ).exec();
+    await Promise.all([
+      Empleado.findOneAndUpdate(
+        { correo: empleado1.correo },
+        {
+          estado: "INACTIVO",
+          concepto: "Desactivado",
+        },
+        { new: true }
+      ),
+      Empleado.findOneAndUpdate(
+        { correo: empleado2.correo },
+        {
+          estado: "INACTIVO",
+          concepto: "Desactivado",
+        },
+        { new: true }
+      ),
+      Empleado.findOneAndUpdate(
+        { correo: empleado3.correo },
+        {
+          estado: "INACTIVO",
+          concepto: "Desactivado",
+        },
+        { new: true }
+      ),
+    ]);
 
     const response = await request(app)
       .get("/api/1.0/employee/list-inactive?pageNumber=0&pageSize=10")
       .set("Authorization", `Bearer ${jwt}`);
-      console.log(response.body)
     expect(response.status).toBe(200);
     expect(response.body.docs[0].nombres).toBe(empleado1.nombres);
     expect(response.body.docs[0].apellidos).toBe(empleado1.apellidos);
@@ -600,11 +601,18 @@ describe("-----Test de endpoint de listar empleados inactivos-----", () => {
 afterAll(async () => {
   ruta = ruta.split("/");
   const nombreArchivo = ruta[ruta.length - 1];
-  await Usuario.deleteMany({ usuario: ["admin"] });
-  await Roles.deleteMany({ _id: ["ADMIN", "REPORTS"] });
-  await Empleado.deleteMany({
-    correo: [info.correo, empleado1.correo, empleado2.correo, empleado3.correo],
-  });
+  await Promise.all([
+    Usuario.deleteMany({ usuario: ["admin"] }),
+    Roles.deleteMany({ _id: ["ADMIN", "REPORTS"] }),
+    Empleado.deleteMany({
+      correo: [
+        info.correo,
+        empleado1.correo,
+        empleado2.correo,
+        empleado3.correo,
+      ],
+    }),
+  ]);
   mongoose.connection.close();
   server.close();
   ruta = path.normalize(

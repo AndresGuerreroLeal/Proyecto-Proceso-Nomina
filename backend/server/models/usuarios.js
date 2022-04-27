@@ -60,4 +60,4 @@ UsuarioSchema.methods.generateJWT = function () {
   );
 };
 
-module.exports =  mongoose.model("usuario", UsuarioSchema);;
+module.exports =  mongoose.model("usuario", UsuarioSchema);
