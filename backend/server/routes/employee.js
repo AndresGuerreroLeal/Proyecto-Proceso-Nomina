@@ -1,5 +1,5 @@
 /**
- * Archivo de rutas para todo lo relacionado con empleados
+ * Archivo de rutas para los controladores relacionados con empleados
  *
  * @author Juan-CamiloF
  */
@@ -17,7 +17,11 @@ const {
   listarActivos,
   listarInactivos,
 } = require("../controllers/empleadosController");
+<<<<<<< HEAD
 const { auth, admin, reports } = require("../middleware/auth");
+=======
+const { auth, admin } = require("../middleware/auth");
+>>>>>>> 38752dd748012371e590b65eefe6b5c0bb3d4641
 const { validacionCrear } = require("../validators/empleados");
 
 //Ruta de crear empleado [POST]

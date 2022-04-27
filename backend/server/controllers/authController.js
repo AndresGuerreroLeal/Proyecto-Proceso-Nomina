@@ -1,5 +1,5 @@
 /**
- * Archivo de controlador para todo lo relacionado con autenticación
+ * Archivo de controlador para las funciones relacionadas con la autenticación
  *
  * @author Juan-CamiloF
  */
@@ -24,7 +24,7 @@ const AuthController = {
     log.info("[POST] Petición de inicio de sesión");
 
     try {
-      const usuario = await Usuario.findOne({ usuario: req.body.usuario });
+      const usuario = await Usuario.findOne({ usuario: req.body.usuario }).exec();
       if (!usuario) {
         log.info("Credenciales erróneas");
         return res.status(401).send({ message: "Credenciales erróneas" });
@@ -41,7 +41,7 @@ const AuthController = {
 
       const dateUpdate = await Usuario.findByIdAndUpdate(usuario.id, {
         ultimoAcceso: Date.now(),
-      });
+      }).exec();
       await dateUpdate.save();
 
       const token = usuario.generateJWT();
@@ -91,7 +91,7 @@ const AuthController = {
     log.info("[GET] Petición de obtener información");
 
     try {
-      const usuario = await Usuario.findById(req.usuario._id);
+      const usuario = await Usuario.findById(req.usuario._id).exec();
       if (!usuario) {
         log.info("El usuario no existe");
         return res.status(404).send({ message: "El usuario no existe" });
@@ -125,7 +125,7 @@ const AuthController = {
 
     try {
       const correo = req.body.correo;
-      const usuario = await Usuario.findOne({ correo: correo });
+      const usuario = await Usuario.findOne({ correo: correo }).exec();
       if (!usuario) {
         log.info(`El usuario no existe, correo: ${correo}`);
         return res.status(400).send({
@@ -180,7 +180,7 @@ const AuthController = {
 
       jwt.verify(tokenCuenta, process.env.SECR3T);
 
-      const usuario = await Usuario.findOne({ tokenCuenta: tokenCuenta });
+      const usuario = await Usuario.findOne({ tokenCuenta: tokenCuenta }).exec();
       if (!usuario) {
         log.info("No se puede cambiar la contraseña");
         return res
@@ -210,7 +210,7 @@ const AuthController = {
     log.info("[PUT] Petición actualizar contraseña");
 
     try {
-      const usuario = await Usuario.findById(req.usuario._id);
+      const usuario = await Usuario.findById(req.usuario._id).exec();
 
       if (!usuario) {
         log.info("El usuario no existe");
@@ -252,7 +252,7 @@ const AuthController = {
     log.info("[PUT] Petición actualizar información");
 
     try {
-      const usuario = await Usuario.findById(req.usuario._id);
+      const usuario = await Usuario.findById(req.usuario._id).exec();
 
       if (!usuario) {
         log.info("El usuario no existe");
@@ -262,7 +262,7 @@ const AuthController = {
       if (usuario.correo !== req.body.correo) {
         const correoExistente = await Usuario.findOne({
           correo: req.body.correo,
-        });
+        }).exec();
         if (correoExistente) {
           log.info("El nuevo correo ya está registrado");
           return res
@@ -274,7 +274,7 @@ const AuthController = {
       if (usuario.usuario !== req.body.usuario) {
         const usuarioExistente = await Usuario.findOne({
           usuario: req.body.usuario,
-        });
+        }).exec();
         if (usuarioExistente) {
           log.info("El nuevo usuario ya está registrado");
           return res
@@ -291,7 +291,7 @@ const AuthController = {
           correo: req.body.correo,
         },
         { new: true }
-      );
+      ).exec();
       await usuarioActualizado.save();
       log.info(
         `La información se ha actualizado con éxito: ${JSON.stringify(
