@@ -8,15 +8,18 @@ const nodemailer = require("nodemailer");
 
 const transport = () => {
   return nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true, // true for 465, false for other ports
+    host: "smtp.ethereal.email",
+    port: 587,
+    secureConnection: false,
     auth: {
       user: process.env.CORREO, // generated ethereal user
       pass: process.env.CONTRASENIA, // generated ethereal password
     },
+    tls: {
+      ciphers:'SSLv3'
+  }
   });
-};
+}
 
 const emailOlvideContrasenia = async (email, nombre, token) => {
   if (process.env.NODE_ENV !== "test") {

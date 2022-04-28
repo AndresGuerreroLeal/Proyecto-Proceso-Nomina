@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 //Material ui
@@ -11,57 +11,80 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import clienteAxios from "../config/axios";
 
 const columns = [
-  { id: "nombre", label: "Nombre", minWidth: 130 },
-  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
+  { id: "nombres", label: "Nombres", minWidth: 130 },
+  { id: "numero_documento", label: "Numero de Documento", minWidth: 100 },
   {
-    id: "population",
-    label: "Population",
+    id: "correo",
+    label: "Correo Electrónico",
     minWidth: 170,
     align: "right",
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
-  },
-  {
-    id: "density",
-    label: "Density",
+    id: "numero_celular",
+    label: "Numero de Celular",
     minWidth: 170,
     align: "right",
     format: (value) => value.toFixed(2),
   },
-];
-
-function createData(nombre, code, population, size) {
-  const density = population / size;
-  return { nombre, code, population, size, density };
-}
-
-const rows = [
-  createData("Andres", "IN", 1324171354, 3287263),
-  createData("Andres", "CN", 1403500365, 9596961),
-  createData("Felipe", "IT", 60483973, 301340),
-  createData("Felipe", "US", 327167434, 9833520),
-  createData("Andres", "CA", 37602103, 9984670),
-  createData("Andres", "AU", 25475400, 7692024),
+  {
+    id: "entidad_bancaria",
+    label: "Entidad Bancaria",
+    minWidth: 170,
+    align: "right",
+    format: (value) => value.toLocaleString("en-US"),
+  },
 ];
 
 const Empleados = () => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+
+  const [empleados,setEmpleados] = useState([])
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [count,setCount] = useState(0)
+  const [totalpages,setTotalPages] = useState(0)
+  const [cargando,setCargando] = useState(false)
+
+
+  useEffect(() => {
+    const obtenerEmpleados = async () => {
+      const token = localStorage.getItem("token");
+
+      const config = {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      setCargando(true)
+
+      const { data } = await clienteAxios.get(
+        `http://localhost:8080/api/1.0/employee/list-active?pageNumber=${page+1}&pageSize=${rowsPerPage}`,
+        config
+      );
+
+      setEmpleados(data.docs)
+      setPage(data.page - 1)  
+      setCount(data.totalDocs)      
+      setTotalPages(data.totalPages)
+      setCargando(false)
+    };
+
+    obtenerEmpleados();
+  }, [rowsPerPage,page]);
+  
+    
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);
   };
-
+  
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
+    setRowsPerPage(parseInt(event.target.value),10);
     setPage(0);
   };
 
@@ -83,9 +106,7 @@ const Empleados = () => {
         </Typography>
 
         <Button variant="contained" color="primary">
-          <Link to="nuevo-empleado">
-            Nuevo Empleado
-          </Link>
+          <Link to="nuevo-empleado">Nuevo Empleado</Link>
         </Button>
       </div>
 
@@ -106,8 +127,11 @@ const Empleados = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+              {empleados
+                .slice(
+                  page - totalpages * rowsPerPage,
+                  page * rowsPerPage + rowsPerPage
+                )
                 .map((row) => {
                   return (
                     <TableRow
@@ -116,16 +140,20 @@ const Empleados = () => {
                       tabIndex={-1}
                       key={row.code}
                     >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
+                      {cargando ? (
+                        <p>cargando</p>
+                      ) : (
+                        columns.map((column) => {
+                          const value = row[column.id];
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              {column.format && typeof value === "number"
+                                ? column.format(value)
+                                : value}
+                            </TableCell>
+                          );
+                        })
+                      )}
                     </TableRow>
                   );
                 })}
@@ -133,13 +161,17 @@ const Empleados = () => {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
+          rowsPerPageOptions={[5, 10, 15]}
           component="div"
-          count={rows.length}
+          count={count}
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
           onRowsPerPageChange={handleChangeRowsPerPage}
+          labelRowsPerPage={"Número de filas"}
+          labelDisplayedRows={({ from, to, count }) =>
+            `Registros ${from}-${to} de ${count}`
+          }
         />
       </Paper>
     </>

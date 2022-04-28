@@ -8,13 +8,16 @@ const nodemailer = require("nodemailer");
 const log = require("../config/logger.js");
 const connectionEmail = () => {
   let transporter = nodemailer.createTransport({
-    host: "smtp.gmail.com",
-    port: 465,
-    secure: true, // true for 465, false for other ports
+    host: "smtp.ethereal.email",
+    port: 587,
+    secureConnection: false,
     auth: {
       user: process.env.CORREO, // generated ethereal user
       pass: process.env.CONTRASENIA, // generated ethereal password
     },
+    tls: {
+      ciphers:'SSLv3'
+  }
   });
 
   transporter
