@@ -49,7 +49,8 @@ function App() {
               <Route path="actualizar-contrasenia" element={<ActualizarContrasenia/>}/>
 
               <Route path="empleados" element={<Empleados />} />
-              <Route path="nuevo-empleado" element={<EmpleadoForm />} />
+              <Route path="empleados/nuevo-empleado" element={<EmpleadoForm />} />
+
               <Route
                 path="reportes-empleados"
                 element={<ReportesEmpleados />}

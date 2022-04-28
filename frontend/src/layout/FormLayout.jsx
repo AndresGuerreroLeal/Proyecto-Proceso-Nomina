@@ -1,8 +1,9 @@
-import React from "react";
-import { Outlet } from "react-router-dom";
+import React, { useContext } from "react";
+import { Navigate, Outlet } from "react-router-dom";
 
 //Material ui
 import { Container, makeStyles, Paper } from "@material-ui/core";
+import AuthContext from "../context/auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   main: {
@@ -23,12 +24,23 @@ const useStyles = makeStyles((theme) => ({
 
 const FormLayout = () => {
   const classes = useStyles();
+
+  const {cargando,perfil } = useContext(AuthContext);
+
+  if(cargando) return "Cargando"
+
   return (
-    <Container className={classes.main}>
-      <Paper className={classes.container}>
-        <Outlet />
-      </Paper>
-    </Container>
+    <>
+      {!perfil?.usuario ? (
+        <Container className={classes.main}>
+          <Paper className={classes.container}>
+            <Outlet />
+          </Paper>
+        </Container>
+      ) : (
+        <Navigate to="/home" />
+      )}
+    </>
   );
 };
 

@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 //Material ui
 import { Button, makeStyles, Typography } from "@material-ui/core";
@@ -69,6 +70,7 @@ const Empleados = () => {
       display: "flex",
       justifyContent: "space-between",
     },
+  
   }));
 
   const classes = useStyles();
@@ -81,7 +83,9 @@ const Empleados = () => {
         </Typography>
 
         <Button variant="contained" color="primary">
-          Nuevo Empleado
+          <Link to="nuevo-empleado">
+            Nuevo Empleado
+          </Link>
         </Button>
       </div>
 
