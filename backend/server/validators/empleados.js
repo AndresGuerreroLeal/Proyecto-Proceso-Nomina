@@ -27,7 +27,7 @@ exports.validacionCrear = [
     .exists()
     .notEmpty()
     .custom((value) => {
-      const regex = /^[0-9]*$/;
+      const regex = /^([0-9])*$/;
       if (value.length !== 10)
         return Promise.reject("No es un número de telefono");
       if (!regex.test(value)) return Promise.reject("Debe ser solo números");

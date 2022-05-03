@@ -14,6 +14,7 @@ winston.addColors({
 });
 
 const log = createLogger({
+  silent: process.env.NODE_ENV === "test",
   transports: [
     new transports.Console({
       level: "debug",

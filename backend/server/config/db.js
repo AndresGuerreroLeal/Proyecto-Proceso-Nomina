@@ -5,7 +5,7 @@
  */
 
 const mongoose = require("mongoose");
-const { data } = require("./data");
+const data = require("./data");
 const log = require("./logger");
 
 const { MONGO_DB_URI, MONGO_DB_URI_TEST, NODE_ENV } = process.env;

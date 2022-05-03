@@ -4,15 +4,15 @@
  * @author Juan-CamiloF
  */
 
-const { Roles } = require("../models/roles");
-const { Usuario } = require("../models/usuarios");
+const Roles = require("../models/roles");
+const Usuario = require("../models/usuarios");
 
 const log = require("./logger");
 const data = async () => {
   try {
     //Cargar roles
     const cantidadRoles = await Roles.estimatedDocumentCount().exec();
-    if (!cantidadRoles) {
+    if (cantidadRoles < 2) {
       await Promise.all([
         new Roles({ _id: "ADMIN" }).save(),
         new Roles({ _id: "REPORTS" }).save(),
@@ -22,7 +22,7 @@ const data = async () => {
 
     //Cargar usuarios
     const cantidadUsuarios = await Usuario.estimatedDocumentCount().exec();
-    if (!cantidadUsuarios) {
+    if (cantidadUsuarios < 2) {
       await Promise.all([
         new Usuario({
           nombre: process.env.NOMBRE,
@@ -54,4 +54,4 @@ const data = async () => {
   }
 };
 
-module.exports = { data };
+module.exports = data;
