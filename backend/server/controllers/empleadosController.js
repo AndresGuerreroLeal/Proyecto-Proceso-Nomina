@@ -487,7 +487,7 @@ const EmpleadosController = {
           concepto: req.body.concepto,
         },
         { new: true }
-      );
+      ).exec();
       log.info(
         `Estado del empleado actualizado ${JSON.stringify(empleadoActualizado)}`
       );
@@ -506,8 +506,7 @@ const EmpleadosController = {
    */
   obtenerEmpleado: async (req, res) => {
     log.info("[GET] Petición obtener empleado");
-    //try {
-    
+    try {
       const empleado = await Empleado.findById(req.params._id).exec();
       if (!empleado) {
         log.error("El empleado no existe");
@@ -515,9 +514,9 @@ const EmpleadosController = {
       }
       log.info(`Detalles del empleado ${JSON.stringify(empleado)}`);
       return res.status(200).send(empleado);
-    // } catch (err) {
-    //   httpError(res, err);
-    // }
+    } catch (err) {
+      httpError(res, err);
+    }
   },
 };
 
