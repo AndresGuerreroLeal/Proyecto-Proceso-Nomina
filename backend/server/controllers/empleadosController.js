@@ -16,6 +16,7 @@ const {
 const { emailRegistroEmpleado } = require("../helpers/enviarCorreos");
 const fs = require("fs");
 const path = require("path");
+const { default: mongoose } = require("mongoose");
 const EmpleadosController = {
   /**
    * @code POST /create : Crear un empleado
@@ -242,11 +243,11 @@ const EmpleadosController = {
   },
 
   /**
-   * @code PUT / update-info : Actualizar información de empleados
+   * @code PUT / update : Actualizar información de empleados
    *
    * @param empleado
    *
-   * @return empleado actualizado @code 200 o mensaje @code 400
+   * @return empleado actualizado @code 201 o mensaje @code 400
    */
   actualizarEmpleado: async (req, res) => {
     log.info("[PUT] Petición para actualizar información empleado");
@@ -453,6 +454,51 @@ const EmpleadosController = {
     } catch (err) {
       httpError(res, err);
     }
+  },
+
+  /**
+   * @code PUT / update-state : Actualizar estado de empleados
+   *
+   * @param idEmpleado
+   *
+   * @return empleado actualizado @code 201 o mensaje @code 400
+   */
+  actualizarEstadoEmpleado: async (req, res) => {
+    log.info("[PUT] Petición cambiar estado empleado");
+
+    //try {
+    if (!mongoose.Types.ObjectId.isValid(req.params._id)) {
+      log.error("No hay identificador de empleado");
+      return res.status(400).send({message:"No hay identificador de empleado"})
+    }
+
+    const empleado = await Empleado.findById(req.params._id);
+    if (!empleado) {
+      log.error("El empleado no existe");
+      return res.status(400).send({ message: "El empleado no existe" });
+    }
+    let nuevoEstado = "";
+    if (empleado.estado === "ACTIVO") {
+      nuevoEstado = "INACTIVO";
+    } else if (empleado.estado === "INACTIVO") {
+      nuevoEstado = "ACTIVO";
+    }
+
+    const empleadoActualizado = await Empleado.findByIdAndUpdate(
+      req.params._id,
+      {
+        estado: nuevoEstado,
+        concepto: req.body.concepto,
+      },
+      { new: true }
+    );
+    log.info(
+      `Estado del empleado actualizado ${JSON.stringify(empleadoActualizado)}`
+    );
+    return res.status(201).send(empleadoActualizado);
+    // } catch (err) {
+    //   httpError(res, err);
+    // }
   },
 };
 
