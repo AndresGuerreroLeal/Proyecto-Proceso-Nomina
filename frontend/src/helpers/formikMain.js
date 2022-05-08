@@ -1,12 +1,12 @@
 import { useFormik } from "formik";
-import { LoginSchema } from "./validadorSchemas";
+import validador from "./validadorSchemas";
 
-const formikMain = (handleSubmit, values) => {
+const formikMain = (handleSubmit, values, schema) => {
   const formik = useFormik({
     initialValues: values,
-    validationSchema: LoginSchema,
-    onSubmit: async (valores, { resetForm }) => {
-      await handleSubmit(valores);
+    validationSchema: validador[schema],
+    onSubmit: (valores, { resetForm }) => {
+      handleSubmit(valores);
       resetForm();
     },
   });
