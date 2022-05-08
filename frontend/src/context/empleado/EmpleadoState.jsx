@@ -1,13 +1,20 @@
+import { useState } from "react";
+
+// Config
 import clienteAxios from "../../config/axios";
 import TokenAuth from "../../config/tokenAuth";
+
+// Context
 import EmpleadoContext from "./EmpleadoContext";
 
 const EmpleadoState = ({ children }) => {
-  const [alertaemplado, setAlertaEmplado] = useState();
+  const [alertaemplado, setAlertaEmplado] = useState({});
 
   const crearEmpleado = async (empleado) => {
     try {
       let formData = new FormData();
+
+      const pdf = empleado.file.files[0]
 
       formData.append("file", empleado.file);
       formData.append("nombres", empleado.nombres);

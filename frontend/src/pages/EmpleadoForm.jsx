@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 // Config 
 import formikMain from "../helpers/formikMain";
@@ -6,6 +6,7 @@ import formikMain from "../helpers/formikMain";
 //Material ui
 import { Button, Grid, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { makeStyles } from "@material-ui/core";
+import EmpleadoContext from "../context/empleado/EmpleadoContext";
 
 const useStyles = makeStyles((theme) => ({
   containerGrid: {
@@ -32,6 +33,8 @@ const inputStyles = {
 const EmpleadoForm = () => {
   const classes = useStyles();
 
+  const {crearEmpleado} = useContext(EmpleadoContext)
+
   const values = {
     nombres:"",
     apellidos:"",
@@ -49,11 +52,11 @@ const EmpleadoForm = () => {
     file:""
   }
 
-  const handleSubmit = (valores)=>{
-    console.log(valores)
+  const handleSubmit =  (empleado)=>{
 
     try {
 
+      crearEmpleado(empleado);
       
     } catch (err) {
       if (!err.response) {
@@ -79,13 +82,7 @@ const EmpleadoForm = () => {
       </Typography>
       <form onSubmit={formik.handleSubmit}>
         <Grid container className={classes.containerGrid}>
-          <Grid
-            item
-            xs={12}
-            lg={5.8}
-            justifyContent="flex-start"
-           
-          >
+          <Grid item xs={12} lg={5.8} justifyContent="flex-start">
             <Typography variant="p" component="h3">
               Datos Básicos
             </Typography>
@@ -111,26 +108,21 @@ const EmpleadoForm = () => {
               }
               helperText={formik.touched.apellidos && formik.errors.apellidos}
             />
-             <TextField
-                select
-                id="genero"
-                name="genero"
-                label="Género"
-                sx={inputStyles}
-                value={formik.values.genero}
-                onChange={formik.handleChange}
-                error={
-                  formik.touched.genero &&
-                  Boolean(formik.errors.genero)
-                }
-                helperText={
-                  formik.touched.genero && formik.errors.genero
-                }
-              >
-                <MenuItem value="masculino">Masculino</MenuItem>
-                <MenuItem value="femenino">Femenino</MenuItem>
-                <MenuItem value="otro">Otro</MenuItem>
-              </TextField>
+            <TextField
+              select
+              id="genero"
+              name="genero"
+              label="Género"
+              sx={inputStyles}
+              value={formik.values.genero}
+              onChange={formik.handleChange}
+              error={formik.touched.genero && Boolean(formik.errors.genero)}
+              helperText={formik.touched.genero && formik.errors.genero}
+            >
+              <MenuItem value="masculino">Masculino</MenuItem>
+              <MenuItem value="femenino">Femenino</MenuItem>
+              <MenuItem value="otro">Otro</MenuItem>
+            </TextField>
             <TextField
               label="Numero de celular"
               variant="outlined"
@@ -156,7 +148,6 @@ const EmpleadoForm = () => {
               error={formik.touched.correo && Boolean(formik.errors.correo)}
               helperText={formik.touched.correo && formik.errors.correo}
             />
-
           </Grid>
           <Grid item xs={12} lg={5.8}>
             <Typography variant="p" component="h3">
@@ -203,12 +194,12 @@ const EmpleadoForm = () => {
             <TextField
               type="file"
               label="Documento de identidad"
+              multiple={false}
               name="file"
               InputLabelProps={{
                 shrink: true,
               }}
-              value={formik.values.file}
-              onChange={formik.handleChange}
+              onChange={(e) => formik.setFieldValue("file", e.target.files[0])}
               error={formik.touched.file && Boolean(formik.errors.file)}
               helperText={formik.touched.file && formik.errors.file}
               sx={inputStyles}
