@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 
 //Config
 import clienteAxios from "../config/axios";
+import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
+import { LoginSchema } from "../helpers/validadorSchemas";
 
 //Context
 import AlertaContext from "../context/alerta/AlertaContext";
@@ -40,96 +42,23 @@ const Login = () => {
   const classes = useStyles();
 
   const navigate = useNavigate();
-
-  const [usuariologin, setusuarioLogin] = useState({
-    usuario: "",
-    contrasenia: "",
-  });
-
-  const { usuario, contrasenia } = usuariologin;
-
-  const { setToken } = useContext(AuthContext);
-
-  const { alerta, mostrarAlerta } = useContext(AlertaContext);
-
-  const [errorusario, setErrorUsuario] = useState({
-    message: "",
-    error: false,
-  });
-
-  const [errorcontrasenia, setErrorContrasenia] = useState({
-    message: "",
-    error: false,
-  });
-
+  
   const [cargando, setCargando] = useState(false);
 
-  const handleChange = (e) => {
-    setusuarioLogin({
-      ...usuariologin,
-      [e.target.name]: e.target.value,
-    });
-  };
+  const { setToken } = useContext(AuthContext);
+  const { alerta, mostrarAlerta } = useContext(AlertaContext);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
 
-    if ([usuario, contrasenia].includes("")) {
-      setErrorUsuario({
-        message: "Campo de usuario requerido",
-        error: true,
-      });
-      setErrorContrasenia({
-        message: "Campo de contraseña requerido",
-        error: true,
-      });
-      return;
-    } else if (usuario === "") {
-      setErrorUsuario({
-        message: "Campo de usuario requerido",
-        error: true,
-      });
-      return;
-    } else if (contrasenia === "") {
-      setErrorContrasenia({
-        message: "Campo de contraseña requerido",
-        error: true,
-      });
-      return;
-    } else if (contrasenia.length <= 4) {
-      mostrarAlerta({
-        message: "Credenciales inválidas",
-        categoria: "error",
-      });
-      return;
-    }
-
-    setErrorUsuario({
-      message: "",
-      error: false,
-    });
-
-    setErrorContrasenia({
-      message: "",
-      error: false,
-    });
+  const handleSubmit = async (valores) => {
 
     try {
       setCargando(true);
 
-      const { data } = await clienteAxios.post(`/api/1.0/auth`, {
-        usuario,
-        contrasenia,
-      });
+      const { data } = await clienteAxios.post(`/api/1.0/auth`, valores);
 
       localStorage.setItem("token", data.jwt);
 
       setToken(data);
-
-      setusuarioLogin({
-        usuario: "",
-        contrasenia: "",
-      });
 
       navigate("/home");
     } catch (err) {
@@ -149,6 +78,18 @@ const Login = () => {
   };
 
   const { message } = alerta;
+
+  const formik = useFormik({
+    initialValues: {
+      usuario: '',
+      contrasenia: '',
+    },
+    validationSchema: LoginSchema,
+    onSubmit: (valores,{resetForm}) => {
+      handleSubmit(valores)
+      resetForm()
+    },
+  });
 
   return (
     <>
@@ -170,9 +111,10 @@ const Login = () => {
           <Typography component="h1" variant="h5">
             Iniciar Sesión
           </Typography>
+
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={formik.handleSubmit}
             noValidate
             sx={{ mt: 1 }}
             autoComplete="false"
@@ -182,11 +124,11 @@ const Login = () => {
               required
               fullWidth
               label="Usuario registrado"
-              error={errorusario.error}
-              helperText={errorusario?.message}
+              value={formik.values.usuario}
+              onChange={formik.handleChange}
+              error={formik.touched.usuario && Boolean(formik.errors.usuario)}
+              helperText={formik.touched.usuario && formik.errors.usuario}
               name="usuario"
-              onChange={handleChange}
-              value={usuario}
               type="text"
             />
             <TextField
@@ -195,12 +137,12 @@ const Login = () => {
               fullWidth
               name="contrasenia"
               label="Contraseña"
-              error={errorcontrasenia.error}
-              helperText={errorcontrasenia?.message}
+              value={formik.values.contrasenia}
+              onChange={formik.handleChange}
+              error={formik.touched.contrasenia && Boolean(formik.errors.contrasenia)}
+              helperText={formik.touched.contrasenia && formik.errors.contrasenia}
               type="password"
-              onChange={handleChange}
-              value={contrasenia}
-              id="password"
+              id="contrasenia"
             />
             <Grid container className={classes.containerGrid}>
               <Grid item xs>
@@ -220,7 +162,7 @@ const Login = () => {
               </Grid>
             </Grid>
             {cargando ? (
-                <div className="container2">
+              <div className="container2">
                 <CircularProgress />
               </div>
             ) : (
