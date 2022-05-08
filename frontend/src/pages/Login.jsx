@@ -3,8 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 //Config
 import clienteAxios from "../config/axios";
-import { Formik, Form, Field, ErrorMessage, useFormik } from 'formik';
-import { LoginSchema } from "../helpers/validadorSchemas";
+import formikMain from "../helpers/formikMain";
 
 //Context
 import AlertaContext from "../context/alerta/AlertaContext";
@@ -45,9 +44,13 @@ const Login = () => {
   
   const [cargando, setCargando] = useState(false);
 
+  const values = {
+    usuario: "",
+    contrasenia: "",
+  };
+
   const { setToken } = useContext(AuthContext);
   const { alerta, mostrarAlerta } = useContext(AlertaContext);
-
 
   const handleSubmit = async (valores) => {
 
@@ -62,6 +65,7 @@ const Login = () => {
 
       navigate("/home");
     } catch (err) {
+
       if (!err.response) {
         mostrarAlerta({
           message: "Fallas internas, por favor inténtelo más tarde.",
@@ -79,17 +83,7 @@ const Login = () => {
 
   const { message } = alerta;
 
-  const formik = useFormik({
-    initialValues: {
-      usuario: '',
-      contrasenia: '',
-    },
-    validationSchema: LoginSchema,
-    onSubmit: (valores,{resetForm}) => {
-      handleSubmit(valores)
-      resetForm()
-    },
-  });
+  const formik = formikMain(handleSubmit,values)
 
   return (
     <>

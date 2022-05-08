@@ -2,5 +2,7 @@ import * as Yup from "yup";
 
 export const LoginSchema = Yup.object().shape({
   usuario: Yup.string().required("Usuario requerido"),
-  contrasenia: Yup.string().required("Contraseña requerida"),
+  contrasenia: Yup.string()
+    .min(5, "Contraseña inválida")
+    .required("Contraseña requerida"),
 });
