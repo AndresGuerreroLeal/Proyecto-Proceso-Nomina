@@ -2,7 +2,7 @@ import React, { useContext } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 
 //Material ui
-import { Container, makeStyles, Paper } from "@material-ui/core";
+import { CircularProgress, Container, makeStyles, Paper } from "@material-ui/core";
 import AuthContext from "../context/auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
@@ -27,7 +27,12 @@ const FormLayout = () => {
 
   const {cargando,perfil } = useContext(AuthContext);
 
-  if(cargando) return "Cargando"
+  if(cargando) return (
+
+    <div className="container">
+    <CircularProgress />
+  </div>
+    )
 
   return (
     <>

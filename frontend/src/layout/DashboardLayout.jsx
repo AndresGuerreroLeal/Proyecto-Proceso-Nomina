@@ -9,6 +9,7 @@ import NavBar from "../components/NavBar";
 
 //Material ui
 import { makeStyles, Toolbar } from "@material-ui/core";
+import { CircularProgress } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -29,7 +30,12 @@ const DashboardLayout = () => {
 
   const { cargando, perfil } = useContext(AuthContext);
 
-  if (cargando) return "Cargando...";
+  if(cargando) return (
+
+    <div className="container">
+    <CircularProgress />
+  </div>
+    )
 
   return (
     <>

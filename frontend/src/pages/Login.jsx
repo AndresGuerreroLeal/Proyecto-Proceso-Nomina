@@ -13,7 +13,7 @@ import Alerta from "../components/Alerta";
 
 //Material ui
 import { makeStyles } from "@material-ui/core";
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -175,6 +175,7 @@ const Login = () => {
             onSubmit={handleSubmit}
             noValidate
             sx={{ mt: 1 }}
+            autoComplete="false"
           >
             <TextField
               margin="normal"
@@ -219,7 +220,9 @@ const Login = () => {
               </Grid>
             </Grid>
             {cargando ? (
-              <p>Cargando</p>
+                <div className="container2">
+                <CircularProgress />
+              </div>
             ) : (
               <Button
                 type="submit"
