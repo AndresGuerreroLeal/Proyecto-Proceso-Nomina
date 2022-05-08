@@ -83,7 +83,7 @@ const Login = () => {
 
   const { message } = alerta;
 
-  const formik = formikMain(handleSubmit,values)
+  const formik = formikMain(handleSubmit, values, "LoginSchema");
 
   return (
     <>
