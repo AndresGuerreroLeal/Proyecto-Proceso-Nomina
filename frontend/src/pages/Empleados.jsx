@@ -170,7 +170,7 @@ const Empleados = () => {
           onRowsPerPageChange={handleChangeRowsPerPage}
           labelRowsPerPage={"Número de filas"}
           labelDisplayedRows={({ from, to, count }) =>
-            `Registros ${from}-${to} de ${count}`
+            `Registros del ${from} al ${to} de ${count}`
           }
         />
       </Paper>

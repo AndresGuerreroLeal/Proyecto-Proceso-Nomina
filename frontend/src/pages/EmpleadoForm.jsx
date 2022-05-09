@@ -4,9 +4,11 @@ import React, { useContext } from "react";
 import formikMain from "../helpers/formikMain";
 
 //Material ui
-import { Button, Grid, MenuItem, Select, TextField, Typography } from "@mui/material";
+import { Alert, Button, CircularProgress, Grid, MenuItem, Select, TextField, Typography } from "@mui/material";
 import { makeStyles } from "@material-ui/core";
 import EmpleadoContext from "../context/empleado/EmpleadoContext";
+import Alerta from "../components/Alerta";
+import AlertaContext from "../context/alerta/AlertaContext";
 
 const useStyles = makeStyles((theme) => ({
   containerGrid: {
@@ -33,7 +35,9 @@ const inputStyles = {
 const EmpleadoForm = () => {
   const classes = useStyles();
 
-  const {crearEmpleado} = useContext(EmpleadoContext)
+  const {crearEmpleado,cargando} = useContext(EmpleadoContext)
+  const {mostrarAlerta,alerta} = useContext(AlertaContext)
+
 
   const values = {
     nombres:"",
@@ -55,7 +59,12 @@ const EmpleadoForm = () => {
   const handleSubmit =  (empleado)=>{
 
     try {
-
+      
+      window.scroll({
+        top: 0,
+        behavior: "smooth",
+      });
+      
       crearEmpleado(empleado);
       
     } catch (err) {
@@ -75,11 +84,16 @@ const EmpleadoForm = () => {
 
   const formik = formikMain(handleSubmit,values,"EmpleadoSchema")
 
+  const {message} = alerta 
+
   return (
     <>
       <Typography variant="h4" component="h2">
         Nuevo empleado
       </Typography>
+
+      {message && <Alerta />}
+
       <form onSubmit={formik.handleSubmit}>
         <Grid container className={classes.containerGrid}>
           <Grid item xs={12} lg={5.8} justifyContent="flex-start">
@@ -307,14 +321,20 @@ const EmpleadoForm = () => {
               }
             />
 
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Crear usuario
-            </Button>
+            {cargando ? (
+              <div className="container2">
+                <CircularProgress />
+              </div>
+            ) : (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Crear usuario
+              </Button>
+            )}
           </Grid>
         </Grid>
       </form>

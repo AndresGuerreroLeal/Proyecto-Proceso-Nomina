@@ -28,9 +28,9 @@ import ReportesNominas from "./pages/ReportesNominas";
 function App() {
   return (
     <Router>
-      <AuthState>
-        <EmpleadoState>
-          <AlertaState>
+      <AlertaState>
+        <AuthState>
+          <EmpleadoState>
             <Routes>
               <Route path="/" element={<FormLayout />}>
                 <Route index element={<Login />} />
@@ -74,9 +74,9 @@ function App() {
                 <Route path="reportes-nominas" element={<ReportesNominas />} />
               </Route>
             </Routes>
-          </AlertaState>
-        </EmpleadoState>
-      </AuthState>
+          </EmpleadoState>
+        </AuthState>
+      </AlertaState>
     </Router>
   );
 }

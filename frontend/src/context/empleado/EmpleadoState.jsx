@@ -1,20 +1,24 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 
 // Config
 import clienteAxios from "../../config/axios";
 import TokenAuth from "../../config/tokenAuth";
+import AlertaContext from "../alerta/AlertaContext";
 
 // Context
 import EmpleadoContext from "./EmpleadoContext";
 
 const EmpleadoState = ({ children }) => {
-  const [alertaemplado, setAlertaEmplado] = useState({});
+  const [alertaempleado, setAlertaEmpleado] = useState({});
+  const [cargando, setCargando] = useState(false);
+
+  const { mostrarAlerta } = useContext(AlertaContext);
 
   const crearEmpleado = async (empleado) => {
+    setCargando(true);
+
     try {
       let formData = new FormData();
-
-      const pdf = empleado.file.files[0]
 
       formData.append("file", empleado.file);
       formData.append("nombres", empleado.nombres);
@@ -38,19 +42,25 @@ const EmpleadoState = ({ children }) => {
         TokenAuth(token, true)
       );
 
-      console.log(data);
-    } catch (err) {
-      console.log(err);
-      setAlertaEmplado({
-        message: err.response.data.message,
+      mostrarAlerta({
+        message: "El empleado se creo correctamente",
+        categoria: "success",
       });
+    } catch (err) {
+      console.log(err.response);
+      mostrarAlerta({
+        message: err.response.data.message,
+        categoria: "error",
+      });
+    } finally {
+      setCargando(false);
     }
   };
 
   return (
     <EmpleadoContext.Provider
       value={{
-        alertaemplado,
+        cargando,
         crearEmpleado,
       }}
     >
