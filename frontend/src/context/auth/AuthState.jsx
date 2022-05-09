@@ -12,6 +12,7 @@ const AuthState = ({ children }) => {
   const [token, setToken] = useState({});
   const [perfil, setPerfil] = useState({});
   const [cargando, setCargando] = useState(true);
+  const [alertaauth, setAlertaAuth] = useState();
 
   const navigate = useNavigate();
 
@@ -30,8 +31,6 @@ const AuthState = ({ children }) => {
         );
 
         setPerfil(data);
-
-        navigate("/admin");
       } catch (err) {
         setToken({});
         setPerfil({});
@@ -43,13 +42,83 @@ const AuthState = ({ children }) => {
     autenticarUsuario();
   }, [token]);
 
+  const cerrarSesion = () => {
+    localStorage.removeItem("token");
+    setToken({});
+    setPerfil({});
+  };
+
+  const actualizarPerfil = async (datos) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.put(
+        "/api/1.0/auth/update-info/",
+        datos,
+        TokenAuth(token)
+      );
+
+      setPerfil(data);
+
+      setAlertaAuth({
+        message: "Datos actualizados correctamente",
+        categoria: "success",
+      });
+
+      setTimeout(() => {
+        setAlertaAuth({});
+      }, 3000);
+
+    } catch (err) {
+      console.log(err)
+      setAlertaAuth({
+        message: err.response.data.message,
+        categoria: "error",
+      });
+    }
+  };
+
+  const ActualizarContrasenia = async (datos) => {
+    console.log(datos)
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.put(
+        "/api/1.0/auth/update-password/",
+        datos,
+        TokenAuth(token)
+      );
+
+      setAlertaAuth({
+        message: data.message,
+        categoria: "success",
+      });
+
+      setTimeout(() => {
+        setAlertaAuth({});
+      }, 3000);
+
+    } catch (err) {
+      console.log(err)
+      setAlertaAuth({
+        message: err.response.data.message,
+        categoria: "error",
+      });
+    }
+  };  
+
   return (
     <AuthContext.Provider
       value={{
         token,
         perfil,
         cargando,
+        alertaauth,
         setToken,
+        cerrarSesion,
+        actualizarPerfil,
+        setAlertaAuth,
+        ActualizarContrasenia
       }}
     >
       {children}

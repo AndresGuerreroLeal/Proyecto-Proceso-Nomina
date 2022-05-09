@@ -62,6 +62,8 @@ const Login = () => {
     error: false,
   });
 
+  const [cargando, setCargando] = useState(false);
+
   const handleChange = (e) => {
     setusuarioLogin({
       ...usuariologin,
@@ -94,6 +96,12 @@ const Login = () => {
         error: true,
       });
       return;
+    } else if (contrasenia.length <= 4) {
+      mostrarAlerta({
+        message: "Credenciales inválidas",
+        categoria: "error",
+      });
+      return;
     }
 
     setErrorUsuario({
@@ -107,6 +115,8 @@ const Login = () => {
     });
 
     try {
+      setCargando(true);
+
       const { data } = await clienteAxios.post(`/api/1.0/auth`, {
         usuario,
         contrasenia,
@@ -121,13 +131,21 @@ const Login = () => {
         contrasenia: "",
       });
 
-      navigate("/admin");
+      navigate("/home");
     } catch (err) {
-      mostrarAlerta({
-        message: err.response.data,
-        categoria: true,
-      });
+      if (!err.response) {
+        mostrarAlerta({
+          message: "Fallas internas, por favor inténtelo más tarde.",
+          categoria: "error",
+        });
+      } else {
+        mostrarAlerta({
+          message: err.response.data.message,
+          categoria: "error",
+        });
+      }
     }
+    setCargando(false);
   };
 
   const { message } = alerta;
@@ -200,14 +218,18 @@ const Login = () => {
                 </Link>
               </Grid>
             </Grid>
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Iniciar Sesión
-            </Button>
+            {cargando ? (
+              <p>Cargando</p>
+            ) : (
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                sx={{ mt: 3, mb: 2 }}
+              >
+                Iniciar Sesión
+              </Button>
+            )}
           </Box>
         </Box>
       </Container>

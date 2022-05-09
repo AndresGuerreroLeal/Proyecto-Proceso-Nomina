@@ -27,14 +27,14 @@ import { ExpandLess, ExpandMore } from "@material-ui/icons";
 //Imagenes
 import logosm from "../images/logosm.png";
 
-const drawerWidth = 281;
+const drawerWidth = 333;
 
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
   },
   logonavbar: {
-    width: "90px",
+    width: "30%",
     margin: "10px auto",
   },
   drawer: {
@@ -112,7 +112,7 @@ const NavBar = () => {
           <Collapse in={menuempleados} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
               <ListItemButton sx={{ pl: 4 }}>
-                <Link to="/empleados" className={classes.opcion}>
+                <Link to="/home/empleados" className={classes.opcion}>
                   <ListItemIcon>
                     <FormatListBulletedIcon />
                   </ListItemIcon>
@@ -121,7 +121,7 @@ const NavBar = () => {
               </ListItemButton>
 
               <ListItemButton sx={{ pl: 4 }}>
-                <Link to="/reportes-empleados" className={classes.opcion}>
+                <Link to="/home/reportes-empleados" className={classes.opcion}>
                   <ListItemIcon>
                     <AssessmentIcon />
                   </ListItemIcon>
@@ -153,7 +153,7 @@ const NavBar = () => {
               </ListItemButton>
 
               <ListItemButton sx={{ pl: 4 }}>
-                <Link to="/reportes-contratos" className={classes.opcion}>
+                <Link to="admin/reportes-contratos" className={classes.opcion}>
                   <ListItemIcon>
                     <AssessmentIcon />
                   </ListItemIcon>

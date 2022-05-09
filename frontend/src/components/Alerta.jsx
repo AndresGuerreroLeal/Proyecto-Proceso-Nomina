@@ -10,7 +10,7 @@ import { Alert } from "@mui/material";
 const Alerta = () => {
   const { alerta } = useContext(AlertaContext);
 
-  return <Alert severity={alerta.categoria}>{alerta.message}</Alert>;
+  return <Alert severity={alerta.categoria} sx={{width:"100%"}}>{alerta.message}</Alert>;
 };
 
 export default Alerta;
