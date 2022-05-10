@@ -18,12 +18,15 @@ const {
   listarInactivos,
   cantidadEmpleados,
   actualizarEmpleado,
-  actualizarEstadoEmpleado,
+  estadoEmpleado,
+  obtenerEmpleado,
 } = require("../controllers/empleadosController");
 const { auth, admin, reports } = require("../middleware/auth");
 const {
   validacionCrear,
   validacionActualizar,
+  validacionEstado,
+  validacionObtener,
 } = require("../validators/empleados");
 
 //Ruta de crear empleado [POST]
@@ -45,6 +48,9 @@ router.get("/", [auth, reports], cantidadEmpleados);
 router.put("/update", [auth, admin], validacionActualizar, actualizarEmpleado);
 
 //Ruta de actualizar estado empleados [PUT]
-router.put("/update-state/:_id", [auth, admin], actualizarEstadoEmpleado);
+router.put("/state/:_id", [auth, admin], validacionEstado, estadoEmpleado);
+
+//Ruta de obtener empleado [GET]
+router.get("/:_id", [auth, reports], validacionObtener, obtenerEmpleado);
 
 module.exports = router;

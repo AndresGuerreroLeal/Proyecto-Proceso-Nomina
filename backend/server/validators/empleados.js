@@ -4,8 +4,9 @@
  * @author Juan-CamiloF
  */
 
-const { check } = require("express-validator");
+const { check, param } = require("express-validator");
 const validate = require("./validate");
+const mongoose = require("mongoose");
 
 //Funciones para validar campos del empleado
 const regex = /^[0-9]*$/;
@@ -108,7 +109,7 @@ exports.validacionCrear = [
   },
 ];
 
-//Validación de la información para actualizar empleados
+//Validación de la información para actualizar información de empleados
 exports.validacionActualizar = [
   check("_id").exists().notEmpty().isLength({ max: 24, min: 24 }),
   check("nombres").exists().notEmpty(),
@@ -165,6 +166,38 @@ exports.validacionActualizar = [
       return Promise.resolve(true);
     }),
   check("nuevo_archivo").exists().notEmpty().isBoolean(),
+  (req, res, next) => {
+    validate(req, res, next);
+  },
+];
+
+//Validación de la información actualizar estado de empleados
+exports.validacionEstado = [
+  param("_id")
+    .exists()
+    .notEmpty()
+    .custom((value) => {
+      if (!mongoose.Types.ObjectId.isValid(value)) {
+        return Promise.reject("No hay identificador de empleado");
+      }
+      return Promise.resolve(true);
+    }),
+  check("concepto").exists().notEmpty(),
+  (req, res, next) => {
+    validate(req, res, next);
+  },
+];
+
+//Validación de la información obtener un empleados
+exports.validacionObtener = [
+  param("_id")
+    .exists()
+    .notEmpty()
+    .custom((value) => {
+      if (!mongoose.Types.ObjectId.isValid(value))
+        return Promise.reject("No hay identificador de empleado");
+      return Promise.resolve(true);
+    }),
   (req, res, next) => {
     validate(req, res, next);
   },
