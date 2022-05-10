@@ -16,8 +16,9 @@ const {
   descargarArchivo,
   listarActivos,
   listarInactivos,
-  actualizarEmpleado,
   cantidadEmpleados,
+  actualizarEmpleado,
+  actualizarEstadoEmpleado,
 } = require("../controllers/empleadosController");
 const { auth, admin, reports } = require("../middleware/auth");
 const {
@@ -40,7 +41,10 @@ router.get("/list-inactive", [auth, reports], listarInactivos);
 //Ruta de cantidad de empleados [GET]
 router.get("/", [auth, reports], cantidadEmpleados);
 
-//Ruta de actualizar empleados [PUT]
+//Ruta de actualizar información empleados [PUT]
 router.put("/update", [auth, admin], validacionActualizar, actualizarEmpleado);
+
+//Ruta de actualizar estado empleados [PUT]
+router.put("/update-state/:_id", [auth, admin], actualizarEstadoEmpleado);
 
 module.exports = router;

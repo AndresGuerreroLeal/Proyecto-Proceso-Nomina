@@ -85,8 +85,9 @@ const empleado3 = {
   concepto: "Empleados creado",
 };
 
-let ruta = "";
+let ruta;
 let jwt;
+let _id;
 
 beforeAll(async () => {
   await Promise.all([
@@ -737,6 +738,7 @@ describe("-----Test para actualizar información de empleados AFECTANDO DOCUMENT
     let id = respuesta.split('"')[3];
     nuevaInfo._id = id;
     nuevaInfo.documento = ruta;
+    _id = id;
     /* Test */
     const response = await request(app)
       .put("/api/1.0/employee/update")
@@ -779,6 +781,53 @@ describe("-----Test para actualizar información de empleados AFECTANDO DOCUMENT
     expect(response.body.nombres).toBe(nuevaInfo.nombres);
     expect(response.body.apellidos).toBe(nuevaInfo.apellidos);
     expect(response.body.documento).not.toEqual(rutaVieja);
+  });
+});
+
+describe("-----Test de actualizar estado de empleados-----", () => {
+  test("[PUT code 201] [/api/1.0/employee/update-state/:_id] Test de actualizar estado de un empleado INACTIVO a ACTIVO", async () => {
+    const response = await request(app)
+      .put(`/api/1.0/employee/update-state/${_id}`)
+      .set("Authorization", `Bearer ${jwt}`)
+      .send({ concepto: "Se actualizo estado" });
+    console.log(response.body);
+    expect(response.status).toBe(201);
+    expect(response.body.estado).toBe("ACTIVO");
+    expect(response.body.concepto).toBe("Se actualizo estado");
+  });
+  test("[PUT code 201] [/api/1.0/employee/update-state/:_id] Test de actualizar estado de un empleado ACTIVO A INACTIVO", async () => {
+    const response = await request(app)
+      .put(`/api/1.0/employee/update-state/${_id}`)
+      .set("Authorization", `Bearer ${jwt}`)
+      .send({ concepto: "Se actualizo estado" });
+    console.log(response.body);
+    expect(response.status).toBe(201);
+    expect(response.body.estado).toBe("INACTIVO");
+    expect(response.body.concepto).toBe("Se actualizo estado");
+  });
+  test("[PUT code 400] [/api/1.0/employee/update-state/:_id] Test de actualizar estado de un empleado con identificador sin uso", async () => {
+    let idFalso = mongoose.Types.ObjectId();
+    const response = await request(app)
+      .put(`/api/1.0/employee/update-state/${idFalso}`)
+      .set("Authorization", `Bearer ${jwt}`)
+      .send({ concepto: "Se actualizo estado" });
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe("El empleado no existe");
+  });
+  test("[PUT code 400] [/api/1.0/employee/update-state/:_id] Test de actualizar estado de un empleado con identificador inválido", async () => {
+    const response = await request(app)
+      .put(`/api/1.0/employee/update-state/UnIdentificador`)
+      .set("Authorization", `Bearer ${jwt}`)
+      .send({ concepto: "Se actualizo estado" });
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe("No hay identificador de empleado");
+  });
+  test("[PUT code 400] [/api/1.0/employee/update-state/:_id] Test de actualizar estado de un empleado sin parametro de identificador", async () => {
+    const response = await request(app)
+      .put(`/api/1.0/employee/update-state/`)
+      .set("Authorization", `Bearer ${jwt}`)
+      .send({ concepto: "Se actualizo estado" });
+    expect(response.status).toBe(404);
   });
 });
 
