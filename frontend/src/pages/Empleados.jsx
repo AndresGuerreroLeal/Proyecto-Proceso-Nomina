@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 //Material ui
@@ -12,6 +12,7 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import clienteAxios from "../config/axios";
+import EmpleadoContext from "../context/empleado/EmpleadoContext";
 
 const columns = [
   { id: "nombres", label: "Nombres", minWidth: 130 },
@@ -41,43 +42,29 @@ const columns = [
 
 const Empleados = () => {
 
-  const [empleados,setEmpleados] = useState([])
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [count,setCount] = useState(0)
-  const [totalpages,setTotalPages] = useState(0)
+
   const [cargando,setCargando] = useState(false)
+
+    const {
+      empleados,
+      page,
+      rowsPerPage,
+      count,
+      totalpages,
+      setPage,
+      setRowsPerPage,
+      obtenerEmpleados,
+    } = useContext(EmpleadoContext);
 
 
   useEffect(() => {
-    const obtenerEmpleados = async () => {
-      const token = localStorage.getItem("token");
-
-      const config = {
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      setCargando(true)
-
-      const { data } = await clienteAxios.get(
-        `http://localhost:8080/api/1.0/employee/list-active?pageNumber=${page+1}&pageSize=${rowsPerPage}`,
-        config
-      );
-
-      setEmpleados(data.docs)
-      setPage(data.page - 1)  
-      setCount(data.totalDocs)      
-      setTotalPages(data.totalPages)
-      setCargando(false)
+    const obtenerEmpleadosState = async () => {
+      obtenerEmpleados()
     };
 
-    obtenerEmpleados();
+    obtenerEmpleadosState();
   }, [rowsPerPage,page]);
-  
-    
+      
 
   const handleChangePage = (event, newPage) => {
     setPage(newPage);

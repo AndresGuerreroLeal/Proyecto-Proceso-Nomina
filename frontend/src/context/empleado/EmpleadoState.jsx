@@ -1,18 +1,49 @@
 import { useContext, useState } from "react";
 
+// Context
+import EmpleadoContext from "./EmpleadoContext";
+
 // Config
 import clienteAxios from "../../config/axios";
 import TokenAuth from "../../config/tokenAuth";
 import AlertaContext from "../alerta/AlertaContext";
 
-// Context
-import EmpleadoContext from "./EmpleadoContext";
-
 const EmpleadoState = ({ children }) => {
-  const [alertaempleado, setAlertaEmpleado] = useState({});
   const [cargando, setCargando] = useState(false);
+  const [empleados, setEmpleados] = useState([]);
+  const [page, setPage] = useState(0);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [count,setCount] = useState(0)
+  const [totalpages,setTotalPages] = useState(0)
 
   const { mostrarAlerta } = useContext(AlertaContext);
+
+  const obtenerEmpleados = async () => {
+    setCargando(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.get(
+        `/api/1.0/employee/list-active?pageNumber=${
+          page + 1
+        }&pageSize=${rowsPerPage}`,
+        TokenAuth(token)
+      );
+
+      setEmpleados(data.docs);
+      setPage(data.page - 1)  
+      setCount(data.totalDocs)      
+      setTotalPages(data.totalPages)
+    } catch (err) {
+      mostrarAlerta({
+        message: err.response.data.message,
+        categoria: "error",
+      });
+    } finally {
+      setCargando(false);
+    }
+  };
 
   const crearEmpleado = async (empleado) => {
     setCargando(true);
@@ -47,7 +78,6 @@ const EmpleadoState = ({ children }) => {
         categoria: "success",
       });
     } catch (err) {
-      console.log(err.response);
       mostrarAlerta({
         message: err.response.data.message,
         categoria: "error",
@@ -61,7 +91,15 @@ const EmpleadoState = ({ children }) => {
     <EmpleadoContext.Provider
       value={{
         cargando,
+        empleados,
+        page,
+        rowsPerPage,
+        count,
+        totalpages,
+        setRowsPerPage,
+        setPage,
         crearEmpleado,
+        obtenerEmpleados,
       }}
     >
       {children}
