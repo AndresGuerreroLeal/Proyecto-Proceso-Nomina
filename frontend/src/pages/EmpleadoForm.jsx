@@ -138,7 +138,7 @@ const EmpleadoForm = () => {
               <MenuItem value="otro">Otro</MenuItem>
             </TextField>
             <TextField
-              label="Numero de celular"
+              label="Número de celular"
               variant="outlined"
               sx={inputStyles}
               name="numero_celular"
@@ -189,7 +189,7 @@ const EmpleadoForm = () => {
                 <MenuItem value="TI">TI</MenuItem>
               </TextField>
               <TextField
-                label="Numero de documento"
+                label="Número de documento"
                 variant="outlined"
                 name="numero_documento"
                 sx={inputStyles}
@@ -256,7 +256,7 @@ const EmpleadoForm = () => {
               Datos de Pago
             </Typography>
             <TextField
-              label="Metodo de pago"
+              label="Método de pago"
               variant="outlined"
               name="metodo_pago"
               sx={inputStyles}
@@ -306,7 +306,7 @@ const EmpleadoForm = () => {
               <MenuItem value="chequera">Chequera</MenuItem>
             </TextField>
             <TextField
-              label="Numero de cuenta"
+              label="Número de cuenta"
               name="numero_cuenta"
               variant="outlined"
               sx={inputStyles}
