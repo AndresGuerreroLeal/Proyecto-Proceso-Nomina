@@ -36,3 +36,7 @@ a{
   justify-content: center;
   height: 50%;
 }
+
+.texto{
+  font-weight: 500;
+}
