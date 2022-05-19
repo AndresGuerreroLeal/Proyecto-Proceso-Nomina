@@ -1,7 +1,7 @@
-const TokenAuth = (token) => {
+const TokenAuth = (token,type) => {
   return {
     headers: {
-      "Content-Type": "application/json",
+      "Content-Type": type ?  "multipart/form-data" : "application/json",
       Authorization: `Bearer ${token}`,
     },
   };

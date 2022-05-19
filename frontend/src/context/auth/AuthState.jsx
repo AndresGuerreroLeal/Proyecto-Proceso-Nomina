@@ -79,7 +79,6 @@ const AuthState = ({ children }) => {
   };
 
   const ActualizarContrasenia = async (datos) => {
-    console.log(datos)
     try {
       const token = localStorage.getItem("token");
 

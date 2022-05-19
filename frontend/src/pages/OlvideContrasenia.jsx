@@ -95,7 +95,7 @@ const OlvideContrasenia = () => {
       });
 
       mostrarAlerta({
-        message: data.message,
+        message: "Se ha enviado las instrucciones al correo",
         categoria: "info",
       });
 
