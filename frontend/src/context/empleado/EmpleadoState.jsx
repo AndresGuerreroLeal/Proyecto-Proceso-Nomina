@@ -15,17 +15,18 @@ const EmpleadoState = ({ children }) => {
   const [rowsPerPage, setRowsPerPage] = useState(5);
   const [count,setCount] = useState(0)
   const [totalpages,setTotalPages] = useState(0)
+  const [estado,setEstado] = useState("active")
 
   const { mostrarAlerta } = useContext(AlertaContext);
 
-  const obtenerEmpleados = async () => {
+  const obtenerEmpleados = async (estado) => {
     setCargando(true);
 
     try {
       const token = localStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
-        `/api/1.0/employee/list-active?pageNumber=${
+        `/api/1.0/employee/list-${estado}?pageNumber=${
           page + 1
         }&pageSize=${rowsPerPage}`,
         TokenAuth(token)
@@ -68,7 +69,7 @@ const EmpleadoState = ({ children }) => {
       const token = localStorage.getItem("token");
 
       const { data } = await clienteAxios.post(
-        "/api/1.0/employee/create",
+        "api/1.0/employee/create", 
         formData,
         TokenAuth(token, true)
       );
@@ -96,10 +97,12 @@ const EmpleadoState = ({ children }) => {
         rowsPerPage,
         count,
         totalpages,
+        estado,
         setRowsPerPage,
         setPage,
         crearEmpleado,
         obtenerEmpleados,
+        setEstado
       }}
     >
       {children}

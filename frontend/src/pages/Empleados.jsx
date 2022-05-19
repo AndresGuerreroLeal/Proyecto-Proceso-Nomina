@@ -13,6 +13,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import clienteAxios from "../config/axios";
 import EmpleadoContext from "../context/empleado/EmpleadoContext";
+import { CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
 
 const columns = [
   { id: "nombres", label: "Nombres", minWidth: 130 },
@@ -36,17 +37,14 @@ const columns = [
     label: "Entidad Bancaria",
     minWidth: 170,
     align: "right",
-    format: (value) => value.toLocaleString("en-US"),
   },
 ];
 
 const Empleados = () => {
 
-
-  const [cargando,setCargando] = useState(false)
-
     const {
       empleados,
+      cargando,
       page,
       rowsPerPage,
       count,
@@ -54,16 +52,17 @@ const Empleados = () => {
       setPage,
       setRowsPerPage,
       obtenerEmpleados,
+      estado,setEstado
     } = useContext(EmpleadoContext);
 
 
   useEffect(() => {
     const obtenerEmpleadosState = async () => {
-      obtenerEmpleados()
+      obtenerEmpleados(estado)
     };
 
     obtenerEmpleadosState();
-  }, [rowsPerPage,page]);
+  }, [rowsPerPage,page,estado]);
       
 
   const handleChangePage = (event, newPage) => {
@@ -92,45 +91,67 @@ const Empleados = () => {
           Lista Empleados
         </Typography>
 
+        <TextField
+          select
+          id="estado_empleado"
+          label="Estado de empleado"
+          name="estado_empleado"
+          sx={{ width: "30%" }}
+          onChange={(e) => setEstado(e.target.value)}
+          value={estado}
+        >
+          <MenuItem value="active">Activo</MenuItem>
+          <MenuItem value="inactive">Inactivo</MenuItem>
+        </TextField>
+
         <Button variant="contained" color="primary">
           <Link to="nuevo-empleado">Nuevo Empleado</Link>
         </Button>
       </div>
 
-      <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "30px" }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {empleados
-                .slice(
-                  page - totalpages * rowsPerPage,
-                  page * rowsPerPage + rowsPerPage
-                )
-                .map((row) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
+      {cargando ? (
+        <div className="container3">
+          <CircularProgress />
+        </div>
+      ) : (
+        <Paper
+          sx={{
+            width: "100%",
+            overflow: "hidden",
+            marginTop: "30px",
+            marginBottom: "30px",
+          }}
+        >
+          <TableContainer sx={{ maxHeight: 440 }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
                     >
-                      {cargando ? (
-                        <p>cargando</p>
-                      ) : (
-                        columns.map((column) => {
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {empleados
+                  .slice(
+                    page - totalpages * rowsPerPage,
+                    page * rowsPerPage + rowsPerPage
+                  )
+                  .map((row) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row.code}
+                      >
+                        {columns.map((column) => {
                           const value = row[column.id];
                           return (
                             <TableCell key={column.id} align={column.align}>
@@ -139,28 +160,32 @@ const Empleados = () => {
                                 : value}
                             </TableCell>
                           );
-                        })
-                      )}
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[5, 10, 15]}
-          component="div"
-          count={count}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
-          labelRowsPerPage={"Número de filas"}
-          labelDisplayedRows={({ from, to, count }) =>
-            `Registros del ${from} al ${to} de ${count}`
-          }
-        />
-      </Paper>
+                        })}
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 15]}
+            component="div"
+            count={count}
+            rowsPerPage={rowsPerPage}
+            page={page}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage={"Número de filas"}
+            labelDisplayedRows={({ from, to, count }) =>
+              `Registros del ${from} al ${to} de ${count}`
+            }
+          />
+        </Paper>
+      )}
+
+      <Button variant="contained" color="primary">
+        <Link to="reportes-empleados">Generar reportes</Link>
+      </Button>
     </>
   );
 };
