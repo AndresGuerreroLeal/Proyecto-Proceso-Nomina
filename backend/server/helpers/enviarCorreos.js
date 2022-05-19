@@ -55,10 +55,7 @@
              <h1>Proyecto Proceso Nómina</h1>
              <br>
              <p> Hola ${nombre}, ha sido registrado por un administrador dentro del sistema de Proyecto Proceso Nómina.</p>
-<<<<<<< HEAD
  
-=======
->>>>>>> 75fa7c6 (Se añaden cambios de ortografia)
              <br>
              <small>
                Fundación Universitaria Los Libertadores 
@@ -71,8 +68,4 @@
    }
  };
  
-<<<<<<< HEAD
  module.exports = { emailOlvideContrasenia, emailRegistroEmpleado };
-=======
- module.exports = { emailOlvideContrasenia, emailRegistroEmpleado };
->>>>>>> 75fa7c6 (Se añaden cambios de ortografia)

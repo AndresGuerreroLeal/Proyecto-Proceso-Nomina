@@ -27,8 +27,4 @@
      });
  };
  
-<<<<<<< HEAD
  module.exports = connectionEmail;
-=======
- module.exports = connectionEmail;
->>>>>>> 75fa7c6 (Se añaden cambios de ortografia)
