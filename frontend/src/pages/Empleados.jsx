@@ -16,7 +16,7 @@ import EmpleadoContext from "../context/empleado/EmpleadoContext";
 
 const columns = [
   { id: "nombres", label: "Nombres", minWidth: 130 },
-  { id: "numero_documento", label: "Numero de Documento", minWidth: 100 },
+  { id: "numero_documento", label: "Número de Documento", minWidth: 100 },
   {
     id: "correo",
     label: "Correo Electrónico",
@@ -26,7 +26,7 @@ const columns = [
   },
   {
     id: "numero_celular",
-    label: "Numero de Celular",
+    label: "Número de Celular",
     minWidth: 170,
     align: "right",
     format: (value) => value.toFixed(2),
