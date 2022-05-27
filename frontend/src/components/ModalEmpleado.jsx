@@ -1,4 +1,4 @@
-import { Box, Modal, Typography } from '@mui/material';
+import { Box, Button, Modal, Typography } from '@mui/material';
 import React, { useContext } from 'react'
 import EmpleadoContext from '../context/empleado/EmpleadoContext';
 import { Grid } from "@mui/material";
@@ -26,6 +26,7 @@ const ModalEmpleado = () => {
       const token = localStorage.getItem("token")
 
       let config = {
+        responseType: "blob",
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -35,22 +36,19 @@ const ModalEmpleado = () => {
         .get(docurl, config)
         .then((res) => res.data)
         .then((file) => {
-          var link = document.createElement("a");
+          const downloadUrl = window.URL.createObjectURL(
+            new Blob([file])
+          );
+          const link = document.createElement("a");
+          link.href = downloadUrl;
+          link.setAttribute("download", "file.pdf");
           document.body.appendChild(link);
-          link.setAttribute("type", "hidden");
-          link.href = file;
-          console.log(link.href)
-          link.download = docurl;
           link.click();
-          document.body.removeChild(link);
+          link.remove();
         })
         .catch((err) => {
           console.log(err);
-          console.log(err.message);
         });
-
-
-
   }
 
   return (
@@ -120,9 +118,9 @@ const ModalEmpleado = () => {
                 <Typography variant="p" component="h4">
                   Documento:{" "}
                   <span className="texto">
-                    <button onClick={() => handleDownload(empleado.documento)}>
+                    <a style={{cursor:"pointer"}}variant="text" onClick={() => handleDownload(empleado.documento)}>
                       Ver documento
-                    </button>
+                    </a>
                   </span>
                 </Typography>
 
