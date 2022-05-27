@@ -2,6 +2,7 @@ import { Box, Modal, Typography } from '@mui/material';
 import React, { useContext } from 'react'
 import EmpleadoContext from '../context/empleado/EmpleadoContext';
 import { Grid } from "@mui/material";
+import clienteAxios from '../config/axios';
 
 const style = {
     position: 'absolute',
@@ -18,6 +19,39 @@ const style = {
 const ModalEmpleado = () => {
 
     const {empleado,mostrarModalEmpleado,modalEmpleado} = useContext(EmpleadoContext)
+
+  const handleDownload =(docurl)=>{
+
+
+      const token = localStorage.getItem("token")
+
+      let config = {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      };
+
+      clienteAxios
+        .get(docurl, config)
+        .then((res) => res.data)
+        .then((file) => {
+          var link = document.createElement("a");
+          document.body.appendChild(link);
+          link.setAttribute("type", "hidden");
+          link.href = file;
+          console.log(link.href)
+          link.download = docurl;
+          link.click();
+          document.body.removeChild(link);
+        })
+        .catch((err) => {
+          console.log(err);
+          console.log(err.message);
+        });
+
+
+
+  }
 
   return (
     <div>
@@ -86,12 +120,9 @@ const ModalEmpleado = () => {
                 <Typography variant="p" component="h4">
                   Documento:{" "}
                   <span className="texto">
-                    <a
-                      href="http://localhost:8080/api/1.0/employee/download/Juan-Fandiño-1652935784019.pdf"
-                      target="_blank"
-                    >
-                      documento
-                    </a>
+                    <button onClick={() => handleDownload(empleado.documento)}>
+                      Ver documento
+                    </button>
                   </span>
                 </Typography>
 
