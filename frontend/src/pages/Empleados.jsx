@@ -159,10 +159,11 @@ const Empleados = () => {
                         hover
                         role="checkbox"
                         tabIndex={-1}
-                        key={row.code}
+                        key={row._id}
                       >
                         {columns.map((column) => {
                           const value = row[column.id];
+                      
                           return (
                             <TableCell key={column.id} align={column.align}>
                               <div onClick={() => obtenerEmpleado(row)}>
@@ -172,6 +173,7 @@ const Empleados = () => {
                               </div>
                               {column.id === "acciones" && (
                                 <div
+                                  key={column.id}
                                   style={{
                                     display: "flex",
                                     justifyContent: "space-between",
