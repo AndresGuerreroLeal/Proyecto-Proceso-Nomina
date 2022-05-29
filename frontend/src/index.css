@@ -34,7 +34,16 @@ a{
   width: 100%;
   align-items: center;
   justify-content: center;
-  height: 50%;
+  height: 400px;
+}
+
+.container__documento{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  margin:1.1rem 0;
 }
 
 .texto{

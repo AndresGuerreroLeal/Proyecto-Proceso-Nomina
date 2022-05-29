@@ -105,6 +105,7 @@ const EmpleadoState = ({ children }) => {
   };
 
   const obtenerEmpleadoEditarAPI = async (id) => {
+    setCargando(true)
     try {
       const token = localStorage.getItem("token");
 
@@ -118,7 +119,9 @@ const EmpleadoState = ({ children }) => {
       setEmpledadoEditar(data);
     } catch (err) {
       console.log(err);
-    } 
+    } finally{
+      setCargando(false)
+    }
   };
 
   return (
