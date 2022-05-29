@@ -114,8 +114,6 @@ const EmpleadoState = ({ children }) => {
         TokenAuth(token, true)
       );
 
-      console.log(data);
-
       setEmpledadoEditar(data);
     } catch (err) {
       console.log(err);

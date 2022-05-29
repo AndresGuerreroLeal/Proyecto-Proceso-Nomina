@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 
 // Config 
 import formikMain from "../helpers/formikMain";
@@ -11,6 +11,7 @@ import Alerta from "../components/Alerta";
 import AlertaContext from "../context/alerta/AlertaContext";
 import { useParams } from "react-router-dom";
 import clienteAxios from "../config/axios";
+import ModalDialog from "../components/ModalDialog";
 
 const useStyles = makeStyles((theme) => ({
   containerGrid: {
@@ -52,6 +53,13 @@ const EmpleadoForm = () => {
   const {crearEmpleado,cargando,empleadoEditar,obtenerEmpleadoEditarAPI} = useContext(EmpleadoContext)
   const {mostrarAlerta,alerta} = useContext(AlertaContext)
 
+  const [open, setOpen] = useState(false)
+
+  const handleEliminarDocumento = ()=>{
+    empleadoEditar.documento = ""
+    setOpen(false);
+  }
+
   const handleDownload =(docurl)=>{
     const token = localStorage.getItem("token");
 
@@ -73,7 +81,7 @@ const EmpleadoForm = () => {
         document.body.appendChild(link);
         link.click();
         link.remove();
-      })
+      }) 
       .catch((err) => {
         console.log(err);
       });
@@ -165,6 +173,16 @@ const EmpleadoForm = () => {
           </Typography>
 
           {message && <Alerta />}
+
+          {open && (
+            <ModalDialog
+              open={open}
+              setOpen={setOpen}
+              titulo={`Desea eliminar el documento de empleado ${empleadoEditar.nombres}`}
+              contenido={"El documento se eliminará permanentemente."}
+              eliminar={handleEliminarDocumento}
+            />
+          )}
 
           <form onSubmit={formik.handleSubmit}>
             <Grid container className={classes.containerGrid}>
@@ -285,8 +303,20 @@ const EmpleadoForm = () => {
                 </div>
                 {empleadoEditar.documento ? (
                   <div className="container__documento">
-                    <Button href="#text-buttons"  variant="contained"  fullWidth onClick={()=>handleDownload(empleadoEditar.documento)}>Ver Documento</Button>
-                    <Button  variant="contained" color="error" >X</Button>
+                    <Button
+                      variant="contained"
+                      fullWidth
+                      onClick={() => handleDownload(empleadoEditar.documento)}
+                    >
+                      Ver Documento
+                    </Button>
+                    <Button
+                      variant="contained"
+                      color="error"
+                      onClick={(e) => setOpen(!open)}
+                    >
+                      X
+                    </Button>
                   </div>
                 ) : (
                   <TextField
