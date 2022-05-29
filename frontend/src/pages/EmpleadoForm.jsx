@@ -64,7 +64,7 @@ const EmpleadoForm = () => {
   const navigate = useNavigate()
 
   const handleEliminarDocumento = () => {
-    empleadoEditar.documento = "";
+    empleadoEditar.eliminar = true
     empleadoEditar.archivo_nuevo = true;
     setOpen(false);
   };
@@ -116,15 +116,16 @@ const EmpleadoForm = () => {
   }
 
   const handleSubmit =  (empleado)=>{
+  
     try {
-      
+
       window.scroll({
         top: 0,
         behavior: "smooth",
       });
 
       if (id && empleadoEditar) {
-        editarEmpleado(empleado);
+        editarEmpleado({ ...empleado, documento: empleadoEditar.documento });
       } else {
         crearEmpleado(empleado);
       }
@@ -316,7 +317,7 @@ const EmpleadoForm = () => {
                     }
                   />
                 </div>
-                {empleadoEditar.documento && id ? (
+                {!empleadoEditar.eliminar && id ? (
                   <div className="container__documento">
                     <Button
                       variant="contained"

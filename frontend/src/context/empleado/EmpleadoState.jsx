@@ -104,7 +104,7 @@ const EmpleadoState = ({ children }) => {
   }
 
   const obtenerEmpleadoEditar = async (empleado) => {
-    setEmpledadoEditar(empleado);
+    setEmpledadoEditar({...empleado,eliminar:false});
   };
 
   const obtenerEmpleadoEditarAPI = async (id) => {
@@ -117,7 +117,7 @@ const EmpleadoState = ({ children }) => {
         TokenAuth(token)
       );
 
-      setEmpledadoEditar(data);
+      setEmpledadoEditar({ ...data, eliminar: false });
     } catch (err) {
       console.log(err);
     } finally{
@@ -137,7 +137,7 @@ const EmpleadoState = ({ children }) => {
       }
 
       formData.append("nuevo_archivo",empleado.nuevo_archivo ? true : false)
-      formData.append("documento",empleado.file)
+      formData.append("documento",empleado.documento)
       formData.append("nombres", empleado.nombres);
       formData.append("apellidos", empleado.apellidos);
       formData.append("tipo_documento", empleado.tipo_documento);
