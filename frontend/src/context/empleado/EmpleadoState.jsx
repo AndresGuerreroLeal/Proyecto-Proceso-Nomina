@@ -16,6 +16,9 @@ const EmpleadoState = ({ children }) => {
   const [count,setCount] = useState(0)
   const [totalpages,setTotalPages] = useState(0)
   const [estado,setEstado] = useState("active")
+  const [empleado,setEmpleado] = useState({})
+  const [modalEmpleado,setModalEmpleado] = useState(false)
+
 
   const { mostrarAlerta } = useContext(AlertaContext);
 
@@ -88,6 +91,15 @@ const EmpleadoState = ({ children }) => {
     }
   };
 
+  const obtenerEmpleado = (empleado)=>{
+    setEmpleado(empleado)
+    mostrarModalEmpleado()
+  }
+
+  const mostrarModalEmpleado = ()=>{
+    setModalEmpleado(!modalEmpleado);
+  }
+
   return (
     <EmpleadoContext.Provider
       value={{
@@ -98,11 +110,15 @@ const EmpleadoState = ({ children }) => {
         count,
         totalpages,
         estado,
+        empleado,
+        modalEmpleado,
         setRowsPerPage,
         setPage,
         crearEmpleado,
         obtenerEmpleados,
-        setEstado
+        setEstado,
+        obtenerEmpleado,
+        mostrarModalEmpleado
       }}
     >
       {children}

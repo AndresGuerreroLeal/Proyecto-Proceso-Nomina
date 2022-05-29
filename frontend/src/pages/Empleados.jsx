@@ -14,10 +14,15 @@ import TableRow from "@mui/material/TableRow";
 import clienteAxios from "../config/axios";
 import EmpleadoContext from "../context/empleado/EmpleadoContext";
 import { CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
+import ModalEmpleado from "../components/ModalEmpleado";
+import EditIcon from '@mui/icons-material/Edit';
+import DeleteIcon from '@mui/icons-material/Delete';
+
 
 const columns = [
-  { id: "nombres", label: "Nombres", minWidth: 130 },
   { id: "numero_documento", label: "Número de Documento", minWidth: 100 },
+  { id: "nombres", label: "Nombres", minWidth: 130 },
+  { id: "apellidos", label: "Apellidos", minWidth: 130 },
   {
     id: "correo",
     label: "Correo Electrónico",
@@ -26,17 +31,10 @@ const columns = [
     format: (value) => value.toLocaleString("en-US"),
   },
   {
-    id: "numero_celular",
-    label: "Número de Celular",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toFixed(2),
-  },
-  {
-    id: "entidad_bancaria",
-    label: "Entidad Bancaria",
-    minWidth: 170,
-    align: "right",
+    id: "acciones",
+    label: "Acciones",
+    minWidth: 100,
+    align: "center",
   },
 ];
 
@@ -52,7 +50,11 @@ const Empleados = () => {
       setPage,
       setRowsPerPage,
       obtenerEmpleados,
-      estado,setEstado
+      estado,
+      setEstado,
+      obtenerEmpleado,
+      modalEmpleado,
+      mostrarModalEmpleado
     } = useContext(EmpleadoContext);
 
 
@@ -83,6 +85,10 @@ const Empleados = () => {
   }));
 
   const classes = useStyles();
+
+  const handleClick = ()=>{
+    console.log("A")
+  }
 
   return (
     <>
@@ -155,9 +161,36 @@ const Empleados = () => {
                           const value = row[column.id];
                           return (
                             <TableCell key={column.id} align={column.align}>
-                              {column.format && typeof value === "number"
-                                ? column.format(value)
-                                : value}
+                              <div onClick={() => obtenerEmpleado(row)}>
+                                {column.format && typeof value === "number"
+                                  ? column.format(value)
+                                  : value}
+                              </div>
+                              {column.id === "acciones" && (
+                                <div
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                    gap:"5px"
+                                  }}
+                                >
+                                  <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={handleClick}
+                                   
+                                  >
+                                    <EditIcon />
+                                  </Button>
+                                  <Button
+                                    variant="outlined"
+                                    color="secondary"
+                                  >
+                                    <DeleteIcon />
+                                  </Button>
+                                </div>
+                              )}
                             </TableCell>
                           );
                         })}
@@ -182,6 +215,8 @@ const Empleados = () => {
           />
         </Paper>
       )}
+
+            {modalEmpleado && <ModalEmpleado />}
 
       <Button variant="contained" color="primary">
         <Link to="reportes-empleados">Generar reportes</Link>
