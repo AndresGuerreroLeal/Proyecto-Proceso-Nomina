@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/core";
 import EmpleadoContext from "../context/empleado/EmpleadoContext";
 import Alerta from "../components/Alerta";
 import AlertaContext from "../context/alerta/AlertaContext";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 import clienteAxios from "../config/axios";
 import ModalDialog from "../components/ModalDialog";
 
@@ -50,15 +50,24 @@ const style = {
 const EmpleadoForm = () => {
   const classes = useStyles();
 
-  const {crearEmpleado,cargando,empleadoEditar,obtenerEmpleadoEditarAPI} = useContext(EmpleadoContext)
+  const {
+    crearEmpleado,
+    cargando,
+    empleadoEditar,
+    obtenerEmpleadoEditarAPI,
+    editarEmpleado,
+  } = useContext(EmpleadoContext);
   const {mostrarAlerta,alerta} = useContext(AlertaContext)
 
   const [open, setOpen] = useState(false)
 
-  const handleEliminarDocumento = ()=>{
-    empleadoEditar.documento = ""
+  const navigate = useNavigate()
+
+  const handleEliminarDocumento = () => {
+    empleadoEditar.documento = "";
+    empleadoEditar.archivo_nuevo = true;
     setOpen(false);
-  }
+  };
 
   const handleDownload =(docurl)=>{
     const token = localStorage.getItem("token");
@@ -107,16 +116,21 @@ const EmpleadoForm = () => {
   }
 
   const handleSubmit =  (empleado)=>{
-
     try {
       
       window.scroll({
         top: 0,
         behavior: "smooth",
       });
-      
-      crearEmpleado(empleado);
-      
+
+      if (id && empleadoEditar) {
+        editarEmpleado(empleado);
+      } else {
+        crearEmpleado(empleado);
+      }
+
+      navigate("/home/empleados")
+
     } catch (err) {
       if (!err.response) {
         mostrarAlerta({
@@ -141,13 +155,13 @@ const EmpleadoForm = () => {
   }, [id]);
 
   useEffect(()=>{
-    if(empleadoEditar){
+    if(empleadoEditar && id){
       formik.setFieldValue("nombres",empleadoEditar.nombres)
       formik.setFieldValue("apellidos",empleadoEditar.apellidos)
       formik.setFieldValue("ciudad_residencia",empleadoEditar.ciudad_residencia)
       formik.setFieldValue("correo",empleadoEditar.correo)
       formik.setFieldValue("direccion_residencia",empleadoEditar.direccion_residencia)
-      formik.setFieldValue("documento",empleadoEditar.documento)
+      formik.setFieldValue("file",empleadoEditar.documento)
       formik.setFieldValue("entidad_bancaria",empleadoEditar.entidad_bancaria)
       formik.setFieldValue("metodo_pago",empleadoEditar.metodo_pago)
       formik.setFieldValue("numero_celular", empleadoEditar.numero_celular);
@@ -155,6 +169,7 @@ const EmpleadoForm = () => {
       formik.setFieldValue("numero_documento",empleadoEditar.numero_documento)
       formik.setFieldValue("tipo_documento",empleadoEditar.tipo_documento)
       formik.setFieldValue("tipo_cuenta",empleadoEditar.tipo_cuenta)
+      formik.setFieldValue("_id", id);
     }
   },[empleadoEditar])
 
@@ -301,7 +316,7 @@ const EmpleadoForm = () => {
                     }
                   />
                 </div>
-                {empleadoEditar.documento ? (
+                {empleadoEditar.documento && id ? (
                   <div className="container__documento">
                     <Button
                       variant="contained"
