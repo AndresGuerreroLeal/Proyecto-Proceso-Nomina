@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //Material ui
 import { Button, makeStyles, Typography } from "@material-ui/core";
@@ -58,6 +58,8 @@ const Empleados = () => {
       obtenerEmpleadoEditar
     } = useContext(EmpleadoContext);
 
+    const navigate = useNavigate()
+
 
   useEffect(() => {
     const obtenerEmpleadosState = async () => {
@@ -89,6 +91,7 @@ const Empleados = () => {
 
   const handleEmploye = (empleado)=>{
     obtenerEmpleadoEditar(empleado)
+    navigate(`editar-empleado/${empleado._id}`);
   }
 
   return (

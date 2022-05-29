@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 
 // Config 
 import formikMain from "../helpers/formikMain";
@@ -9,6 +9,7 @@ import { makeStyles } from "@material-ui/core";
 import EmpleadoContext from "../context/empleado/EmpleadoContext";
 import Alerta from "../components/Alerta";
 import AlertaContext from "../context/alerta/AlertaContext";
+import { useParams } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   containerGrid: {
@@ -35,9 +36,10 @@ const inputStyles = {
 const EmpleadoForm = () => {
   const classes = useStyles();
 
-  const {crearEmpleado,cargando} = useContext(EmpleadoContext)
+  const {crearEmpleado,cargando,empleadoEditar,obtenerEmpleadoEditarAPI} = useContext(EmpleadoContext)
   const {mostrarAlerta,alerta} = useContext(AlertaContext)
 
+  const {id} = useParams()
 
   const values = {
     nombres:"",
@@ -83,6 +85,30 @@ const EmpleadoForm = () => {
   }
 
   const formik = formikMain(handleSubmit,values,"EmpleadoSchema")
+
+  useEffect(() => {
+    if (id) {
+      obtenerEmpleadoEditarAPI(id);
+    }
+  }, [id]);
+
+  useEffect(()=>{
+    if(empleadoEditar){
+      formik.setFieldValue("nombres",empleadoEditar.nombres)
+      formik.setFieldValue("apellidos",empleadoEditar.apellidos)
+      formik.setFieldValue("ciudad_residencia",empleadoEditar.ciudad_residencia)
+      formik.setFieldValue("correo",empleadoEditar.correo)
+      formik.setFieldValue("direccion_residencia",empleadoEditar.direccion_residencia)
+      formik.setFieldValue("documento",empleadoEditar.documento)
+      formik.setFieldValue("entidad_bancaria",empleadoEditar.entidad_bancaria)
+      formik.setFieldValue("metodo_pago",empleadoEditar.metodo_pago)
+      formik.setFieldValue("numero_celular", empleadoEditar.numero_celular);
+      formik.setFieldValue("numero_cuenta",empleadoEditar.numero_cuenta)
+      formik.setFieldValue("numero_documento",empleadoEditar.numero_documento)
+      formik.setFieldValue("tipo_documento",empleadoEditar.tipo_documento)
+      formik.setFieldValue("tipo_cuenta",empleadoEditar.tipo_cuenta)
+    }
+  },[empleadoEditar])
 
   const {message} = alerta 
 

@@ -7,7 +7,6 @@ import EmpleadoContext from "./EmpleadoContext";
 import clienteAxios from "../../config/axios";
 import TokenAuth from "../../config/tokenAuth";
 import AlertaContext from "../alerta/AlertaContext";
-import { useNavigate } from "react-router-dom";
 
 const EmpleadoState = ({ children }) => {
   const [cargando, setCargando] = useState(false);
@@ -22,8 +21,6 @@ const EmpleadoState = ({ children }) => {
   const [empleadoEditar,setEmpledadoEditar] = useState({})
 
   const { mostrarAlerta } = useContext(AlertaContext);
-
-  const navigate = useNavigate();
 
   const obtenerEmpleados = async (estado) => {
     setCargando(true);
@@ -103,9 +100,26 @@ const EmpleadoState = ({ children }) => {
     setModalEmpleado(!modalEmpleado);
   }
 
-  const obtenerEmpleadoEditar = (empleado)=>{
-    setEmpledadoEditar(empleado)
-  }
+  const obtenerEmpleadoEditar = async (empleado) => {
+    setEmpledadoEditar(empleado);
+  };
+
+  const obtenerEmpleadoEditarAPI = async (id) => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.get(
+        `/api/1.0/employee/${id}`,
+        TokenAuth(token, true)
+      );
+
+      console.log(data);
+
+      setEmpledadoEditar(data);
+    } catch (err) {
+      console.log(err);
+    } 
+  };
 
   return (
     <EmpleadoContext.Provider
@@ -127,7 +141,8 @@ const EmpleadoState = ({ children }) => {
         setEstado,
         obtenerEmpleado,
         mostrarModalEmpleado,
-        obtenerEmpleadoEditar
+        obtenerEmpleadoEditar,
+        obtenerEmpleadoEditarAPI
       }}
     >
       {children}

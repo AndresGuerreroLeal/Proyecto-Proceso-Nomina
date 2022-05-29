@@ -60,6 +60,11 @@ function App() {
                 />
 
                 <Route
+                  path="empleados/editar-empleado/:id"
+                  element={<EmpleadoForm />}
+                />
+
+                <Route
                   path="reportes-empleados"
                   element={<ReportesEmpleados />}
                 />
