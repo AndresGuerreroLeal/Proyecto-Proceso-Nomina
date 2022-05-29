@@ -7,6 +7,7 @@ import EmpleadoContext from "./EmpleadoContext";
 import clienteAxios from "../../config/axios";
 import TokenAuth from "../../config/tokenAuth";
 import AlertaContext from "../alerta/AlertaContext";
+import { useNavigate } from "react-router-dom";
 
 const EmpleadoState = ({ children }) => {
   const [cargando, setCargando] = useState(false);
@@ -18,9 +19,11 @@ const EmpleadoState = ({ children }) => {
   const [estado,setEstado] = useState("active")
   const [empleado,setEmpleado] = useState({})
   const [modalEmpleado,setModalEmpleado] = useState(false)
-
+  const [empleadoEditar,setEmpledadoEditar] = useState({})
 
   const { mostrarAlerta } = useContext(AlertaContext);
+
+  const navigate = useNavigate();
 
   const obtenerEmpleados = async (estado) => {
     setCargando(true);
@@ -100,6 +103,10 @@ const EmpleadoState = ({ children }) => {
     setModalEmpleado(!modalEmpleado);
   }
 
+  const obtenerEmpleadoEditar = (empleado)=>{
+    setEmpledadoEditar(empleado)
+  }
+
   return (
     <EmpleadoContext.Provider
       value={{
@@ -112,13 +119,15 @@ const EmpleadoState = ({ children }) => {
         estado,
         empleado,
         modalEmpleado,
+        empleadoEditar,
         setRowsPerPage,
         setPage,
         crearEmpleado,
         obtenerEmpleados,
         setEstado,
         obtenerEmpleado,
-        mostrarModalEmpleado
+        mostrarModalEmpleado,
+        obtenerEmpleadoEditar
       }}
     >
       {children}

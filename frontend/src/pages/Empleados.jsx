@@ -54,7 +54,8 @@ const Empleados = () => {
       setEstado,
       obtenerEmpleado,
       modalEmpleado,
-      mostrarModalEmpleado
+      mostrarModalEmpleado,
+      obtenerEmpleadoEditar
     } = useContext(EmpleadoContext);
 
 
@@ -86,8 +87,8 @@ const Empleados = () => {
 
   const classes = useStyles();
 
-  const handleClick = ()=>{
-    console.log("A")
+  const handleEmploye = (empleado)=>{
+    obtenerEmpleadoEditar(empleado)
   }
 
   return (
@@ -178,7 +179,7 @@ const Empleados = () => {
                                   <Button
                                     variant="outlined"
                                     color="primary"
-                                    onClick={handleClick}
+                                    onClick={()=>handleEmploye(row)}
                                    
                                   >
                                     <EditIcon />
