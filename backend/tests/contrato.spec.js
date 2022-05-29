@@ -251,7 +251,7 @@ afterAll(async () => {
     Empleado.deleteOne({
       correo: empleado.correo,
     }),
-    Contrato.deleteOne({ numero_contrato: contrato.numero_contrato }),
+    Contrato.deleteOne({ numero_contrato: empleado.numero_documento }),
   ]);
   mongoose.connection.close();
   server.close();
