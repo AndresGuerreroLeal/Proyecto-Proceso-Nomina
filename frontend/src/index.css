@@ -28,3 +28,15 @@ a{
   align-items: center;
   justify-content: center;
 }
+
+.container3{
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+}
+
+.texto{
+  font-weight: 500;
+}
