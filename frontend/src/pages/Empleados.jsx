@@ -17,6 +17,7 @@ import { CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField 
 import ModalEmpleado from "../components/ModalEmpleado";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
+import ModalDialog from "../components/ModalDialog";
 
 
 const columns = [
@@ -60,6 +61,11 @@ const Empleados = () => {
 
     const navigate = useNavigate()
 
+  const [openEliminar,setOpenEliminar] = useState(false)
+
+  const handleDeshabilitarEmpleado = ()=>{
+    setOpenEliminar(false)
+  }
 
   useEffect(() => {
     const obtenerEmpleadosState = async () => {
@@ -96,6 +102,16 @@ const Empleados = () => {
 
   return (
     <>
+      {openEliminar && (
+        <ModalDialog
+          open={openEliminar}
+          setOpen={setOpenEliminar}
+          titulo={`¿Está seguro de deshabilitar el empleado?`}
+          contenido={"Tambien se deshabilitará el contrato."}
+          eliminar={handleDeshabilitarEmpleado}
+        />
+      )}
+
       <div className={classes.header}>
         <Typography variant="h4" component="h2">
           Lista Empleados
@@ -163,7 +179,7 @@ const Empleados = () => {
                       >
                         {columns.map((column) => {
                           const value = row[column.id];
-                      
+
                           return (
                             <TableCell key={column.id} align={column.align}>
                               <div onClick={() => obtenerEmpleado(row)}>
@@ -178,20 +194,22 @@ const Empleados = () => {
                                     display: "flex",
                                     justifyContent: "space-between",
                                     alignItems: "center",
-                                    gap:"5px"
+                                    gap: "5px",
                                   }}
                                 >
                                   <Button
                                     variant="outlined"
                                     color="primary"
-                                    onClick={()=>handleEmploye(row)}
-                                   
+                                    onClick={() => handleEmploye(row)}
                                   >
                                     <EditIcon />
                                   </Button>
                                   <Button
                                     variant="outlined"
                                     color="secondary"
+                                    onClick={() =>
+                                      setOpenEliminar(!openEliminar)
+                                    }
                                   >
                                     <DeleteIcon />
                                   </Button>
@@ -222,7 +240,7 @@ const Empleados = () => {
         </Paper>
       )}
 
-            {modalEmpleado && <ModalEmpleado />}
+      {modalEmpleado && <ModalEmpleado />}
 
       <Button variant="contained" color="primary">
         <Link to="reportes-empleados">Generar reportes</Link>
