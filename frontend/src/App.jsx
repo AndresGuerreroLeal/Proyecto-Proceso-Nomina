@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import AlertaState from "./context/alerta/AlertaState";
 import AuthState from "./context/auth/AuthState";
 import EmpleadoState from "./context/empleado/EmpleadoState";
+import UiState from "./context/ui/UiState";
 
 //Layout
 import DashboardLayout from "./layout/DashboardLayout";
@@ -28,60 +29,65 @@ import ReportesNominas from "./pages/ReportesNominas";
 function App() {
   return (
     <Router>
-      <AlertaState>
-        <AuthState>
-          <EmpleadoState>
-            <Routes>
-              <Route path="/" element={<FormLayout />}>
-                <Route index element={<Login />} />
-                <Route
-                  path="olvide-contrasenia"
-                  element={<OlvideContrasenia />}
-                />
-                <Route
-                  path="olvide-contrasenia/:token"
-                  element={<NuevaContrasenia />}
-                />
-              </Route>
+      <UiState>
+        <AlertaState>
+          <AuthState>
+            <EmpleadoState>
+              <Routes>
+                <Route path="/" element={<FormLayout />}>
+                  <Route index element={<Login />} />
+                  <Route
+                    path="olvide-contrasenia"
+                    element={<OlvideContrasenia />}
+                  />
+                  <Route
+                    path="olvide-contrasenia/:token"
+                    element={<NuevaContrasenia />}
+                  />
+                </Route>
 
-              <Route path="/home" element={<DashboardLayout />}>
-                <Route index element={<Dashboard />} />
+                <Route path="/home" element={<DashboardLayout />}>
+                  <Route index element={<Dashboard />} />
 
-                <Route path="perfil" element={<Perfil />} />
-                <Route
-                  path="actualizar-contrasenia"
-                  element={<ActualizarContrasenia />}
-                />
+                  <Route path="perfil" element={<Perfil />} />
+                  <Route
+                    path="actualizar-contrasenia"
+                    element={<ActualizarContrasenia />}
+                  />
 
-                <Route path="empleados" element={<Empleados />} />
-                <Route
-                  path="empleados/nuevo-empleado"
-                  element={<EmpleadoForm />}
-                />
+                  <Route path="empleados" element={<Empleados />} />
+                  <Route
+                    path="empleados/nuevo-empleado"
+                    element={<EmpleadoForm />}
+                  />
 
-                <Route
-                  path="empleados/editar-empleado/:id"
-                  element={<EmpleadoForm />}
-                />
+                  <Route
+                    path="empleados/editar-empleado/:id"
+                    element={<EmpleadoForm />}
+                  />
 
-                <Route
-                  path="reportes-empleados"
-                  element={<ReportesEmpleados />}
-                />
+                  <Route
+                    path="reportes-empleados"
+                    element={<ReportesEmpleados />}
+                  />
 
-                <Route path="contratos" element={<Contratos />} />
-                <Route
-                  path="reportes-contratos"
-                  element={<ReportesContratos />}
-                />
+                  <Route path="contratos" element={<Contratos />} />
+                  <Route
+                    path="reportes-contratos"
+                    element={<ReportesContratos />}
+                  />
 
-                <Route path="nominas" element={<Nominas />} />
-                <Route path="reportes-nominas" element={<ReportesNominas />} />
-              </Route>
-            </Routes>
-          </EmpleadoState>
-        </AuthState>
-      </AlertaState>
+                  <Route path="nominas" element={<Nominas />} />
+                  <Route
+                    path="reportes-nominas"
+                    element={<ReportesNominas />}
+                  />
+                </Route>
+              </Routes>
+            </EmpleadoState>
+          </AuthState>
+        </AlertaState>
+      </UiState>
     </Router>
   );
 }
