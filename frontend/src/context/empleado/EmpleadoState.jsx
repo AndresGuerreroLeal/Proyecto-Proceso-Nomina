@@ -14,15 +14,15 @@ const EmpleadoState = ({ children }) => {
   const [empleados, setEmpleados] = useState([]);
   const [page, setPage] = useState(0);
   const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [count,setCount] = useState(0)
-  const [totalpages,setTotalPages] = useState(0)
-  const [estado,setEstado] = useState("active")
-  const [empleado,setEmpleado] = useState({})
-  const [modalEmpleado,setModalEmpleado] = useState(false)
-  const [empleadoEditar,setEmpledadoEditar] = useState({})
+  const [count, setCount] = useState(0);
+  const [totalpages, setTotalPages] = useState(0);
+  const [estado, setEstado] = useState("active");
+  const [empleado, setEmpleado] = useState({});
+  const [modalEmpleado, setModalEmpleado] = useState(false);
+  const [empleadoEditar, setEmpledadoEditar] = useState({});
   const [empleadoEstado, setEmpleadoEstado] = useState({});
 
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const { mostrarAlerta } = useContext(AlertaContext);
 
@@ -40,9 +40,9 @@ const EmpleadoState = ({ children }) => {
       );
 
       setEmpleados(data.docs);
-      setPage(data.page - 1)  
-      setCount(data.totalDocs)      
-      setTotalPages(data.totalPages)
+      setPage(data.page - 1);
+      setCount(data.totalDocs);
+      setTotalPages(data.totalPages);
     } catch (err) {
       mostrarAlerta({
         message: err.response.data.message,
@@ -76,7 +76,7 @@ const EmpleadoState = ({ children }) => {
       const token = localStorage.getItem("token");
 
       const { data } = await clienteAxios.post(
-        "api/1.0/employee/create", 
+        "api/1.0/employee/create",
         formData,
         TokenAuth(token, true)
       );
@@ -92,27 +92,27 @@ const EmpleadoState = ({ children }) => {
         message: err.response.data.message,
         categoria: "error",
       });
-      console.log(err.response)
+      console.log(err.response);
     } finally {
       setCargando(false);
     }
   };
 
-  const obtenerEmpleado = (empleado)=>{
-    setEmpleado(empleado)
-    mostrarModalEmpleado()
-  }
+  const obtenerEmpleado = (empleado) => {
+    setEmpleado(empleado);
+    mostrarModalEmpleado();
+  };
 
-  const mostrarModalEmpleado = ()=>{
+  const mostrarModalEmpleado = () => {
     setModalEmpleado(!modalEmpleado);
-  }
+  };
 
   const obtenerEmpleadoEditar = async (empleado) => {
-    setEmpledadoEditar({...empleado,eliminar:false});
+    setEmpledadoEditar({ ...empleado, eliminar: false });
   };
 
   const obtenerEmpleadoEditarAPI = async (id) => {
-    setCargando(true)
+    setCargando(true);
     try {
       const token = localStorage.getItem("token");
 
@@ -124,24 +124,23 @@ const EmpleadoState = ({ children }) => {
       setEmpledadoEditar({ ...data, eliminar: false });
     } catch (err) {
       console.log(err);
-    } finally{
-      setCargando(false)
+    } finally {
+      setCargando(false);
     }
   };
 
-  const editarEmpleado = async(empleado)=>{
-
+  const editarEmpleado = async (empleado) => {
     setCargando(true);
 
     try {
       let formData = new FormData();
 
-      if(empleado.nuevo_archivo){
-        formData.append("file",empleado.file)
+      if (empleado.nuevo_archivo) {
+        formData.append("file", empleado.file);
       }
 
-      formData.append("nuevo_archivo",empleado.nuevo_archivo ? true : false)
-      formData.append("documento",empleado.documento)
+      formData.append("nuevo_archivo", empleado.nuevo_archivo ? true : false);
+      formData.append("documento", empleado.documento);
       formData.append("nombres", empleado.nombres);
       formData.append("apellidos", empleado.apellidos);
       formData.append("tipo_documento", empleado.tipo_documento);
@@ -164,40 +163,37 @@ const EmpleadoState = ({ children }) => {
         TokenAuth(token, true)
       );
 
-        setEmpleados(
-          empleados.map((empleadoState) =>
-            empleadoState._id === data._id ? data : empleadoState
-          )
-        );
+      setEmpleados(
+        empleados.map((empleadoState) =>
+          empleadoState._id === data._id ? data : empleadoState
+        )
+      );
 
-      navigate("/home/empleados")
+      navigate("/home/empleados");
 
       mostrarAlerta({
-        message: "El empleado se creo actualizo correctamente",
+        message: "El empleado se actualizó correctamente",
         categoria: "success",
       });
 
-      setEmpledadoEditar({})
-
+      setEmpledadoEditar({});
     } catch (err) {
       mostrarAlerta({
         message: err.response.data.message,
         categoria: "error",
       });
-      console.log(err.response)
+      console.log(err.response);
     } finally {
       setCargando(false);
     }
-  }
+  };
 
-  const obtenerEmpleadoEstado = (empleado)=>{
-    setEmpleadoEstado(empleado)
-  }
+  const obtenerEmpleadoEstado = (empleado) => {
+    setEmpleadoEstado(empleado);
+  };
 
-
-  const actualizarEstado = async (empleado)=>{
-   
-    setCargando(true)
+  const actualizarEstado = async (empleado) => {
+    setCargando(true);
     try {
       const token = localStorage.getItem("token");
 
@@ -214,13 +210,12 @@ const EmpleadoState = ({ children }) => {
       );
 
       setEmpleadoEstado({});
-
     } catch (err) {
       console.log(err);
-    } finally{
-      setCargando(false)
+    } finally {
+      setCargando(false);
     }
-  }
+  };
 
   return (
     <EmpleadoContext.Provider
@@ -247,7 +242,7 @@ const EmpleadoState = ({ children }) => {
         obtenerEmpleadoEditarAPI,
         editarEmpleado,
         obtenerEmpleadoEstado,
-        actualizarEstado
+        actualizarEstado,
       }}
     >
       {children}
