@@ -173,7 +173,7 @@ const EmpleadoState = ({ children }) => {
       navigate("/home/empleados")
 
       mostrarAlerta({
-        message: "El empleado se creo actualizo correctamente",
+        message: "El empleado se actualizó correctamente",
         categoria: "success",
       });
 
