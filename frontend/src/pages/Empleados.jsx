@@ -116,8 +116,16 @@ const Empleados = () => {
         <ModalDialog
           open={openEliminar}
           setOpen={setOpenEliminar}
-          titulo={`¿Está seguro de deshabilitar el empleado?`}
-          contenido={"Tambien se deshabilitará el contrato."}
+          titulo={
+            estado === "active"
+              ? `¿Está seguro de deshabilitar el empleado?`
+              : `¿Está seguro de habilitar el empleado?`
+          }
+          contenido={
+            estado === "active"
+              ? "Tambien se deshabilitará el contrato."
+              : "Tambien se habilitará el contrato."
+          }
           eliminar={handleDeshabilitar}
         />
       )}
@@ -127,6 +135,12 @@ const Empleados = () => {
           open={openDeshabilitar}
           setOpen={setOpenDeshabilitar}
           eliminar={handleDeshabilitarEmpleado}
+          titulo={
+            estado === "active"
+              ? `Concepto por el cual se deshabilita el empleado`
+              : `Concepto por el cual se habilita el empleado`
+          }
+          boton={estado === "active" ? "Deshabilitar" : "Habilitar"}
         />
       )}
 
@@ -215,23 +229,38 @@ const Empleados = () => {
                                     gap: "5px",
                                   }}
                                 >
-                                  <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    onClick={() => handleEmploye(row)}
-                                  >
-                                    <EditIcon />
-                                  </Button>
-                                  <Button
-                                    variant="outlined"
-                                    color="secondary"
-                                    onClick={() => {
-                                      obtenerEmpleadoEstado(row);
-                                      setOpenEliminar(!openEliminar);
-                                    }}
-                                  >
-                                    <DeleteIcon />
-                                  </Button>
+                                  {estado === "active" ? (
+                                    <>
+                                      <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        onClick={() => handleEmploye(row)}
+                                      >
+                                        <EditIcon />
+                                      </Button>
+                                      <Button
+                                        variant="outlined"
+                                        color="secondary"
+                                        onClick={() => {
+                                          obtenerEmpleadoEstado(row);
+                                          setOpenEliminar(!openEliminar);
+                                        }}
+                                      >
+                                        <DeleteIcon />
+                                      </Button>
+                                    </>
+                                  ) : (
+                                    <Button
+                                      variant="outlined"
+                                      color="primary"
+                                      onClick={() => {
+                                        obtenerEmpleadoEstado(row);
+                                        setOpenEliminar(!openEliminar);
+                                      }}
+                                    >
+                                      ACTIVAR
+                                    </Button>
+                                  )}
                                 </div>
                               )}
                             </TableCell>

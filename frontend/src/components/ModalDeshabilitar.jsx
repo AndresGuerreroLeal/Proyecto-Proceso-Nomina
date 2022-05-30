@@ -12,7 +12,7 @@ import {
 } from "@mui/material";
 import React, { useEffect, useState } from "react";
 
-const ModalDeshabilitar = ({ open, setOpen, eliminar }) => {
+const ModalDeshabilitar = ({ open, setOpen, titulo,eliminar,boton }) => {
   const theme = useTheme();
 
   const handleClose = () => {
@@ -34,16 +34,19 @@ const ModalDeshabilitar = ({ open, setOpen, eliminar }) => {
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>
-          Concepto por el cual se deshabilita el empleado
-        </DialogTitle>
+        <DialogTitle>{titulo}</DialogTitle>
         <DialogContent>
           <DialogContentText>
             <TextareaAutosize
               aria-label="minimum height"
               minRows={3}
               placeholder="Escriba concepto"
-              style={{ width:"100%",minHeight:40, resize: "none",padding:"1rem" }}
+              style={{
+                width: "100%",
+                minHeight: 40,
+                resize: "none",
+                padding: "1rem",
+              }}
               value={concepto}
               onChange={(e) => setConcepto(e.target.value)}
             />
@@ -54,7 +57,7 @@ const ModalDeshabilitar = ({ open, setOpen, eliminar }) => {
             Cancelar
           </Button>
           <Button onClick={submit} autoFocus color="error" variant="contained">
-            Deshabilitar
+            {boton}
           </Button>
         </DialogActions>
       </Dialog>
