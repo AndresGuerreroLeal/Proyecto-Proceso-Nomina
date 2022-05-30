@@ -18,7 +18,7 @@ import ModalEmpleado from "../components/ModalEmpleado";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModalDialog from "../components/ModalDialog";
-
+import ModalDeshabilitar from "../components/ModalDeshabilitar";
 
 const columns = [
   { id: "numero_documento", label: "Número de Documento", minWidth: 100 },
@@ -64,10 +64,16 @@ const Empleados = () => {
 
     const navigate = useNavigate()
 
-  const [openEliminar,setOpenEliminar] = useState(false)
+  const [openEliminar,setOpenEliminar] = useState(false);
+  const [openDeshabilitar,setOpenDeshabilitar] = useState(false)
 
-  const handleDeshabilitarEmpleado = ()=>{
-    actualizarEstado(empleadoEstado);
+  const handleDeshabilitarEmpleado = (concepto)=>{
+    actualizarEstado({ ...empleadoEstado, concepto });
+    setOpenDeshabilitar(false)
+  }
+  
+  const handleDeshabilitar = ()=>{
+    setOpenDeshabilitar(true)
     setOpenEliminar(false)
   }
 
@@ -112,6 +118,14 @@ const Empleados = () => {
           setOpen={setOpenEliminar}
           titulo={`¿Está seguro de deshabilitar el empleado?`}
           contenido={"Tambien se deshabilitará el contrato."}
+          eliminar={handleDeshabilitar}
+        />
+      )}
+
+      {openDeshabilitar && (
+        <ModalDeshabilitar
+          open={openDeshabilitar}
+          setOpen={setOpenDeshabilitar}
           eliminar={handleDeshabilitarEmpleado}
         />
       )}
@@ -211,11 +225,10 @@ const Empleados = () => {
                                   <Button
                                     variant="outlined"
                                     color="secondary"
-                                    onClick={() =>{
+                                    onClick={() => {
                                       obtenerEmpleadoEstado(row);
-                                      setOpenEliminar(!openEliminar)
-                                    }
-                                    }
+                                      setOpenEliminar(!openEliminar);
+                                    }}
                                   >
                                     <DeleteIcon />
                                   </Button>

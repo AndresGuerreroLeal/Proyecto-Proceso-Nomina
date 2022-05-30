@@ -204,7 +204,7 @@ const EmpleadoState = ({ children }) => {
       const { data } = await clienteAxios.put(
         `/api/1.0/employee/state/${empleado._id}`,
         {
-          concepto: "Dijo adios",
+          concepto: empleado.concepto,
         },
         TokenAuth(token)
       );
