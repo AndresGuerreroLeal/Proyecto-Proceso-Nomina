@@ -80,6 +80,8 @@ const EmpleadoState = ({ children }) => {
         TokenAuth(token, true)
       );
 
+      setEmpleados([...empleados, data]);
+
       mostrarAlerta({
         message: "El empleado se creo correctamente",
         categoria: "success",
@@ -165,6 +167,8 @@ const EmpleadoState = ({ children }) => {
             empleadoState._id === data._id ? data : empleadoState
           )
         );
+
+      navigate("/home/empleados")
 
       mostrarAlerta({
         message: "El empleado se creo actualizo correctamente",

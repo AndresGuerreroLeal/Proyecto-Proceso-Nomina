@@ -128,9 +128,9 @@ const EmpleadoForm = () => {
         editarEmpleado({ ...empleado, documento: empleadoEditar.documento });
       } else {
         crearEmpleado(empleado);
+        navigate("/home/empleados")
       }
 
-      navigate("/home/empleados")
 
     } catch (err) {
       if (!err.response) {
