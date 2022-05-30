@@ -186,7 +186,32 @@ const EmpleadoState = ({ children }) => {
     } finally {
       setCargando(false);
     }
-  
+  }
+
+  const actualizarEstado = async (id)=>{
+    setCargando(true)
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.put(
+        `/api/1.0/employee/state/${id}`,
+        {
+          concepto: "Dijo adios",
+        },
+        TokenAuth(token)
+      );
+
+      setEmpleados(
+        empleados.map((empleadoState) =>
+          empleadoState.estado === data.estado ? data : empleadoState
+        )
+      );
+
+    } catch (err) {
+      console.log(err);
+    } finally{
+      setCargando(false)
+    }
   }
 
   return (
@@ -211,7 +236,8 @@ const EmpleadoState = ({ children }) => {
         mostrarModalEmpleado,
         obtenerEmpleadoEditar,
         obtenerEmpleadoEditarAPI,
-        editarEmpleado
+        editarEmpleado,
+        actualizarEstado
       }}
     >
       {children}

@@ -56,14 +56,18 @@ const Empleados = () => {
       obtenerEmpleado,
       modalEmpleado,
       mostrarModalEmpleado,
-      obtenerEmpleadoEditar
+      obtenerEmpleadoEditar,
+      actualizarEstado
     } = useContext(EmpleadoContext);
 
     const navigate = useNavigate()
 
   const [openEliminar,setOpenEliminar] = useState(false)
+  const [empleadoEliminar,setEmpleadoEliminar] = useState({})
 
-  const handleDeshabilitarEmpleado = ()=>{
+
+  const handleDeshabilitarEmpleado = (id)=>{
+    actualizarEstado(id)
     setOpenEliminar(false)
   }
 
@@ -207,8 +211,10 @@ const Empleados = () => {
                                   <Button
                                     variant="outlined"
                                     color="secondary"
-                                    onClick={() =>
+                                    onClick={() =>{
+                                      setEmpleadoEliminar(row);
                                       setOpenEliminar(!openEliminar)
+                                    }
                                     }
                                   >
                                     <DeleteIcon />
