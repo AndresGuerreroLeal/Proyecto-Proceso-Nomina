@@ -7,7 +7,7 @@ const formikMain = (handleSubmit, values, schema) => {
     validationSchema: validador[schema],
     onSubmit: (valores, { resetForm }) => {
       handleSubmit(valores);
-      resetForm();
+  
     },  
   });
 

@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 //Material ui
 import { Button, makeStyles, Typography } from "@material-ui/core";
@@ -54,8 +54,11 @@ const Empleados = () => {
       setEstado,
       obtenerEmpleado,
       modalEmpleado,
-      mostrarModalEmpleado
+      mostrarModalEmpleado,
+      obtenerEmpleadoEditar
     } = useContext(EmpleadoContext);
+
+    const navigate = useNavigate()
 
 
   useEffect(() => {
@@ -86,8 +89,9 @@ const Empleados = () => {
 
   const classes = useStyles();
 
-  const handleClick = ()=>{
-    console.log("A")
+  const handleEmploye = (empleado)=>{
+    obtenerEmpleadoEditar(empleado)
+    navigate(`editar-empleado/${empleado._id}`);
   }
 
   return (
@@ -155,10 +159,11 @@ const Empleados = () => {
                         hover
                         role="checkbox"
                         tabIndex={-1}
-                        key={row.code}
+                        key={row._id}
                       >
                         {columns.map((column) => {
                           const value = row[column.id];
+                      
                           return (
                             <TableCell key={column.id} align={column.align}>
                               <div onClick={() => obtenerEmpleado(row)}>
@@ -168,6 +173,7 @@ const Empleados = () => {
                               </div>
                               {column.id === "acciones" && (
                                 <div
+                                  key={column.id}
                                   style={{
                                     display: "flex",
                                     justifyContent: "space-between",
@@ -178,7 +184,7 @@ const Empleados = () => {
                                   <Button
                                     variant="outlined"
                                     color="primary"
-                                    onClick={handleClick}
+                                    onClick={()=>handleEmploye(row)}
                                    
                                   >
                                     <EditIcon />
