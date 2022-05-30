@@ -7,6 +7,20 @@ const LoginSchema = Yup.object().shape({
     .required("Contraseña requerida"),
 });
 
+const OlvideContraseniaSchema = Yup.object().shape({
+  correo: Yup.string().email("Correo inválido").required("Correo requerido"),
+});
+
+const NuevaContraseniaSchema = Yup.object().shape({
+  contrasenia: Yup.string()
+    .min(5, "Contraseña inválida")
+    .required("Contraseña requerida"),
+  confirmarContrasenia: Yup.string()
+    .min(5, "Contraseña inválida")
+    .required("Contraseña requerida")
+    .oneOf([Yup.ref("contrasenia"), null], "Contraseña no coincide"),
+});
+
 const EmpleadoSchema = Yup.object().shape({
   nombres: Yup.string().required("Nombres requeridos"),
   apellidos: Yup.string().required("Apellidos requeridos"),
@@ -40,5 +54,7 @@ const EmpleadoSchema = Yup.object().shape({
 
 export default {
   LoginSchema,
+  OlvideContraseniaSchema,
+  NuevaContraseniaSchema,
   EmpleadoSchema,
 };

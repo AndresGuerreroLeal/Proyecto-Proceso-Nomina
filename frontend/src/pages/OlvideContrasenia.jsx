@@ -1,8 +1,9 @@
-import React, { useContext, useState } from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
 
 //Config
 import clienteAxios from "../config/axios";
+import formikMain from "../helpers/formikMain";
 
 //Context
 import AlertaContext from "../context/alerta/AlertaContext";
@@ -17,16 +18,13 @@ import Avatar from "@mui/material/Avatar";
 import Button from "@mui/material/Button";
 import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
 import Grid from "@mui/material/Grid";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
 
-
 const useStyles = makeStyles((theme) => ({
-  container: {    
+  container: {
     [theme.breakpoints.up("xs")]: {
       width: "444px",
     },
@@ -70,24 +68,14 @@ const useStyles = makeStyles((theme) => ({
 const OlvideContrasenia = () => {
   const classes = useStyles();
 
-  const [correo, setCorreo] = useState("");
-
   const { alerta, mostrarAlerta } = useContext(AlertaContext);
 
-  const [errorcorreo,setErrorCorreo] = useState({
-    message:"",
-    error:false
-  })
+  const values = {
+    correo: "",
+  };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if ([correo].includes("")) {
-      return setErrorCorreo({
-        message: "Se requiere obligatoriamente el correo registrado",
-        error: true,
-      });
-    }
+  const handleSubmit = async (valores) => {
+    const { correo } = valores;
 
     try {
       const { data } = await clienteAxios.put(`api/1.0/auth/forgot-password/`, {
@@ -95,11 +83,9 @@ const OlvideContrasenia = () => {
       });
 
       mostrarAlerta({
-        message: "Se ha enviado las instrucciones al correo",
+        message: data.message,
         categoria: "info",
       });
-
-      setCorreo("");
     } catch (err) {
       console.log(err.response.data);
       mostrarAlerta({
@@ -111,14 +97,13 @@ const OlvideContrasenia = () => {
     }
   };
 
-  const {message} = alerta
+  const { message } = alerta;
+
+  const formik = formikMain(handleSubmit, values, "OlvideContraseniaSchema");
 
   return (
     <>
-    <CssBaseline />
-    {
-      message && <Alerta />
-    }
+      <CssBaseline />
       <Container component="main" maxWidth="sm">
         <Box
           sx={{
@@ -137,10 +122,12 @@ const OlvideContrasenia = () => {
           </Typography>
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={formik.handleSubmit}
             noValidate
             sx={{ mt: 1, width: "100%" }}
           >
+            {message && <Alerta />}
+
             <TextField
               margin="normal"
               required
@@ -148,9 +135,10 @@ const OlvideContrasenia = () => {
               label="Correo registrado"
               name="correo"
               type="email"
-              error={errorcorreo.error}
-              helperText={errorcorreo?.message}
-              onChange={(e)=>setCorreo(e.target.value)}
+              value={formik.values.correo}
+              onChange={formik.handleChange}
+              error={formik.touched.correo && Boolean(formik.errors.correo)}
+              helperText={formik.touched.correo && formik.errors.correo}
             />
 
             <Grid container className={classes.containerGrid}>

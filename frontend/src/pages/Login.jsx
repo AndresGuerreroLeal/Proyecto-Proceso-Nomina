@@ -35,13 +35,19 @@ const useStyles = makeStyles((theme) => ({
     color: "gray",
     textDecoration: "none",
   },
+  containerGridOption: {
+    textAlign: "right",
+    [theme.breakpoints.down("xs")]: {
+      textAlign:"left"
+    },
+  },
 }));
 
 const Login = () => {
   const classes = useStyles();
 
   const navigate = useNavigate();
-  
+
   const [cargando, setCargando] = useState(false);
 
   const values = {
@@ -53,7 +59,6 @@ const Login = () => {
   const { alerta, mostrarAlerta } = useContext(AlertaContext);
 
   const handleSubmit = async (valores) => {
-
     try {
       setCargando(true);
 
@@ -65,7 +70,6 @@ const Login = () => {
 
       navigate("/home");
     } catch (err) {
-
       if (!err.response) {
         mostrarAlerta({
           message: "Fallas internas, por favor inténtelo más tarde.",
@@ -88,7 +92,6 @@ const Login = () => {
   return (
     <>
       <CssBaseline />
-      {message && <Alerta />}
 
       <Container component="main" maxWidth="xs">
         <Box
@@ -113,6 +116,7 @@ const Login = () => {
             sx={{ mt: 1 }}
             autoComplete="false"
           >
+            {message && <Alerta />}
             <TextField
               margin="normal"
               required
@@ -133,8 +137,12 @@ const Login = () => {
               label="Contraseña"
               value={formik.values.contrasenia}
               onChange={formik.handleChange}
-              error={formik.touched.contrasenia && Boolean(formik.errors.contrasenia)}
-              helperText={formik.touched.contrasenia && formik.errors.contrasenia}
+              error={
+                formik.touched.contrasenia && Boolean(formik.errors.contrasenia)
+              }
+              helperText={
+                formik.touched.contrasenia && formik.errors.contrasenia
+              }
               type="password"
               id="contrasenia"
             />
@@ -145,7 +153,7 @@ const Login = () => {
                   label="Recordarme"
                 />
               </Grid>
-              <Grid item xs textAlign={"right"}>
+              <Grid item xs className={classes.containerGridOption}>
                 <Link
                   to="/olvide-contrasenia"
                   variant="body2"
