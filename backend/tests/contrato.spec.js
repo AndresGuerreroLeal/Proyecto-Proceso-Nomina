@@ -54,7 +54,7 @@ let contrato = {
   arl: "Arl",
   porcentaje_arl: 0.522,
   fondo_cesantias: "Fondo de cesantias",
-  porcentaje_parafiscal_sena: 0,
+  porcentaje_parafiscal_SENA: 0,
   porcentaje_parafiscal_ICBF: 0,
   porcentaje_parafiscal_caja_compensacion: 4,
   salario_integral: false,
@@ -93,12 +93,12 @@ const valorInteresesCesantias = Math.round(
 
 const valorVacaciones = Math.round(contrato.sueldo * (50 / 12 / 100));
 
-const porcentajeParafiscalSena = contrato.salario_integral
-  ? contrato.porcentaje_parafiscal_sena
+const porcentajeParafiscalSENA = contrato.salario_integral
+  ? contrato.porcentaje_parafiscal_SENA
   : 0;
 
-const valorParafiscalSena = Math.round(
-  contrato.sueldo * (porcentajeParafiscalSena / 100)
+const valorParafiscalSENA = Math.round(
+  contrato.sueldo * (porcentajeParafiscalSENA / 100)
 );
 
 const porcentajeParafiscalICBF = contrato.salario_integral
@@ -126,7 +126,7 @@ const totalValorEmpleado =
     valorCesantias +
     valorInteresesCesantias +
     valorVacaciones) +
-  (valorParafiscalSena + valorParafiscalICBF + valorParafiscalCajaCompesacion);
+  (valorParafiscalSENA + valorParafiscalICBF + valorParafiscalCajaCompesacion);
 
 beforeAll(async () => {
   await Promise.all([
@@ -200,10 +200,10 @@ describe("-----Test de endpoint crear un contrato-----", () => {
       valorInteresesCesantias
     );
     expect(response.body.valor_vacaciones).toBe(valorVacaciones);
-    expect(response.body.porcentaje_parafiscal_sena).toBe(
-      porcentajeParafiscalSena
+    expect(response.body.porcentaje_parafiscal_SENA).toBe(
+      porcentajeParafiscalSENA
     );
-    expect(response.body.valor_parafiscal_sena).toBe(valorParafiscalSena);
+    expect(response.body.valor_parafiscal_SENA).toBe(valorParafiscalSENA);
     expect(response.body.porcentaje_parafiscal_ICBF).toBe(
       porcentajeParafiscalICBF
     );
@@ -218,6 +218,7 @@ describe("-----Test de endpoint crear un contrato-----", () => {
     expect(response.body.total_deducciones).toBe(totalDeducciones);
     expect(response.body.total_valor_empleado).toBe(totalValorEmpleado);
     expect(response.body.salario_integral).toBe(contrato.salario_integral);
+    expect(response.body.estado).toBe("ACTIVO");
   });
 
   test("[POST code 400] [api/1.0/contract/create] Test para crear un contrato con un número de contrato registrado", async () => {

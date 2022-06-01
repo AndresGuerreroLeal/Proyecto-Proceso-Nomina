@@ -97,11 +97,11 @@ const ContratoController = {
       const valorVacaciones = Math.round(sueldo * (porcentajeVacaciones / 100));
 
       /* Cálculo parafiscales */
-      const porcentajeParafiscalSena = req.body.salario_integral
-        ? req.body.porcentaje_parafiscal_sena
+      const porcentajeParafiscalSENA = req.body.salario_integral
+        ? req.body.porcentaje_parafiscal_SENA
         : 0;
-      const valorParafiscalSena = Math.round(
-        sueldo * (porcentajeParafiscalSena / 100)
+      const valorParafiscalSENA = Math.round(
+        sueldo * (porcentajeParafiscalSENA / 100)
       );
 
       const porcentajeParafiscalICBF = req.body.salario_integral
@@ -126,7 +126,7 @@ const ContratoController = {
           valorCesantias +
           valorInteresesCesantias +
           valorVacaciones) +
-        (valorParafiscalSena +
+        (valorParafiscalSENA +
           valorParafiscalICBF +
           valorParafiscalCajaCompesacion);
 
@@ -160,8 +160,8 @@ const ContratoController = {
         valor_intereses_cesantias: valorInteresesCesantias,
         porcentaje_vacaciones: porcentajeVacaciones,
         valor_vacaciones: valorVacaciones,
-        porcentaje_parafiscal_sena: porcentajeParafiscalSena,
-        valor_parafiscal_sena: valorParafiscalSena,
+        porcentaje_parafiscal_SENA: porcentajeParafiscalSENA,
+        valor_parafiscal_SENA: valorParafiscalSENA,
         porcentaje_parafiscal_ICBF: porcentajeParafiscalICBF,
         valor_parafiscal_ICBF: valorParafiscalICBF,
         porcentaje_parafiscal_caja_compensacion:
@@ -171,6 +171,7 @@ const ContratoController = {
         total_deducciones: totalDeducciones,
         total_valor_empleado: totalValorEmpleado,
         salario_integral: req.body.salario_integral,
+        estado: "ACTIVO",
       });
 
       await contrato.save();
