@@ -284,26 +284,26 @@ describe("-----Test de endpoint de listar empleados activos-----", () => {
       .get("/api/1.0/employee/list-active?pageNumber=0&pageSize=10")
       .set("Authorization", `Bearer ${jwt}`);
     expect(response.status).toBe(200);
-    expect(response.body.docs[3]._id);
-    expect(response.body.docs[3].nombres).toBe(info.nombres);
-    expect(response.body.docs[3].apellidos).toBe(info.apellidos);
-    expect(response.body.docs[3].tipo_documento).toBe(info.tipo_documento);
-    expect(response.body.docs[3].numero_documento).toBe(info.numero_documento);
-    expect(response.body.docs[3].documento).toBe(ruta);
-    expect(response.body.docs[3].correo).toBe(info.correo);
-    expect(response.body.docs[3].numero_celular).toBe(info.numero_celular);
-    expect(response.body.docs[3].ciudad_residencia).toBe(
+    expect(response.body.docs[0]._id);
+    expect(response.body.docs[0].nombres).toBe(info.nombres);
+    expect(response.body.docs[0].apellidos).toBe(info.apellidos);
+    expect(response.body.docs[0].tipo_documento).toBe(info.tipo_documento);
+    expect(response.body.docs[0].numero_documento).toBe(info.numero_documento);
+    expect(response.body.docs[0].documento).toBe(ruta);
+    expect(response.body.docs[0].correo).toBe(info.correo);
+    expect(response.body.docs[0].numero_celular).toBe(info.numero_celular);
+    expect(response.body.docs[0].ciudad_residencia).toBe(
       info.ciudad_residencia
     );
-    expect(response.body.docs[3].direccion_residencia).toBe(
+    expect(response.body.docs[0].direccion_residencia).toBe(
       info.direccion_residencia
     );
-    expect(response.body.docs[3].metodo_pago).toBe(info.metodo_pago);
-    expect(response.body.docs[3].entidad_bancaria).toBe(info.entidad_bancaria);
-    expect(response.body.docs[3].tipo_cuenta).toBe(info.tipo_cuenta);
-    expect(response.body.docs[3].numero_cuenta).toBe(info.numero_cuenta);
-    expect(response.body.docs[3].estado).toBe("ACTIVO");
-    expect(response.body.docs[3].concepto).toBe("Empleado creado");
+    expect(response.body.docs[0].metodo_pago).toBe(info.metodo_pago);
+    expect(response.body.docs[0].entidad_bancaria).toBe(info.entidad_bancaria);
+    expect(response.body.docs[0].tipo_cuenta).toBe(info.tipo_cuenta);
+    expect(response.body.docs[0].numero_cuenta).toBe(info.numero_cuenta);
+    expect(response.body.docs[0].estado).toBe("ACTIVO");
+    expect(response.body.docs[0].concepto).toBe("Empleado creado");
     expect(response.body.totalDocs).toBe(4);
     expect(response.body.limit).toBe(10);
     expect(response.body.page).toBe(1);
@@ -319,80 +319,80 @@ describe("-----Test de endpoint de listar empleados activos-----", () => {
       .get("/api/1.0/employee/list-active?pageNumber=0&pageSize=10")
       .set("Authorization", `Bearer ${jwt}`);
     expect(response.status).toBe(200);
-    expect(response.body.docs[0]._id);
-    expect(response.body.docs[0].nombres).toBe(empleado1.nombres);
-    expect(response.body.docs[0].apellidos).toBe(empleado1.apellidos);
-    expect(response.body.docs[0].tipo_documento).toBe(empleado1.tipo_documento);
-    expect(response.body.docs[0].numero_documento).toBe(
+    expect(response.body.docs[1]._id);
+    expect(response.body.docs[1].nombres).toBe(empleado1.nombres);
+    expect(response.body.docs[1].apellidos).toBe(empleado1.apellidos);
+    expect(response.body.docs[1].tipo_documento).toBe(empleado1.tipo_documento);
+    expect(response.body.docs[1].numero_documento).toBe(
       empleado1.numero_documento
     );
-    expect(response.body.docs[0].documento).toBe(empleado1.documento);
-    expect(response.body.docs[0].correo).toBe(empleado1.correo);
-    expect(response.body.docs[0].numero_celular).toBe(empleado1.numero_celular);
-    expect(response.body.docs[0].ciudad_residencia).toBe(
+    expect(response.body.docs[1].documento).toBe(empleado1.documento);
+    expect(response.body.docs[1].correo).toBe(empleado1.correo);
+    expect(response.body.docs[1].numero_celular).toBe(empleado1.numero_celular);
+    expect(response.body.docs[1].ciudad_residencia).toBe(
       empleado1.ciudad_residencia
     );
-    expect(response.body.docs[0].direccion_residencia).toBe(
+    expect(response.body.docs[1].direccion_residencia).toBe(
       empleado1.direccion_residencia
     );
-    expect(response.body.docs[0].metodo_pago).toBe(empleado1.metodo_pago);
-    expect(response.body.docs[0].entidad_bancaria).toBe(
+    expect(response.body.docs[1].metodo_pago).toBe(empleado1.metodo_pago);
+    expect(response.body.docs[1].entidad_bancaria).toBe(
       empleado1.entidad_bancaria
     );
-    expect(response.body.docs[0].tipo_cuenta).toBe(empleado1.tipo_cuenta);
-    expect(response.body.docs[0].numero_cuenta).toBe(empleado1.numero_cuenta);
-    expect(response.body.docs[0].estado).toBe(empleado1.estado);
-    expect(response.body.docs[0].concepto).toBe(empleado1.concepto);
-
-    expect(response.body.docs[1]._id);
-    expect(response.body.docs[1].nombres).toBe(empleado2.nombres);
-    expect(response.body.docs[1].apellidos).toBe(empleado2.apellidos);
-    expect(response.body.docs[1].tipo_documento).toBe(empleado2.tipo_documento);
-    expect(response.body.docs[1].numero_documento).toBe(
-      empleado2.numero_documento
-    );
-    expect(response.body.docs[1].documento).toBe(empleado2.documento);
-    expect(response.body.docs[1].correo).toBe(empleado2.correo);
-    expect(response.body.docs[1].numero_celular).toBe(empleado2.numero_celular);
-    expect(response.body.docs[1].ciudad_residencia).toBe(
-      empleado2.ciudad_residencia
-    );
-    expect(response.body.docs[1].direccion_residencia).toBe(
-      empleado2.direccion_residencia
-    );
-    expect(response.body.docs[1].metodo_pago).toBe(empleado2.metodo_pago);
-    expect(response.body.docs[1].entidad_bancaria).toBe(
-      empleado2.entidad_bancaria
-    );
-    expect(response.body.docs[1].tipo_cuenta).toBe(empleado2.tipo_cuenta);
-    expect(response.body.docs[1].numero_cuenta).toBe(empleado2.numero_cuenta);
-    expect(response.body.docs[1].estado).toBe(empleado2.estado);
-    expect(response.body.docs[1].concepto).toBe(empleado2.concepto);
+    expect(response.body.docs[1].tipo_cuenta).toBe(empleado1.tipo_cuenta);
+    expect(response.body.docs[1].numero_cuenta).toBe(empleado1.numero_cuenta);
+    expect(response.body.docs[1].estado).toBe(empleado1.estado);
+    expect(response.body.docs[1].concepto).toBe(empleado1.concepto);
 
     expect(response.body.docs[2]._id);
-    expect(response.body.docs[2].nombres).toBe(empleado3.nombres);
-    expect(response.body.docs[2].apellidos).toBe(empleado3.apellidos);
-    expect(response.body.docs[2].tipo_documento).toBe(empleado3.tipo_documento);
+    expect(response.body.docs[2].nombres).toBe(empleado2.nombres);
+    expect(response.body.docs[2].apellidos).toBe(empleado2.apellidos);
+    expect(response.body.docs[2].tipo_documento).toBe(empleado2.tipo_documento);
     expect(response.body.docs[2].numero_documento).toBe(
-      empleado3.numero_documento
+      empleado2.numero_documento
     );
-    expect(response.body.docs[2].documento).toBe(empleado3.documento);
-    expect(response.body.docs[2].correo).toBe(empleado3.correo);
-    expect(response.body.docs[2].numero_celular).toBe(empleado3.numero_celular);
+    expect(response.body.docs[2].documento).toBe(empleado2.documento);
+    expect(response.body.docs[2].correo).toBe(empleado2.correo);
+    expect(response.body.docs[2].numero_celular).toBe(empleado2.numero_celular);
     expect(response.body.docs[2].ciudad_residencia).toBe(
-      empleado3.ciudad_residencia
+      empleado2.ciudad_residencia
     );
     expect(response.body.docs[2].direccion_residencia).toBe(
+      empleado2.direccion_residencia
+    );
+    expect(response.body.docs[2].metodo_pago).toBe(empleado2.metodo_pago);
+    expect(response.body.docs[2].entidad_bancaria).toBe(
+      empleado2.entidad_bancaria
+    );
+    expect(response.body.docs[2].tipo_cuenta).toBe(empleado2.tipo_cuenta);
+    expect(response.body.docs[2].numero_cuenta).toBe(empleado2.numero_cuenta);
+    expect(response.body.docs[2].estado).toBe(empleado2.estado);
+    expect(response.body.docs[2].concepto).toBe(empleado2.concepto);
+
+    expect(response.body.docs[3]._id);
+    expect(response.body.docs[3].nombres).toBe(empleado3.nombres);
+    expect(response.body.docs[3].apellidos).toBe(empleado3.apellidos);
+    expect(response.body.docs[3].tipo_documento).toBe(empleado3.tipo_documento);
+    expect(response.body.docs[3].numero_documento).toBe(
+      empleado3.numero_documento
+    );
+    expect(response.body.docs[3].documento).toBe(empleado3.documento);
+    expect(response.body.docs[3].correo).toBe(empleado3.correo);
+    expect(response.body.docs[3].numero_celular).toBe(empleado3.numero_celular);
+    expect(response.body.docs[3].ciudad_residencia).toBe(
+      empleado3.ciudad_residencia
+    );
+    expect(response.body.docs[3].direccion_residencia).toBe(
       empleado3.direccion_residencia
     );
-    expect(response.body.docs[2].metodo_pago).toBe(empleado3.metodo_pago);
-    expect(response.body.docs[2].entidad_bancaria).toBe(
+    expect(response.body.docs[3].metodo_pago).toBe(empleado3.metodo_pago);
+    expect(response.body.docs[3].entidad_bancaria).toBe(
       empleado3.entidad_bancaria
     );
-    expect(response.body.docs[2].tipo_cuenta).toBe(empleado3.tipo_cuenta);
-    expect(response.body.docs[2].numero_cuenta).toBe(empleado3.numero_cuenta);
-    expect(response.body.docs[2].estado).toBe(empleado3.estado);
-    expect(response.body.docs[2].concepto).toBe(empleado3.concepto);
+    expect(response.body.docs[3].tipo_cuenta).toBe(empleado3.tipo_cuenta);
+    expect(response.body.docs[3].numero_cuenta).toBe(empleado3.numero_cuenta);
+    expect(response.body.docs[3].estado).toBe(empleado3.estado);
+    expect(response.body.docs[3].concepto).toBe(empleado3.concepto);
     expect(response.body.totalDocs).toBe(4);
     expect(response.body.limit).toBe(10);
     expect(response.body.page).toBe(1);
@@ -499,77 +499,77 @@ describe("-----Test de endpoint de listar empleados inactivos-----", () => {
       .get("/api/1.0/employee/list-inactive?pageNumber=0&pageSize=10")
       .set("Authorization", `Bearer ${jwt}`);
     expect(response.status).toBe(200);
-    expect(response.body.docs[0].nombres).toBe(empleado1.nombres);
-    expect(response.body.docs[0].apellidos).toBe(empleado1.apellidos);
-    expect(response.body.docs[0].tipo_documento).toBe(empleado1.tipo_documento);
-    expect(response.body.docs[0].numero_documento).toBe(
+    expect(response.body.docs[1].nombres).toBe(empleado1.nombres);
+    expect(response.body.docs[1].apellidos).toBe(empleado1.apellidos);
+    expect(response.body.docs[1].tipo_documento).toBe(empleado1.tipo_documento);
+    expect(response.body.docs[1].numero_documento).toBe(
       empleado1.numero_documento
     );
-    expect(response.body.docs[0].documento).toBe(empleado1.documento);
-    expect(response.body.docs[0].correo).toBe(empleado1.correo);
-    expect(response.body.docs[0].numero_celular).toBe(empleado1.numero_celular);
-    expect(response.body.docs[0].ciudad_residencia).toBe(
+    expect(response.body.docs[1].documento).toBe(empleado1.documento);
+    expect(response.body.docs[1].correo).toBe(empleado1.correo);
+    expect(response.body.docs[1].numero_celular).toBe(empleado1.numero_celular);
+    expect(response.body.docs[1].ciudad_residencia).toBe(
       empleado1.ciudad_residencia
     );
-    expect(response.body.docs[0].direccion_residencia).toBe(
+    expect(response.body.docs[1].direccion_residencia).toBe(
       empleado1.direccion_residencia
     );
-    expect(response.body.docs[0].metodo_pago).toBe(empleado1.metodo_pago);
-    expect(response.body.docs[0].entidad_bancaria).toBe(
+    expect(response.body.docs[1].metodo_pago).toBe(empleado1.metodo_pago);
+    expect(response.body.docs[1].entidad_bancaria).toBe(
       empleado1.entidad_bancaria
     );
-    expect(response.body.docs[0].tipo_cuenta).toBe(empleado1.tipo_cuenta);
-    expect(response.body.docs[0].numero_cuenta).toBe(empleado1.numero_cuenta);
-    expect(response.body.docs[0].estado).toBe("INACTIVO");
-    expect(response.body.docs[0].concepto).toBe("Desactivado");
-
-    expect(response.body.docs[1].nombres).toBe(empleado2.nombres);
-    expect(response.body.docs[1].apellidos).toBe(empleado2.apellidos);
-    expect(response.body.docs[1].tipo_documento).toBe(empleado2.tipo_documento);
-    expect(response.body.docs[1].numero_documento).toBe(
-      empleado2.numero_documento
-    );
-    expect(response.body.docs[1].documento).toBe(empleado2.documento);
-    expect(response.body.docs[1].correo).toBe(empleado2.correo);
-    expect(response.body.docs[1].numero_celular).toBe(empleado2.numero_celular);
-    expect(response.body.docs[1].ciudad_residencia).toBe(
-      empleado2.ciudad_residencia
-    );
-    expect(response.body.docs[1].direccion_residencia).toBe(
-      empleado2.direccion_residencia
-    );
-    expect(response.body.docs[1].metodo_pago).toBe(empleado2.metodo_pago);
-    expect(response.body.docs[1].entidad_bancaria).toBe(
-      empleado2.entidad_bancaria
-    );
-    expect(response.body.docs[1].tipo_cuenta).toBe(empleado2.tipo_cuenta);
-    expect(response.body.docs[1].numero_cuenta).toBe(empleado2.numero_cuenta);
+    expect(response.body.docs[1].tipo_cuenta).toBe(empleado1.tipo_cuenta);
+    expect(response.body.docs[1].numero_cuenta).toBe(empleado1.numero_cuenta);
     expect(response.body.docs[1].estado).toBe("INACTIVO");
     expect(response.body.docs[1].concepto).toBe("Desactivado");
-    expect(response.body.docs[2].nombres).toBe(empleado3.nombres);
 
-    expect(response.body.docs[2].apellidos).toBe(empleado3.apellidos);
-    expect(response.body.docs[2].tipo_documento).toBe(empleado3.tipo_documento);
+    expect(response.body.docs[2].nombres).toBe(empleado2.nombres);
+    expect(response.body.docs[2].apellidos).toBe(empleado2.apellidos);
+    expect(response.body.docs[2].tipo_documento).toBe(empleado2.tipo_documento);
     expect(response.body.docs[2].numero_documento).toBe(
-      empleado3.numero_documento
+      empleado2.numero_documento
     );
-    expect(response.body.docs[2].documento).toBe(empleado3.documento);
-    expect(response.body.docs[2].correo).toBe(empleado3.correo);
-    expect(response.body.docs[2].numero_celular).toBe(empleado3.numero_celular);
+    expect(response.body.docs[2].documento).toBe(empleado2.documento);
+    expect(response.body.docs[2].correo).toBe(empleado2.correo);
+    expect(response.body.docs[2].numero_celular).toBe(empleado2.numero_celular);
     expect(response.body.docs[2].ciudad_residencia).toBe(
-      empleado3.ciudad_residencia
+      empleado2.ciudad_residencia
     );
     expect(response.body.docs[2].direccion_residencia).toBe(
-      empleado3.direccion_residencia
+      empleado2.direccion_residencia
     );
-    expect(response.body.docs[2].metodo_pago).toBe(empleado3.metodo_pago);
+    expect(response.body.docs[2].metodo_pago).toBe(empleado2.metodo_pago);
     expect(response.body.docs[2].entidad_bancaria).toBe(
-      empleado3.entidad_bancaria
+      empleado2.entidad_bancaria
     );
-    expect(response.body.docs[2].tipo_cuenta).toBe(empleado3.tipo_cuenta);
-    expect(response.body.docs[2].numero_cuenta).toBe(empleado3.numero_cuenta);
+    expect(response.body.docs[2].tipo_cuenta).toBe(empleado2.tipo_cuenta);
+    expect(response.body.docs[2].numero_cuenta).toBe(empleado2.numero_cuenta);
     expect(response.body.docs[2].estado).toBe("INACTIVO");
     expect(response.body.docs[2].concepto).toBe("Desactivado");
+    expect(response.body.docs[3].nombres).toBe(empleado3.nombres);
+
+    expect(response.body.docs[3].apellidos).toBe(empleado3.apellidos);
+    expect(response.body.docs[3].tipo_documento).toBe(empleado3.tipo_documento);
+    expect(response.body.docs[3].numero_documento).toBe(
+      empleado3.numero_documento
+    );
+    expect(response.body.docs[3].documento).toBe(empleado3.documento);
+    expect(response.body.docs[3].correo).toBe(empleado3.correo);
+    expect(response.body.docs[3].numero_celular).toBe(empleado3.numero_celular);
+    expect(response.body.docs[3].ciudad_residencia).toBe(
+      empleado3.ciudad_residencia
+    );
+    expect(response.body.docs[3].direccion_residencia).toBe(
+      empleado3.direccion_residencia
+    );
+    expect(response.body.docs[3].metodo_pago).toBe(empleado3.metodo_pago);
+    expect(response.body.docs[3].entidad_bancaria).toBe(
+      empleado3.entidad_bancaria
+    );
+    expect(response.body.docs[3].tipo_cuenta).toBe(empleado3.tipo_cuenta);
+    expect(response.body.docs[3].numero_cuenta).toBe(empleado3.numero_cuenta);
+    expect(response.body.docs[3].estado).toBe("INACTIVO");
+    expect(response.body.docs[3].concepto).toBe("Desactivado");
     expect(response.body.totalDocs).toBe(4);
     expect(response.body.limit).toBe(10);
     expect(response.body.page).toBe(1);

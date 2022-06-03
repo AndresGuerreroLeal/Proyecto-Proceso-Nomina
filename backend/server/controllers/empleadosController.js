@@ -136,13 +136,13 @@ const EmpleadosController = {
   },
 
   /**
-   * @code GET /create : Descargar documento de un empleado
+   * @code GET /download : Descargar documento de un empleado
    *
-   * @param nombreArchivo
+   * @param file nombre del documento con el cual se guardo en el servidor
    *
    * @return documento @code 200 o mensaje @code 400
    */
-  descargarArchivo: async (req, res) => {
+  descargarDocumento: async (req, res) => {
     log.info("[GET] Petición para descargar documento de empleado");
 
     try {
@@ -176,6 +176,9 @@ const EmpleadosController = {
       let options = {
         page: parseInt(pageNumber, 10) < 0 ? 0 : parseInt(pageNumber, 10),
         limit: parseInt(pageSize, 10) < 0 ? 10 : parseInt(pageSize, 10),
+        sort: {
+          numero_documento: 1,
+        },
       };
       const empleados = await Empleado.paginate({ estado: "ACTIVO" }, options);
       res.status(200).send(empleados);
@@ -205,6 +208,9 @@ const EmpleadosController = {
       let options = {
         page: parseInt(pageNumber, 10) < 0 ? 0 : parseInt(pageNumber, 10),
         limit: parseInt(pageSize, 10) < 0 ? 10 : parseInt(pageSize, 10),
+        sort: {
+          numero_documento: 1,
+        },
       };
       const empleados = await Empleado.paginate(
         { estado: "INACTIVO" },
