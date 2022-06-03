@@ -6,6 +6,7 @@
 
 const path = require("path");
 const fs = require("fs");
+/* Función encargada de subir documentos de identidad al servidor */
 const subirDocumento = (nombre, documento) => {
   let documentoInformacion = {
     nombre: "",
@@ -19,7 +20,6 @@ const subirDocumento = (nombre, documento) => {
   );
   documento.mv(ruta, (err) => {
     if (err) {
-      console.log(err);
       documentoInformacion.error = err;
       return documentoInformacion;
     }
@@ -28,7 +28,7 @@ const subirDocumento = (nombre, documento) => {
   documentoInformacion.valido = true;
   return documentoInformacion;
 };
-
+/* Función encargada de eliminar documentos de identidad del servidor */
 const eliminarDocumento = (archivo) => {
   let documentoEliminado = {
     eliminado: false,
@@ -46,7 +46,7 @@ const eliminarDocumento = (archivo) => {
   documentoEliminado.eliminado = true;
   return documentoEliminado;
 };
-
+/* Función encargada de buscar documentos de identidad en el servidor */
 const existeDocumento = (ruta) => {
   if (fs.existsSync(ruta)) return true;
   return false;

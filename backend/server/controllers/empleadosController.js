@@ -142,7 +142,7 @@ const EmpleadosController = {
    *
    * @return documento @code 200 o mensaje @code 400
    */
-  descargarArchivo: async (req, res) => {
+  descargarDocumento: async (req, res) => {
     log.info("[GET] Petición para descargar documento de empleado");
 
     try {

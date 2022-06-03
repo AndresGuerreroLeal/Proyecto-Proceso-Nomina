@@ -20,7 +20,7 @@ const {
  */
 const {
   crearEmpleado,
-  descargarArchivo,
+  descargarDocumento,
   listarActivos,
   listarInactivos,
   cantidadEmpleados,
@@ -34,7 +34,7 @@ const {
 router.post("/create", [auth, admin], validacionCrear, crearEmpleado);
 
 //Ruta de descargar documento empleados [GET]
-router.get("/download/:file", [auth, admin], descargarArchivo);
+router.get("/download/:file", [auth, admin], descargarDocumento);
 
 //Ruta de listar empleados activos [GET]
 router.get("/list-active", [auth, reports], listarActivos);
