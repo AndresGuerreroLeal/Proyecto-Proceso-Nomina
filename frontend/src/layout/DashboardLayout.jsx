@@ -30,12 +30,12 @@ const DashboardLayout = () => {
 
   const { cargando, perfil } = useContext(AuthContext);
 
-  if(cargando) return (
-
-    <div className="container">
-    <CircularProgress />
-  </div>
-    )
+  if (cargando)
+    return (
+      <div className="container">
+        <CircularProgress />
+      </div>
+    );
 
   return (
     <>

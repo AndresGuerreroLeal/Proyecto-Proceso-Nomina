@@ -21,6 +21,12 @@ const NuevaContraseniaSchema = Yup.object().shape({
     .oneOf([Yup.ref("contrasenia"), null], "Contraseña no coincide"),
 });
 
+const PerfilSchema = Yup.object().shape({
+  usuario: Yup.string().required("Usuario requerido"),
+  nombre: Yup.string().required("Nombre requerido"),
+  correo: Yup.string().email("Correo inválido").required("Correo requerido"),
+});
+
 const EmpleadoSchema = Yup.object().shape({
   nombres: Yup.string().required("Nombres requeridos"),
   apellidos: Yup.string().required("Apellidos requeridos"),
@@ -56,5 +62,6 @@ export default {
   LoginSchema,
   OlvideContraseniaSchema,
   NuevaContraseniaSchema,
+  PerfilSchema,
   EmpleadoSchema,
 };

@@ -1,14 +1,15 @@
 import React, { useContext, useEffect } from "react";
 
+//Context
+import AuthContext from "../context/auth/AuthContext";
+
 //Material ui
 import { makeStyles, Typography } from "@material-ui/core";
 import { Grid, Paper } from "@mui/material";
-import AuthContext from "../context/auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({}));
 
 const Dashboard = () => {
-  const classes = useStyles();
 
   const {cantidadEmpleados,obtenerCantidadEmpleados} = useContext(AuthContext)
 
