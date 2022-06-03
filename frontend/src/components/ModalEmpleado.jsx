@@ -3,6 +3,7 @@ import React, { useContext } from 'react'
 import EmpleadoContext from '../context/empleado/EmpleadoContext';
 import { Grid } from "@mui/material";
 import clienteAxios from '../config/axios';
+import AuthContext from '../context/auth/AuthContext';
 
 const style = {
     position: 'absolute',
@@ -20,9 +21,9 @@ const ModalEmpleado = () => {
 
     const {empleado,mostrarModalEmpleado,modalEmpleado} = useContext(EmpleadoContext)
 
+  const { perfil } = useContext(AuthContext);
+
   const handleDownload =(docurl)=>{
-
-
       const token = localStorage.getItem("token")
 
       let config = {
@@ -41,7 +42,7 @@ const ModalEmpleado = () => {
           );
           const link = document.createElement("a");
           link.href = downloadUrl;
-          link.setAttribute("download", "file.pdf");
+          link.setAttribute("download", `${empleado.nombres}-${empleado.apellidos}.pdf`);
           document.body.appendChild(link);
           link.click();
           link.remove();
@@ -118,7 +119,7 @@ const ModalEmpleado = () => {
                 <Typography variant="p" component="h4">
                   Documento:{" "}
                   <span className="texto">
-                    <a style={{cursor:"pointer"}}variant="text" onClick={() => handleDownload(empleado.documento)}>
+                    <a style={{cursor:"pointer",color:"black"}}variant="text" onClick={() => handleDownload(empleado.documento)}>
                       Ver documento
                     </a>
                   </span>

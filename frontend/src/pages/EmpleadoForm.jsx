@@ -12,6 +12,7 @@ import AlertaContext from "../context/alerta/AlertaContext";
 import { useNavigate, useParams } from "react-router-dom";
 import clienteAxios from "../config/axios";
 import ModalDialog from "../components/ModalDialog";
+import AuthContext from "../context/auth/AuthContext";
 
 const useStyles = makeStyles((theme) => ({
   containerGrid: {
@@ -59,6 +60,8 @@ const EmpleadoForm = () => {
   } = useContext(EmpleadoContext);
   const {mostrarAlerta,alerta} = useContext(AlertaContext)
 
+  const {perfil} = useContext(AuthContext)
+
   const [open, setOpen] = useState(false)
 
   const navigate = useNavigate()
@@ -86,7 +89,7 @@ const EmpleadoForm = () => {
         const downloadUrl = window.URL.createObjectURL(new Blob([file]));
         const link = document.createElement("a");
         link.href = downloadUrl;
-        link.setAttribute("download", "file.pdf");
+        link.setAttribute("download", `${empleadoEditar.nombres}-${empleadoEditar.apellidos}.pdf`);
         document.body.appendChild(link);
         link.click();
         link.remove();

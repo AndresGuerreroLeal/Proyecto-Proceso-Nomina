@@ -111,23 +111,23 @@ const NavBar = () => {
           </ListItemButton>
           <Collapse in={menuempleados} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemButton sx={{ pl: 4 }}>
-                <Link to="/home/empleados" className={classes.opcion}>
+              <Link to="/home/empleados" className={classes.opcion}>
+                <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <FormatListBulletedIcon />
                   </ListItemIcon>
                   <ListItemText primary="Lista Empleados" />
-                </Link>
-              </ListItemButton>
+                </ListItemButton>
+              </Link>
 
-              <ListItemButton sx={{ pl: 4 }}>
-                <Link to="/home/reportes-empleados" className={classes.opcion}>
+              <Link to="/home/reportes-empleados" className={classes.opcion}>
+                <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <AssessmentIcon />
                   </ListItemIcon>
                   <ListItemText primary="Reportes Empleados" />
-                </Link>
-              </ListItemButton>
+                </ListItemButton>
+              </Link>
             </List>
           </Collapse>
 
