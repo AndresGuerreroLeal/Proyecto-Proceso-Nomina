@@ -78,7 +78,7 @@ const AuthState = ({ children }) => {
     }
   };
 
-  const ActualizarContrasenia = async (datos) => {
+  const actualizarContrasenia = async (datos) => {
     try {
       const token = localStorage.getItem("token");
 
@@ -135,7 +135,7 @@ const AuthState = ({ children }) => {
         cerrarSesion,
         actualizarPerfil,
         setAlertaAuth,
-        ActualizarContrasenia,
+        actualizarContrasenia,
         obtenerCantidadEmpleados,
       }}
     >
