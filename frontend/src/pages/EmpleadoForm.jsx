@@ -390,6 +390,7 @@ const EmpleadoForm = () => {
                   Datos de Pago
                 </Typography>
                 <TextField
+                  select
                   label="Método de pago"
                   variant="outlined"
                   name="metodo_pago"
@@ -403,9 +404,13 @@ const EmpleadoForm = () => {
                   helperText={
                     formik.touched.metodo_pago && formik.errors.metodo_pago
                   }
-                />
+                >
+                  <MenuItem value="efectivo">Efectivo</MenuItem>
+                  <MenuItem value="transferencia">Transferencia</MenuItem>
+                </TextField>
 
                 <TextField
+                  select
                   label="Entidad bancaria"
                   variant="outlined"
                   name="entidad_bancaria"
@@ -420,7 +425,63 @@ const EmpleadoForm = () => {
                     formik.touched.entidad_bancaria &&
                     formik.errors.entidad_bancaria
                   }
-                />
+                >
+                  <MenuItem value="noaplica">No Aplica</MenuItem>
+                  <MenuItem value="Bancamia S.A.">Bancamia S.A.</MenuItem>
+                  <MenuItem value="Banco Agrario">Banco Agrario</MenuItem>
+                  <MenuItem value="Banco Av Villas">Banco Av Villas</MenuItem>
+                  <MenuItem value="Banco BBVA Colombia S.A.">
+                    Banco BBVA Colombia S.A.
+                  </MenuItem>
+                  <MenuItem value="Banco Caja Social">
+                    Banco Caja Social
+                  </MenuItem>
+                  <MenuItem value="Banco Cooperativo Coopcentral">
+                    Banco Cooperativo Coopcentral
+                  </MenuItem>
+                  <MenuItem value="Banco Credifinanciera">
+                    Banco Credifinanciera
+                  </MenuItem>
+                  <MenuItem value="Banco Davivienda">Banco Davivienda</MenuItem>
+                  <MenuItem value="Banco de Bogotá">Banco de Bogotá</MenuItem>
+                  <MenuItem value="Banco de Occidente">
+                    Banco de Occidente
+                  </MenuItem>
+                  <MenuItem value="Banco Falabella">Banco Falabella</MenuItem>
+                  <MenuItem value="Banco Gnb Sudameris">
+                    Banco Gnb Sudameris
+                  </MenuItem>
+                  <MenuItem value="Banco Itau">Banco Itau</MenuItem>
+                  <MenuItem value="Banco Pichincha S.A.">
+                    Banco Pichincha S.A.
+                  </MenuItem>
+                  <MenuItem value="Banco Santander Colombia">
+                    Banco Santander Colombia
+                  </MenuItem>
+                  <MenuItem value="Banco Serfinanza">Banco Serfinanza</MenuItem>
+                  <MenuItem value="CFA Cooperativa Financiera">
+                    CFA Cooperativa Financiera
+                  </MenuItem>
+                  <MenuItem value="Citibanck">Citibanck</MenuItem>
+                  <MenuItem value="Coltefinanciera">Coltefinanciera</MenuItem>
+                  <MenuItem value="Confiar Cooperativa Financiera">
+                    Confiar Cooperativa Financiera
+                  </MenuItem>
+                  <MenuItem value="Cotrafa">Cotrafa</MenuItem>
+                  <MenuItem value="Dale">Dale</MenuItem>
+                  <MenuItem value="Daviplata">Daviplata</MenuItem>
+                  <MenuItem value="Giros y Finanzas Compañia de Financiamiento S.A.">
+                    Giros y Finanzas Compañia de Financiamiento S.A.
+                  </MenuItem>
+                  <MenuItem value="Iris">Iris</MenuItem>
+                  <MenuItem value="Movii S.A.">Movii S.A.</MenuItem>
+                  <MenuItem value="Nequi">Nequi</MenuItem>
+                  <MenuItem value="Rappipay">Rappipay</MenuItem>
+                  <MenuItem value="Scotiabanck Colpatria">
+                    Scotiabanck Colpatria
+                  </MenuItem>
+                </TextField>
+
                 <TextField
                   select
                   label="Tipo de cuenta"
