@@ -211,7 +211,9 @@ const EmpleadoState = ({ children }) => {
         TokenAuth(token)
       );
 
-      obtenerEmpleados("active")
+      setEmpleados(
+        empleados.filter((empleadoState) => empleadoState._id !== data._id)
+      );
 
       setEmpleadoEstado({});
     } catch (err) {

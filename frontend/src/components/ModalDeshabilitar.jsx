@@ -38,10 +38,12 @@ const ModalDeshabilitar = ({ open, setOpen, titulo, eliminar, boton }) => {
     setConcepto("");
   };
 
+  const {message} = alerta
+
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        {alerta && <Alerta />}
+        {message && <Alerta />}
         <DialogTitle>{titulo}</DialogTitle>
         <DialogContent>
           <DialogContentText>

@@ -102,21 +102,22 @@ const EmpleadoForm = () => {
   const {id} = useParams()
 
   const values = {
-    nombres:"",
-    apellidos:"",
-    genero:"",
-    tipo_documento:"",
-    numero_documento:"",
-    correo:"",
-    numero_celular:"",
-    ciudad_residencia:"",
-    direccion_residencia:"",
-    metodo_pago:"",
-    entidad_bancaria:"",
-    tipo_cuenta:"",
-    numero_cuenta:"",
-    file:""
-  }
+    nombres: "",
+    apellidos: "",
+    genero: "",
+    tipo_documento: "",
+    numero_documento: "",
+    correo: "",
+    numero_celular: "",
+    ciudad_residencia: "",
+    direccion_residencia: "",
+    metodo_pago: "",
+    entidad_bancaria: "",
+    tipo_cuenta: "",
+    numero_cuenta: "",
+    file: "",
+    reset: true,
+  };
 
   const handleSubmit =  (empleado)=>{
   
