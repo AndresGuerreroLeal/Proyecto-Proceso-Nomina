@@ -83,16 +83,14 @@ const EmpleadoState = ({ children }) => {
 
       setEmpleados([...empleados, data]);
 
-      
       mostrarAlerta({
         message: "El empleado se creo correctamente",
         categoria: "success",
       });
 
-      setTimeout(()=>{
+      setTimeout(() => {
         navigate("/home/empleados");
-      },2000)
-
+      }, 2000);
     } catch (err) {
       mostrarAlerta({
         message: err.response.data.message,
@@ -175,7 +173,9 @@ const EmpleadoState = ({ children }) => {
         )
       );
 
-      navigate("/home/empleados");
+      setTimeout(() => {
+        navigate("/home/empleados");
+      }, 2000);
 
       mostrarAlerta({
         message: "El empleado se actualizó correctamente",
