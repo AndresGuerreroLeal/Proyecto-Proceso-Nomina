@@ -45,7 +45,7 @@ const ActualizarContrasenia = () => {
 
   const { message } = alerta;
 
-  const formik = formikMain(handleSubmit, values, "ActualizarContrasenia");
+  const formik = formikMain(handleSubmit, values, "ActualizarContraseniaSchema");
 
   return (
     <>

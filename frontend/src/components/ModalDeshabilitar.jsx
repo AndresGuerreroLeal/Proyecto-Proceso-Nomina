@@ -10,9 +10,11 @@ import {
   useMediaQuery,
   useTheme,
 } from "@mui/material";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
+import AlertaContext from "../context/alerta/AlertaContext";
+import Alerta from "./Alerta";
 
-const ModalDeshabilitar = ({ open, setOpen, titulo,eliminar,boton }) => {
+const ModalDeshabilitar = ({ open, setOpen, titulo, eliminar, boton }) => {
   const theme = useTheme();
 
   const handleClose = () => {
@@ -21,9 +23,14 @@ const ModalDeshabilitar = ({ open, setOpen, titulo,eliminar,boton }) => {
 
   const [concepto, setConcepto] = useState("");
 
+  const { alerta, mostrarAlerta } = useContext(AlertaContext);
+
   const submit = () => {
     if ([concepto].includes("")) {
-      return;
+      return mostrarAlerta({
+        message: "Se requiere concepto",
+        categoria: "error",
+      });
     }
 
     eliminar(concepto);
@@ -34,6 +41,7 @@ const ModalDeshabilitar = ({ open, setOpen, titulo,eliminar,boton }) => {
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
+        {alerta && <Alerta />}
         <DialogTitle>{titulo}</DialogTitle>
         <DialogContent>
           <DialogContentText>

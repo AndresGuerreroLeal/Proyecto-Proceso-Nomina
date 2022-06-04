@@ -27,7 +27,7 @@ const PerfilSchema = Yup.object().shape({
   correo: Yup.string().email("Correo inválido").required("Correo requerido"),
 });
 
-const ActualizarContrasenia = Yup.object().shape({
+const ActualizarContraseniaSchema = Yup.object().shape({
   contraseniaActual: Yup.string()
     .min(5, "Contraseña inválida")
     .required("Contraseña requerida"),
@@ -71,11 +71,16 @@ const EmpleadoSchema = Yup.object().shape({
     .required("Numero de cuenta requerido"),
 });
 
+const ConceptoSchema = Yup.object().shape({
+  concepto: Yup.string().required("Concepto requerido"),
+});
+
 export default {
   LoginSchema,
   OlvideContraseniaSchema,
   NuevaContraseniaSchema,
   PerfilSchema,
   EmpleadoSchema,
-  ActualizarContrasenia,
+  ActualizarContraseniaSchema,
+  ConceptoSchema
 };
