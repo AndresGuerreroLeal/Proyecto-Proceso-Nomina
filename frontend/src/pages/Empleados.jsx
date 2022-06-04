@@ -79,7 +79,7 @@ const Empleados = () => {
 
   useEffect(() => {
     const obtenerEmpleadosState = async () => {
-      obtenerEmpleados(estado)
+      await obtenerEmpleados(estado)
     };
 
     obtenerEmpleadosState();
