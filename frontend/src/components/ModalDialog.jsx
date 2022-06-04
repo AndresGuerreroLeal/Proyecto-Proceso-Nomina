@@ -11,9 +11,9 @@ const ModalDialog = ({ open, setOpen, titulo, contenido,eliminar }) => {
   return (
     <div>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>{titulo}.</DialogTitle>
+        <DialogTitle>{titulo}</DialogTitle>
         <DialogContent>
-          <DialogContentText>{contenido}.</DialogContentText>
+          <DialogContentText>{contenido}</DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleClose}>

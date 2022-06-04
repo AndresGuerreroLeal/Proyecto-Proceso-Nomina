@@ -17,7 +17,8 @@ import { CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField 
 import ModalEmpleado from "../components/ModalEmpleado";
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import ModalDialog from "../components/ModalDialog";
+import ModalDeshabilitar from "../components/ModalDeshabilitar";
 
 const columns = [
   { id: "numero_documento", label: "Número de Documento", minWidth: 100 },
@@ -54,12 +55,27 @@ const Empleados = () => {
       setEstado,
       obtenerEmpleado,
       modalEmpleado,
+      empleadoEstado,
       mostrarModalEmpleado,
-      obtenerEmpleadoEditar
+      obtenerEmpleadoEditar,
+      actualizarEstado,
+      obtenerEmpleadoEstado
     } = useContext(EmpleadoContext);
 
     const navigate = useNavigate()
 
+  const [openEliminar,setOpenEliminar] = useState(false);
+  const [openDeshabilitar,setOpenDeshabilitar] = useState(false)
+
+  const handleDeshabilitarEmpleado = (concepto)=>{
+    actualizarEstado({ ...empleadoEstado, concepto });
+    setOpenDeshabilitar(false)
+  }
+  
+  const handleDeshabilitar = ()=>{
+    setOpenDeshabilitar(true)
+    setOpenEliminar(false)
+  }
 
   useEffect(() => {
     const obtenerEmpleadosState = async () => {
@@ -96,6 +112,38 @@ const Empleados = () => {
 
   return (
     <>
+      {openEliminar && (
+        <ModalDialog
+          open={openEliminar}
+          setOpen={setOpenEliminar}
+          titulo={
+            estado === "active"
+              ? `¿Está seguro de deshabilitar el empleado?`
+              : `¿Está seguro de habilitar el empleado?`
+          }
+          contenido={
+            estado === "active"
+              ? "Tambien se deshabilitará el contrato."
+              : "Tambien se habilitará el contrato."
+          }
+          eliminar={handleDeshabilitar}
+        />
+      )}
+
+      {openDeshabilitar && (
+        <ModalDeshabilitar
+          open={openDeshabilitar}
+          setOpen={setOpenDeshabilitar}
+          eliminar={handleDeshabilitarEmpleado}
+          titulo={
+            estado === "active"
+              ? `Concepto por el cual se deshabilita el empleado`
+              : `Concepto por el cual se habilita el empleado`
+          }
+          boton={estado === "active" ? "Deshabilitar" : "Habilitar"}
+        />
+      )}
+
       <div className={classes.header}>
         <Typography variant="h4" component="h2">
           Lista Empleados
@@ -163,7 +211,7 @@ const Empleados = () => {
                       >
                         {columns.map((column) => {
                           const value = row[column.id];
-                      
+
                           return (
                             <TableCell key={column.id} align={column.align}>
                               <div onClick={() => obtenerEmpleado(row)}>
@@ -178,23 +226,41 @@ const Empleados = () => {
                                     display: "flex",
                                     justifyContent: "space-between",
                                     alignItems: "center",
-                                    gap:"5px"
+                                    gap: "5px",
                                   }}
                                 >
-                                  <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    onClick={()=>handleEmploye(row)}
-                                   
-                                  >
-                                    <EditIcon />
-                                  </Button>
-                                  <Button
-                                    variant="outlined"
-                                    color="secondary"
-                                  >
-                                    <DeleteIcon />
-                                  </Button>
+                                  {estado === "active" ? (
+                                    <>
+                                      <Button
+                                        variant="outlined"
+                                        color="primary"
+                                        onClick={() => handleEmploye(row)}
+                                      >
+                                        <EditIcon />
+                                      </Button>
+                                      <Button
+                                        variant="outlined"
+                                        color="secondary"
+                                        onClick={() => {
+                                          obtenerEmpleadoEstado(row);
+                                          setOpenEliminar(!openEliminar);
+                                        }}
+                                      >
+                                        <DeleteIcon />
+                                      </Button>
+                                    </>
+                                  ) : (
+                                    <Button
+                                      variant="outlined"
+                                      color="primary"
+                                      onClick={() => {
+                                        obtenerEmpleadoEstado(row);
+                                        setOpenEliminar(!openEliminar);
+                                      }}
+                                    >
+                                      ACTIVAR
+                                    </Button>
+                                  )}
                                 </div>
                               )}
                             </TableCell>
@@ -222,7 +288,7 @@ const Empleados = () => {
         </Paper>
       )}
 
-            {modalEmpleado && <ModalEmpleado />}
+      {modalEmpleado && <ModalEmpleado />}
 
       <Button variant="contained" color="primary">
         <Link to="reportes-empleados">Generar reportes</Link>

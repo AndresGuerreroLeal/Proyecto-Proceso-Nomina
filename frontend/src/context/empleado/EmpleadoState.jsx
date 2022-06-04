@@ -20,6 +20,7 @@ const EmpleadoState = ({ children }) => {
   const [empleado,setEmpleado] = useState({})
   const [modalEmpleado,setModalEmpleado] = useState(false)
   const [empleadoEditar,setEmpledadoEditar] = useState({})
+  const [empleadoEstado, setEmpleadoEstado] = useState({});
 
   const navigate = useNavigate()
 
@@ -91,6 +92,7 @@ const EmpleadoState = ({ children }) => {
         message: err.response.data.message,
         categoria: "error",
       });
+      console.log(err.response)
     } finally {
       setCargando(false);
     }
@@ -186,7 +188,38 @@ const EmpleadoState = ({ children }) => {
     } finally {
       setCargando(false);
     }
-  
+  }
+
+  const obtenerEmpleadoEstado = (empleado)=>{
+    setEmpleadoEstado(empleado)
+  }
+
+
+  const actualizarEstado = async (empleado)=>{
+   
+    setCargando(true)
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.put(
+        `/api/1.0/employee/state/${empleado._id}`,
+        {
+          concepto: empleado.concepto,
+        },
+        TokenAuth(token)
+      );
+
+      setEmpleados(
+        empleados.filter((empleadoState) => empleadoState._id !== data._id)
+      );
+
+      setEmpleadoEstado({});
+
+    } catch (err) {
+      console.log(err);
+    } finally{
+      setCargando(false)
+    }
   }
 
   return (
@@ -202,6 +235,7 @@ const EmpleadoState = ({ children }) => {
         empleado,
         modalEmpleado,
         empleadoEditar,
+        empleadoEstado,
         setRowsPerPage,
         setPage,
         crearEmpleado,
@@ -211,7 +245,9 @@ const EmpleadoState = ({ children }) => {
         mostrarModalEmpleado,
         obtenerEmpleadoEditar,
         obtenerEmpleadoEditarAPI,
-        editarEmpleado
+        editarEmpleado,
+        obtenerEmpleadoEstado,
+        actualizarEstado
       }}
     >
       {children}

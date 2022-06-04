@@ -9,7 +9,7 @@ import { makeStyles } from "@material-ui/core";
 import EmpleadoContext from "../context/empleado/EmpleadoContext";
 import Alerta from "../components/Alerta";
 import AlertaContext from "../context/alerta/AlertaContext";
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import clienteAxios from "../config/axios";
 import ModalDialog from "../components/ModalDialog";
 
@@ -128,9 +128,12 @@ const EmpleadoForm = () => {
         editarEmpleado({ ...empleado, documento: empleadoEditar.documento });
       } else {
         crearEmpleado(empleado);
-        navigate("/home/empleados")
-      }
 
+        setTimeout(()=>{
+          navigate("/home/empleados")
+        },2000)
+
+      }
 
     } catch (err) {
       if (!err.response) {
