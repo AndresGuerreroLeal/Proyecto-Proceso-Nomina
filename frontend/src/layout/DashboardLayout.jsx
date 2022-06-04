@@ -22,6 +22,7 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("md")]: {
       margin: theme.spacing(7),
     },
+    transition: "all .4s ease"
   },
 }));
 

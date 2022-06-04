@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 
 //Material ui
@@ -26,6 +26,7 @@ import { ExpandLess, ExpandMore } from "@material-ui/icons";
 
 //Imagenes
 import logosm from "../images/logosm.png";
+import UiContext from "../context/ui/UiContext";
 
 const drawerWidth = 333;
 
@@ -39,11 +40,17 @@ const useStyles = makeStyles((theme) => ({
   },
   drawer: {
     flexShrink: 0,
-    width: drawerWidth,
+    width: ({ widthMenu }) => widthMenu,
+    visibility: ({ visibility }) => visibility,
   },
   drawerPaper: {
-    padding: "0 20px",
-    width: drawerWidth,
+    [theme.breakpoints.up("md")]: {
+      width: ({ widthMenu }) => widthMenu,
+    },
+    padding: ({ widthMenu }) => (widthMenu === 333 ? "0 20px" : "0"),
+    width: 333,
+    visibility: ({ visibility }) => visibility,
+    transition: "all .3s ease",
   },
   opcion: {
     display: "flex",
@@ -54,11 +61,13 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NavBar = () => {
-  const classes = useStyles();
-  const theme = useTheme();
-  const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
+  const {menuProperties,changeMenuProperties,open,setOpen} = useContext(UiContext)
 
-  const [open, setOpen] = useState(false);
+  const classes = useStyles(menuProperties);
+
+  const theme = useTheme();
+
+    const isMdUp = useMediaQuery(theme.breakpoints.up("md"));
 
   const toggleDrawer = (event) => {
     if (
@@ -68,6 +77,7 @@ const NavBar = () => {
       return;
     }
 
+    changeMenuProperties();
     setOpen(!open);
   };
 
