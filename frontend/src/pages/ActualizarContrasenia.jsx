@@ -25,6 +25,7 @@ const ActualizarContrasenia = () => {
     contraseniaActual: "",
     contraseniaNueva: "",
     confirmarContraseniaNueva: "",
+    reset: true,
   };
 
   useEffect(() => {
@@ -38,6 +39,7 @@ const ActualizarContrasenia = () => {
     await actualizarContrasenia({
       contrasenia: valores.contraseniaActual,
       nuevaContrasenia: valores.contraseniaNueva,
+      reset: valores.reset,
     });
   };
 

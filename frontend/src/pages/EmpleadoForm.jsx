@@ -121,7 +121,6 @@ const EmpleadoForm = () => {
   const handleSubmit =  (empleado)=>{
   
     try {
-
       window.scroll({
         top: 0,
         behavior: "smooth",
@@ -131,11 +130,6 @@ const EmpleadoForm = () => {
         editarEmpleado({ ...empleado, documento: empleadoEditar.documento });
       } else {
         crearEmpleado(empleado);
-
-        setTimeout(()=>{
-          navigate("/home/empleados")
-        },2000)
-
       }
 
     } catch (err) {
