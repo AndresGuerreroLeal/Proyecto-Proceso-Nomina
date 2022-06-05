@@ -6,6 +6,13 @@
 
 const express = require("express");
 const router = express.Router();
+const { auth, admin, reports } = require("../middleware/auth");
+const {
+  validacionCrear,
+  validacionActualizar,
+  validacionEstado,
+  validacionObtener,
+} = require("../validators/empleados");
 /**
  * @see EmpleadosController
  *
@@ -21,13 +28,7 @@ const {
   estadoEmpleado,
   obtenerEmpleado,
 } = require("../controllers/empleadosController");
-const { auth, admin, reports } = require("../middleware/auth");
-const {
-  validacionCrear,
-  validacionActualizar,
-  validacionEstado,
-  validacionObtener,
-} = require("../validators/empleados");
+
 
 //Ruta de crear empleado [POST]
 router.post("/create", [auth, admin], validacionCrear, crearEmpleado);

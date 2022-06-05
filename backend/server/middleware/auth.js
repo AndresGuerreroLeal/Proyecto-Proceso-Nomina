@@ -55,4 +55,4 @@ const reports = async (req, res, next) => {
   return res.status(403).send({ message: "Sin autorización" });
 };
 
-module.exports = { admin, auth, reports };
+module.exports = { auth, admin, reports };
