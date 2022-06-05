@@ -182,6 +182,54 @@ const ContratoController = {
       httpError(res, err);
     }
   },
+
+  /**
+   * @code GET / :_id Obtener contratos
+   *
+   * @param idContrato
+   *
+   * @return contrato @code 200 o mensaje @code 400
+   */
+  obtenerContrato: async (req, res) => {
+    log.info("[GET] Petición obtener contrato");
+    try {
+      const campos = {
+        numero_contrato: 1,
+        tipo_contrato: 1,
+        fecha_inicio: 1,
+        sueldo: 1,
+        cargo: 1,
+        tipo_cotizante: 1,
+        auxilio_transporte: 1,
+        fondo_salud: 1,
+        porcentaje_salud_empleado: 1,
+        porcentaje_salud_empleador: 1,
+        fondo_pensiones: 1,
+        porcentaje_pensiones_empleado: 1,
+        porcentaje_pensiones_empleador: 1,
+        arl: 1,
+        porcentaje_arl: 1,
+        fondo_cesantias: 1,
+        porcentaje_parafiscal_SENA: 1,
+        porcentaje_parafiscal_ICBF: 1,
+        porcentaje_parafiscal_caja_compensacion: 1,
+        salario_integral: 1,
+        createdAt: 1,
+        updatedAt: 1
+      };
+      const contrato = await Contrato.findById(req.params._id)
+        .select(campos)
+        .exec();
+      if (!contrato) {
+        log.error("El contrato no existe");
+        return res.status(400).send({ message: "El contrato no existe" });
+      }
+      log.info(`Detalles del contrato ${JSON.stringify(contrato)}`);
+      return res.status(200).send(contrato);
+    } catch (err) {
+      httpError(res, err);
+    }
+  },
 };
 
 module.exports = ContratoController;
