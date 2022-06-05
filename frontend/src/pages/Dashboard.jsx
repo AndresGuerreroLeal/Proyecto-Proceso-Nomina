@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
+
+//Context
+import AuthContext from "../context/auth/AuthContext";
 
 //Material ui
 import { makeStyles, Typography } from "@material-ui/core";
@@ -7,7 +10,12 @@ import { Grid, Paper } from "@mui/material";
 const useStyles = makeStyles((theme) => ({}));
 
 const Dashboard = () => {
-  const classes = useStyles();
+
+  const {cantidadEmpleados,obtenerCantidadEmpleados} = useContext(AuthContext)
+
+  useEffect(()=>{
+    obtenerCantidadEmpleados();
+  },[])
 
   return (
     <>
@@ -37,7 +45,7 @@ const Dashboard = () => {
             <Typography component="h3" variant="h5">
               Ver Empleados
             </Typography>
-            <p>Total empleados: 30</p>
+            <p>Total empleados: {cantidadEmpleados?.cantidadEmpleados}</p>
           </Paper>
         </Grid>
 

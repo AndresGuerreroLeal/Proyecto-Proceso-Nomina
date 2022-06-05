@@ -20,6 +20,7 @@ import TextField from "@mui/material/TextField";
 import Box from "@mui/material/Box";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Container from "@mui/material/Container";
+import formikMain from "../helpers/formikMain";
 
 const useStyles = makeStyles((theme) => ({
   title: {
@@ -57,7 +58,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 const NuevaContrasenia = () => {
-  const classes = useStyles();
 
   const { token } = useParams();
 
@@ -79,6 +79,11 @@ const NuevaContrasenia = () => {
       error: false,
     });
 
+  const values = {
+    contrasenia:"",
+    confirmarContrasenia:""
+  }
+
   const { nuevacontrasenia, confirmarnuevacontrasenia } = nuevacontraseniaform;
 
   const { alerta, mostrarAlerta } = useContext(AlertaContext);
@@ -90,59 +95,17 @@ const NuevaContrasenia = () => {
     });
   };
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if ([nuevacontrasenia, confirmarnuevacontrasenia].includes("")) {
-      setErrorNuevaContrasenia({
-        message: "Campo de nueva contraseña requerido",
-        error: true,
-      });
-      setConfirmarErrorNuevaContrasenia({
-        message: "Campo de confirmar nueva contraseña requerido",
-        error: true,
-      });
-      return;
-    } else if (nuevacontrasenia !== confirmarnuevacontrasenia) {
-      setErrorNuevaContrasenia({
-        message: "",
-        error: false,
-      });
-      setConfirmarErrorNuevaContrasenia({
-        message: "Las contraseña no coincide",
-        error: true,
-      });
-      return;
-    }
-
-    setErrorNuevaContrasenia({
-      message: "",
-      error: false,
-    });
-    setConfirmarErrorNuevaContrasenia({
-      message: "Campo de confirmar nueva contraseña requerido",
-      error: false,
-    });
-
-    mostrarAlerta({
-      message: "",
-      categoria: "",
-    });
+  const handleSubmit = async (valores) => {
 
     try {
       const { data } = await clienteAxios.put(
         `/api/1.0/auth/create-new-password/${token}`,
-        { nuevaContrasenia: nuevacontrasenia }
+        { nuevaContrasenia: valores.contrasenia }
       );
 
       mostrarAlerta({
         message: data.message + ", pronto sera redirigido al inicio de sesión",
         categoria: "success",
-      });
-
-      setNuevaContraseniaForm({
-        nuevacontrasenia: "",
-        confirmarnuevacontrasenia: "",
       });
 
       setTimeout(() => {
@@ -158,11 +121,11 @@ const NuevaContrasenia = () => {
 
   const {message} = alerta
 
+  const formik = formikMain(handleSubmit, values, "NuevaContraseniaSchema");
+
   return (
     <>
       <CssBaseline />
-
-      {message && <Alerta />} 
 
       <Container component="main" maxWidth="xs">
         <Box
@@ -179,9 +142,10 @@ const NuevaContrasenia = () => {
           <Typography component="h1" variant="h5">
             Nueva Contraseña
           </Typography>
+          {message && <Alerta />}
           <Box
             component="form"
-            onSubmit={handleSubmit}
+            onSubmit={formik.handleSubmit}
             noValidate
             sx={{ mt: 1 }}
           >
@@ -190,25 +154,35 @@ const NuevaContrasenia = () => {
               required
               fullWidth
               label="Contraseña Nueva"
-              name="nuevacontrasenia"
-              onChange={handleChange}
-              value={nuevacontrasenia}
-              error={errornuevacontrasenia?.error}
-              helperText={errornuevacontrasenia.message}
+              name="contrasenia"
               type="password"
+              value={formik.values.contrasenia}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.contrasenia && Boolean(formik.errors.contrasenia)
+              }
+              helperText={
+                formik.touched.contrasenia && formik.errors.contrasenia
+              }
             />
             <TextField
               margin="normal"
               required
               fullWidth
-              name="confirmarnuevacontrasenia"
+              name="confirmarContrasenia"
               label="Confirmar nueva contraseña"
               type="password"
-              onChange={handleChange}
-              value={confirmarnuevacontrasenia}
-              error={errorconfirmarnuevacontrasenia?.error}
-              helperText={errorconfirmarnuevacontrasenia.message}
               id="password"
+              value={formik.values.confirmarContrasenia}
+              onChange={formik.handleChange}
+              error={
+                formik.touched.confirmarContrasenia &&
+                Boolean(formik.errors.confirmarContrasenia)
+              }
+              helperText={
+                formik.touched.confirmarContrasenia &&
+                formik.errors.confirmarContrasenia
+              }
             />
 
             <Button

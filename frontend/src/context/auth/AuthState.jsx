@@ -13,8 +13,9 @@ const AuthState = ({ children }) => {
   const [perfil, setPerfil] = useState({});
   const [cargando, setCargando] = useState(true);
   const [alertaauth, setAlertaAuth] = useState();
+  const [cantidadEmpleados, setCantidadEmpleados] = useState({});
 
-  const navigate = useNavigate();
+  const navigate = useNavigate({});
 
   useEffect(() => {
     const autenticarUsuario = async () => {
@@ -68,9 +69,8 @@ const AuthState = ({ children }) => {
       setTimeout(() => {
         setAlertaAuth({});
       }, 3000);
-
     } catch (err) {
-      console.log(err)
+      console.log(err);
       setAlertaAuth({
         message: err.response.data.message,
         categoria: "error",
@@ -78,7 +78,7 @@ const AuthState = ({ children }) => {
     }
   };
 
-  const ActualizarContrasenia = async (datos) => {
+  const actualizarContrasenia = async (datos) => {
     try {
       const token = localStorage.getItem("token");
 
@@ -96,15 +96,32 @@ const AuthState = ({ children }) => {
       setTimeout(() => {
         setAlertaAuth({});
       }, 3000);
-
     } catch (err) {
-      console.log(err)
+      console.log(err);
       setAlertaAuth({
         message: err.response.data.message,
         categoria: "error",
       });
     }
-  };  
+  };
+
+  const obtenerCantidadEmpleados = async () => {
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.get(
+        "/api/1.0/employee/",
+        TokenAuth(token)
+      );
+
+      setCantidadEmpleados(data);
+    } catch (err) {
+      setAlertaAuth({
+        message: err.response.data.message,
+        categoria: "error",
+      });
+    }
+  };
 
   return (
     <AuthContext.Provider
@@ -113,11 +130,13 @@ const AuthState = ({ children }) => {
         perfil,
         cargando,
         alertaauth,
+        cantidadEmpleados,
         setToken,
         cerrarSesion,
         actualizarPerfil,
         setAlertaAuth,
-        ActualizarContrasenia
+        actualizarContrasenia,
+        obtenerCantidadEmpleados,
       }}
     >
       {children}

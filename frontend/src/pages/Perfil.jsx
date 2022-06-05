@@ -12,37 +12,26 @@ import { Typography } from "@material-ui/core";
 import TextField from "@mui/material/TextField";
 import { Button } from "@mui/material";
 import Box from "@mui/material/Box";
+import formikMain from "../helpers/formikMain";
 
 const Perfil = () => {
   const { perfil, actualizarPerfil, alertaauth, setAlertaAuth } =
     useContext(AuthContext);
+
   const { alerta, mostrarAlerta } = useContext(AlertaContext);
 
-  const [datos, setDatos] = useState({
+  const values = {
+    usuario: "",
     nombre: "",
     correo: "",
-    usuario: "",
-  });
-
-  const [usuarioerror, setErrorUsuario] = useState({
-    message: "",
-    error: false,
-  });
-  const [correoerror, setErrorCorreo] = useState({
-    message: "",
-    error: false,
-  });
-  const [nombreerror, setErrorNombre] = useState({
-    message: "",
-    error: false,
-  });
+  };
 
   useEffect(() => {
-    setDatos({
-      nombre: perfil?.nombre,
-      correo: perfil?.correo,
-      usuario: perfil?.usuario,
-    });
+    if (perfil) {
+      formik.setFieldValue("nombre", perfil.nombre);
+      formik.setFieldValue("correo", perfil.correo);
+      formik.setFieldValue("usuario", perfil.usuario);
+    }
 
     if (alertaauth) {
       mostrarAlerta(alertaauth);
@@ -50,71 +39,13 @@ const Perfil = () => {
     }
   }, [perfil, alertaauth]);
 
-  const { nombre, correo, usuario } = datos;
-
-  const handleChange = (e) => {
-    setDatos({
-      ...datos,
-      [e.target.name]: e.target.value,
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    if (usuario === "") {
-      setErrorUsuario({
-        message: "Campo de usuario requerido",
-        error: true,
-      });
-      return;
-    } else if (correo === "") {
-      setErrorCorreo({
-        message: "Campo de contraseña requerido",
-        error: true,
-      });
-      return;
-    } else if (nombre === "") {
-      setErrorNombre({
-        message: "Campo de contraseña requerido",
-        error: true,
-      });
-      return;
-    } else if ([usuario, nombre, correo].includes("")) {
-      setErrorUsuario({
-        message: "Campo de usuario requerido",
-        error: true,
-      });
-      setErrorCorreo({
-        message: "Campo de correo requerido",
-        error: true,
-      });
-      setErrorNombre({
-        message: "Campo de nombre requerido",
-        error: true,
-      });
-      return;
-    }
-
-    setErrorUsuario({
-      message: "",
-      error: false,
-    });
-
-    setErrorNombre({
-      message: "",
-      error: false,
-    });
-
-    setErrorCorreo({
-      message: "",
-      error: false,
-    });
-
-    await actualizarPerfil(datos);
+  const handleSubmit = async (valores) => {
+    await actualizarPerfil(valores);
   };
 
   const { message } = alerta;
+
+  const formik = formikMain(handleSubmit, values, "PerfilSchema");
 
   return (
     <>
@@ -123,15 +54,21 @@ const Perfil = () => {
       </Typography>
 
       {message && (
-        <Box sx={{ width: "70%", margin: " 1rem auto 0 ", display:"flex",
-        justifyContent:"center" }}>
+        <Box
+          sx={{
+            width: "70%",
+            margin: " 1rem auto 0 ",
+            display: "flex",
+            justifyContent: "center",
+          }}
+        >
           <Alerta />
         </Box>
       )}
 
       <Box
         component="form"
-        onSubmit={handleSubmit}
+        onSubmit={formik.handleSubmit}
         noValidate
         sx={{
           mt: 1,
@@ -145,33 +82,33 @@ const Perfil = () => {
           label="Usuario"
           variant="outlined"
           sx={{ width: "70%", mt: 3 }}
-          value={usuario}
           name="usuario"
-          onChange={handleChange}
-          error={usuarioerror.error}
-          helperText={usuarioerror?.message}
+          value={formik.values.usuario}
+          onChange={formik.handleChange}
+          error={formik.touched.usuario && Boolean(formik.errors.usuario)}
+          helperText={formik.touched.usuario && formik.errors.usuario}
         />
         <TextField
           id="outlined-basic"
           label="Nombre"
           variant="outlined"
           sx={{ width: "70%", mt: 3 }}
-          value={nombre}
           name="nombre"
-          onChange={handleChange}
-          error={nombreerror.error}
-          helperText={nombreerror?.message}
+          value={formik.values.nombre}
+          onChange={formik.handleChange}
+          error={formik.touched.nombre && Boolean(formik.errors.nombre)}
+          helperText={formik.touched.nombre && formik.errors.nombre}
         />
         <TextField
           id="outlined-basic"
           label="Correo"
           variant="outlined"
           sx={{ width: "70%", mt: 3 }}
-          value={correo}
           name="correo"
-          onChange={handleChange}
-          error={correoerror.error}
-          helperText={correoerror?.message}
+          value={formik.values.correo}
+          onChange={formik.handleChange}
+          error={formik.touched.correo && Boolean(formik.errors.correo)}
+          helperText={formik.touched.correo && formik.errors.correo}
         />
 
         <Button

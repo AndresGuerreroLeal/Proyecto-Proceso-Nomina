@@ -1,55 +1,57 @@
-import { Box, Button, Modal, Typography } from '@mui/material';
-import React, { useContext } from 'react'
-import EmpleadoContext from '../context/empleado/EmpleadoContext';
+import { Box, Button, Modal, Typography } from "@mui/material";
+import React, { useContext } from "react";
+import EmpleadoContext from "../context/empleado/EmpleadoContext";
 import { Grid } from "@mui/material";
-import clienteAxios from '../config/axios';
+import clienteAxios from "../config/axios";
+import AuthContext from "../context/auth/AuthContext";
 
 const style = {
-    position: 'absolute',
-    top: '50%',
-    left: '50%',
-    transform: 'translate(-50%, -50%)',
-    width:350,
-    bgcolor: 'background.paper',
-    border: '2px solid #000',
-    boxShadow: 24,
-    p: 2,
-  };
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
+  width: 500,
+  bgcolor: "background.paper",
+  border: "2px solid #000",
+  boxShadow: 24,
+  p: 2,
+};
 
 const ModalEmpleado = () => {
+  const { empleado, mostrarModalEmpleado, modalEmpleado } =
+    useContext(EmpleadoContext);
 
-    const {empleado,mostrarModalEmpleado,modalEmpleado} = useContext(EmpleadoContext)
+  const { perfil } = useContext(AuthContext);
 
-  const handleDownload =(docurl)=>{
+  const handleDownload = (docurl) => {
+    const token = localStorage.getItem("token");
 
+    let config = {
+      responseType: "blob",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
 
-      const token = localStorage.getItem("token")
-
-      let config = {
-        responseType: "blob",
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      clienteAxios
-        .get(docurl, config)
-        .then((res) => res.data)
-        .then((file) => {
-          const downloadUrl = window.URL.createObjectURL(
-            new Blob([file])
-          );
-          const link = document.createElement("a");
-          link.href = downloadUrl;
-          link.setAttribute("download", "file.pdf");
-          document.body.appendChild(link);
-          link.click();
-          link.remove();
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-  }
+    clienteAxios
+      .get(docurl, config)
+      .then((res) => res.data)
+      .then((file) => {
+        const downloadUrl = window.URL.createObjectURL(new Blob([file]));
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.setAttribute(
+          "download",
+          `${empleado.nombres}-${empleado.apellidos}.pdf`
+        );
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div>
@@ -118,7 +120,11 @@ const ModalEmpleado = () => {
                 <Typography variant="p" component="h4">
                   Documento:{" "}
                   <span className="texto">
-                    <a style={{cursor:"pointer"}}variant="text" onClick={() => handleDownload(empleado.documento)}>
+                    <a
+                      style={{ cursor: "pointer", color: "black" }}
+                      variant="text"
+                      onClick={() => handleDownload(empleado.documento)}
+                    >
                       Ver documento
                     </a>
                   </span>
@@ -168,6 +174,6 @@ const ModalEmpleado = () => {
       </Modal>
     </div>
   );
-}
+};
 
-export default ModalEmpleado
+export default ModalEmpleado;

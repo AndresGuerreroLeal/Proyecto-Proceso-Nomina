@@ -7,6 +7,39 @@ const LoginSchema = Yup.object().shape({
     .required("Contraseña requerida"),
 });
 
+const OlvideContraseniaSchema = Yup.object().shape({
+  correo: Yup.string().email("Correo inválido").required("Correo requerido"),
+});
+
+const NuevaContraseniaSchema = Yup.object().shape({
+  contrasenia: Yup.string()
+    .min(5, "Contraseña inválida")
+    .required("Contraseña requerida"),
+  confirmarContrasenia: Yup.string()
+    .min(5, "Contraseña inválida")
+    .required("Contraseña requerida")
+    .oneOf([Yup.ref("contrasenia"), null], "Contraseña no coincide"),
+});
+
+const PerfilSchema = Yup.object().shape({
+  usuario: Yup.string().required("Usuario requerido"),
+  nombre: Yup.string().required("Nombre requerido"),
+  correo: Yup.string().email("Correo inválido").required("Correo requerido"),
+});
+
+const ActualizarContraseniaSchema = Yup.object().shape({
+  contraseniaActual: Yup.string()
+    .min(5, "Contraseña inválida")
+    .required("Contraseña requerida"),
+  contraseniaNueva: Yup.string()
+    .min(5, "Contraseña nueva inválida")
+    .required("Contraseña nueva requerida"),
+  confirmarContraseniaNueva: Yup.string()
+    .min(5, "Contraseña inválida")
+    .required("Contraseña requerida")
+    .oneOf([Yup.ref("contraseniaNueva"), null], "Contraseña no coincide"),
+});
+
 const EmpleadoSchema = Yup.object().shape({
   nombres: Yup.string().required("Nombres requeridos"),
   apellidos: Yup.string().required("Apellidos requeridos"),
@@ -20,7 +53,7 @@ const EmpleadoSchema = Yup.object().shape({
   tipo_documento: Yup.string().required("Tipo de documento requerido"),
   numero_documento: Yup.string()
     .matches(/^[0-9]+$/, "Solo se aceptas digitos")
-    .min(5, "Debe ser minimo de 5 digitos")
+    .min(10, "Debe ser minimo de 10 digitos")
     .max(10, "Debe ser maximo de 10 digitos")
     .required("Numero de documento requerido"),
   file: Yup.mixed().required("Archivo requerido"),
@@ -38,7 +71,16 @@ const EmpleadoSchema = Yup.object().shape({
     .required("Numero de cuenta requerido"),
 });
 
+const ConceptoSchema = Yup.object().shape({
+  concepto: Yup.string().required("Concepto requerido"),
+});
+
 export default {
   LoginSchema,
+  OlvideContraseniaSchema,
+  NuevaContraseniaSchema,
+  PerfilSchema,
   EmpleadoSchema,
+  ActualizarContraseniaSchema,
+  ConceptoSchema
 };

@@ -22,6 +22,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 
 //Imagenes
 import logo from "../images/logo.png";
+import UiContext from "../context/ui/UiContext";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -31,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
     background: "#02524c",
     padding: "15px",
     [theme.breakpoints.up("md")]: {
-      width: "calc(100% - 333px)",
+      width: ({ widthMenu }) => `calc(100% - ${widthMenu}px)`,
     },
   },
   logo: {
@@ -52,14 +53,14 @@ const useStyles = makeStyles((theme) => ({
   },
   menuButton: {
     marginRight: theme.spacing(2),
-    [theme.breakpoints.up("md")]: {
-      display: "none",
-    },
   },
 }));
 
 const Header = ({ toggleDrawer }) => {
-  const classes = useStyles();
+  
+    const {menuProperties} = useContext(UiContext)
+
+  const classes = useStyles(menuProperties);
 
   const { perfil, cerrarSesion } = useContext(AuthContext);
 
@@ -78,16 +79,12 @@ const Header = ({ toggleDrawer }) => {
 
   const handleRute = (ruta) => {
     navigate(`${ruta}`);
+    setAnchorEl(null)
   };
 
   return (
     <AppBar position="fixed" className={classes.appBar}>
       <Toolbar className={classes.navbar}>
-        <img
-          src={logo}
-          className={classes.logo}
-          onClick={() => handleRute("")}
-        />
         <IconButton
           color="inherit"
           aria-label="open drawer"
@@ -119,7 +116,6 @@ const Header = ({ toggleDrawer }) => {
           anchorEl={anchorEl}
           open={open}
           onClose={handleClose}
-          onClick={handleClose}
           PaperProps={{
             elevation: 0,
             sx: {

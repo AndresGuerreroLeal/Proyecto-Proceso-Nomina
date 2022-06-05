@@ -79,7 +79,7 @@ const Empleados = () => {
 
   useEffect(() => {
     const obtenerEmpleadosState = async () => {
-      obtenerEmpleados(estado)
+      await obtenerEmpleados(estado)
     };
 
     obtenerEmpleadosState();
@@ -162,9 +162,11 @@ const Empleados = () => {
           <MenuItem value="inactive">Inactivo</MenuItem>
         </TextField>
 
-        <Button variant="contained" color="primary">
-          <Link to="nuevo-empleado">Nuevo Empleado</Link>
-        </Button>
+        <Link to="nuevo-empleado">
+          <Button variant="contained" color="primary">
+            Nuevo Empleado
+          </Button>
+        </Link>
       </div>
 
       {cargando ? (
