@@ -53,7 +53,7 @@ const EmpleadoSchema = Yup.object().shape({
   tipo_documento: Yup.string().required("Tipo de documento requerido"),
   numero_documento: Yup.string()
     .matches(/^[0-9]+$/, "Solo se aceptas digitos")
-    .min(5, "Debe ser minimo de 5 digitos")
+    .min(10, "Debe ser minimo de 10 digitos")
     .max(10, "Debe ser maximo de 10 digitos")
     .required("Numero de documento requerido"),
   file: Yup.mixed().required("Archivo requerido"),

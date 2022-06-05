@@ -101,7 +101,7 @@ const EmpleadoForm = () => {
 
   const {id} = useParams()
 
-  const values = {
+  let values = {
     nombres: "",
     apellidos: "",
     genero: "",
@@ -117,10 +117,10 @@ const EmpleadoForm = () => {
     numero_cuenta: "",
     file: "",
     reset: true,
-  };
+  }
 
   const handleSubmit =  (empleado)=>{
-  
+    
     try {
       window.scroll({
         top: 0,
@@ -218,6 +218,7 @@ const EmpleadoForm = () => {
                   }
                   helperText={formik.touched.nombres && formik.errors.nombres}
                   name="nombres"
+                  onBlur={formik.handleBlur}
                 />
                 <TextField
                   label="Apellidos"
@@ -232,6 +233,7 @@ const EmpleadoForm = () => {
                   helperText={
                     formik.touched.apellidos && formik.errors.apellidos
                   }
+                  onBlur={formik.handleBlur}
                 />
                 <TextField
                   select
@@ -243,6 +245,7 @@ const EmpleadoForm = () => {
                   onChange={formik.handleChange}
                   error={formik.touched.genero && Boolean(formik.errors.genero)}
                   helperText={formik.touched.genero && formik.errors.genero}
+                  onBlur={formik.handleBlur}
                 >
                   <MenuItem value="masculino">Masculino</MenuItem>
                   <MenuItem value="femenino">Femenino</MenuItem>
@@ -263,6 +266,7 @@ const EmpleadoForm = () => {
                     formik.touched.numero_celular &&
                     formik.errors.numero_celular
                   }
+                  onBlur={formik.handleBlur}
                 />
                 <TextField
                   label="Correo electrónico"
@@ -273,6 +277,7 @@ const EmpleadoForm = () => {
                   onChange={formik.handleChange}
                   error={formik.touched.correo && Boolean(formik.errors.correo)}
                   helperText={formik.touched.correo && formik.errors.correo}
+                  onBlur={formik.handleBlur}
                 />
               </Grid>
               <Grid item xs={12} lg={5.8}>
@@ -296,6 +301,7 @@ const EmpleadoForm = () => {
                       formik.touched.tipo_documento &&
                       formik.errors.tipo_documento
                     }
+                    onBlur={formik.handleBlur}
                   >
                     <MenuItem value="CC">CC</MenuItem>
                     <MenuItem value="CE">CE</MenuItem>
@@ -316,6 +322,7 @@ const EmpleadoForm = () => {
                       formik.touched.numero_documento &&
                       formik.errors.numero_documento
                     }
+                    onBlur={formik.handleBlur}
                   />
                 </div>
                 {!empleadoEditar.eliminar && id ? (
@@ -350,6 +357,7 @@ const EmpleadoForm = () => {
                     error={formik.touched.file && Boolean(formik.errors.file)}
                     helperText={formik.touched.file && formik.errors.file}
                     sx={inputStyles}
+                    onBlur={formik.handleBlur}
                   />
                 )}
 
@@ -368,6 +376,7 @@ const EmpleadoForm = () => {
                     formik.touched.ciudad_residencia &&
                     formik.errors.ciudad_residencia
                   }
+                  onBlur={formik.handleBlur}
                 />
                 <TextField
                   label="Dirección de residencia"
@@ -384,6 +393,7 @@ const EmpleadoForm = () => {
                     formik.touched.direccion_residencia &&
                     formik.errors.direccion_residencia
                   }
+                  onBlur={formik.handleBlur}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -405,8 +415,8 @@ const EmpleadoForm = () => {
                   helperText={
                     formik.touched.metodo_pago && formik.errors.metodo_pago
                   }
+                  onBlur={formik.handleBlur}
                 >
-                  <MenuItem value="efectivo">Efectivo</MenuItem>
                   <MenuItem value="transferencia">Transferencia</MenuItem>
                 </TextField>
 
@@ -426,8 +436,8 @@ const EmpleadoForm = () => {
                     formik.touched.entidad_bancaria &&
                     formik.errors.entidad_bancaria
                   }
+                  onBlur={formik.handleBlur}
                 >
-                  <MenuItem value="noaplica">No Aplica</MenuItem>
                   <MenuItem value="Bancamia S.A.">Bancamia S.A.</MenuItem>
                   <MenuItem value="Banco Agrario">Banco Agrario</MenuItem>
                   <MenuItem value="Banco Av Villas">Banco Av Villas</MenuItem>
@@ -478,8 +488,8 @@ const EmpleadoForm = () => {
                   <MenuItem value="Movii S.A.">Movii S.A.</MenuItem>
                   <MenuItem value="Nequi">Nequi</MenuItem>
                   <MenuItem value="Rappipay">Rappipay</MenuItem>
-                  <MenuItem value="Scotiabanck Colpatria">
-                    Scotiabanck Colpatria
+                  <MenuItem value="Scotiabank Colpatria">
+                    Scotiabank Colpatria
                   </MenuItem>
                 </TextField>
 
@@ -497,6 +507,7 @@ const EmpleadoForm = () => {
                   helperText={
                     formik.touched.tipo_cuenta && formik.errors.tipo_cuenta
                   }
+                  onBlur={formik.handleBlur}
                 >
                   <MenuItem value="Corriente">Corriente</MenuItem>
                   <MenuItem value="ahorro">Ahorro</MenuItem>
@@ -517,6 +528,7 @@ const EmpleadoForm = () => {
                   helperText={
                     formik.touched.numero_cuenta && formik.errors.numero_cuenta
                   }
+                  onBlur={formik.handleBlur}
                 />
                 {cargando ? (
                   <div className="container2">
