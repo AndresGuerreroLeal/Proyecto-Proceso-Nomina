@@ -98,7 +98,7 @@ beforeAll(async () => {
 });
 
 describe("-----Test de endpoint de crear reporte------", () => {
-  test("[GET code 201] [api/1.0/report-employee/create] Test para crear un reporte de empleados", async () => {
+  test("[GET code 201] [/api/1.0/report-employee/create] Test para crear un reporte de empleados", async () => {
     const response = await request(app)
       .get("/api/1.0/report-employee/create")
       .set("Authorization", `Bearer ${jwt}`);
@@ -122,7 +122,7 @@ describe("-----Test de endpoint de crear reporte------", () => {
 });
 
 describe("-----Test de endpoint de listar reportes-----", () => {
-  test("[GET code 200] [api/1.0/report-employee/list] Test de listar reportes de empleados", async () => {
+  test("[GET code 200] [/api/1.0/report-employee/list] Test de listar reportes de empleados", async () => {
     const response = await request(app)
       .get("/api/1.0/report-employee/list?pageNumber=0&pageSize=10")
       .set("Authorization", `Bearer ${jwt}`);
@@ -150,7 +150,7 @@ describe("-----Test de endpoint de listar reportes-----", () => {
 });
 
 describe("-----Test de endpoint de NO crear reporte-----", () => {
-  test("[GET code 400] [api/1.0/report-employee/create] Test para no crear un reporte de empleados", async () => {
+  test("[GET code 400] [/api/1.0/report-employee/create] Test para no crear un reporte de empleados", async () => {
     await Promise.resolve(
       Empleado.deleteMany({
         correo: [empleado1.correo, empleado2.correo, empleado3.correo],
@@ -167,7 +167,7 @@ describe("-----Test de endpoint de NO crear reporte-----", () => {
 });
 
 describe("----Test de endpoint de eliminar reportes------", () => {
-  test("[DELETE code 200] [api/1.0/report-employe/delete/:_id] Test para eliminar un reporte existente", async () => {
+  test("[DELETE code 200] [/api/1.0/report-employe/delete/:_id] Test para eliminar un reporte existente", async () => {
     const response = await request(app)
       .delete(`/api/1.0/report-employee/delete/${_id}`)
       .set("Authorization", `Bearer ${jwt}`);
@@ -176,7 +176,7 @@ describe("----Test de endpoint de eliminar reportes------", () => {
       "Se eliminó el reporte de empleados exitosamente"
     );
   });
-  test("[DELETE code 400] [api/1.0/report-employee/delete/:_id] Test para eliminar un reporte NO existente", async () => {
+  test("[DELETE code 400] [/api/1.0/report-employee/delete/:_id] Test para eliminar un reporte NO existente", async () => {
     const idInexistente = new mongoose.Types.ObjectId();
     const response = await request(app)
       .delete(`/api/1.0/report-employee/delete/${idInexistente}`)
