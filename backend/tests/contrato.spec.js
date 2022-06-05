@@ -18,6 +18,7 @@ const admin = {
 };
 
 let jwt;
+let _id;
 
 const empleado = {
   nombres: "Empleado1",
@@ -154,11 +155,12 @@ beforeEach(async () => {
 });
 
 describe("-----Test de endpoint crear un contrato-----", () => {
-  test("[POST code 201]  [/api/1.0/contract/create] Test de crear un contrato válido", async () => {
+  test("[POST code 201] [/api/1.0/contract/create] Test de crear un contrato válido", async () => {
     const response = await request(app)
       .post("/api/1.0/contract/create")
       .send(contrato)
       .set("Authorization", `Bearer ${jwt}`);
+    _id = response.body._id;
     expect(response.status).toBe(201);
     expect(response.body._id);
     expect(response.body.numero_contrato).toBe(empleado.numero_documento);
@@ -221,7 +223,7 @@ describe("-----Test de endpoint crear un contrato-----", () => {
     expect(response.body.estado).toBe("ACTIVO");
   });
 
-  test("[POST code 400] [api/1.0/contract/create] Test para crear un contrato con un número de contrato registrado", async () => {
+  test("[POST code 400] [/api/1.0/contract/create] Test para crear un contrato con un número de contrato registrado", async () => {
     const response = await request(app)
       .post("/api/1.0/contract/create")
       .send(contrato)
@@ -232,16 +234,75 @@ describe("-----Test de endpoint crear un contrato-----", () => {
     );
   });
 
-  test("[POST code 400] [api/1.0/contract/create] Test para crear un contrato sin un empleado relacionado", async () => {
-    contrato.numero_contrato = "1111111111";
+  test("[POST code 400] [/api/1.0/contract/create] Test para crear un contrato sin un empleado relacionado", async () => {
+    let contratoIdInvalido = Object.assign({}, contrato);
+    contratoIdInvalido.numero_contrato = "1111111111";
     const response = await request(app)
       .post("/api/1.0/contract/create")
-      .send(contrato)
+      .send(contratoIdInvalido)
       .set("Authorization", `Bearer ${jwt}`);
     expect(response.status).toBe(400);
     expect(response.body.message).toBe(
       "El contrato no tiene un empleado definido"
     );
+  });
+});
+
+describe("-----Test de endpoint obtener información de un contrato-----", () => {
+  test("[GET code 200] [/api/1.0/contract/:_id] Test de obtener información de un contrato existente", async () => {
+    const response = await request(app)
+      .get(`/api/1.0/contract/${_id}`)
+      .set("Authorization", `Bearer ${jwt}`);
+    const fecha = Date.now();
+    const fechaFormato = new Date(fecha).toISOString().split("T")[0];
+    expect(response.status).toBe(200);
+    expect(response.body._id).toBe(_id);
+    expect(response.body.numero_contrato).toBe(contrato.numero_contrato);
+    expect(response.body.fecha_inicio.split("T")[0]).toBe(
+      contrato.fecha_inicio
+    );
+    expect(response.body.sueldo).toBe(contrato.sueldo);
+    expect(response.body.cargo).toBe(contrato.cargo);
+    expect(response.body.tipo_cotizante).toBe(contrato.tipo_cotizante);
+    expect(response.body.auxilio_transporte).toBe(contrato.auxilio_transporte);
+    expect(response.body.fondo_salud).toBe(contrato.fondo_salud);
+    expect(response.body.porcentaje_salud_empleado).toBe(
+      contrato.porcentaje_salud_empleado
+    );
+    expect(response.body.porcentaje_salud_empleador).toBe(
+      contrato.porcentaje_salud_empleador
+    );
+    expect(response.body.fondo_pensiones).toBe(contrato.fondo_pensiones);
+    expect(response.body.porcentaje_pensiones_empleado).toBe(
+      contrato.porcentaje_pensiones_empleado
+    );
+    expect(response.body.porcentaje_pensiones_empleador).toBe(
+      contrato.porcentaje_pensiones_empleador
+    );
+    expect(response.body.arl).toBe(contrato.arl);
+    expect(response.body.porcentaje_arl).toBe(contrato.porcentaje_arl);
+    expect(response.body.fondo_cesantias).toBe(contrato.fondo_cesantias);
+    expect(response.body.porcentaje_parafiscal_SENA).toBe(
+      contrato.porcentaje_parafiscal_SENA
+    );
+    expect(response.body.porcentaje_parafiscal_ICBF).toBe(
+      contrato.porcentaje_parafiscal_ICBF
+    );
+    expect(response.body.porcentaje_parafiscal_caja_compensacion).toBe(
+      contrato.porcentaje_parafiscal_caja_compensacion
+    );
+    expect(response.body.salario_integral).toBe(false);
+    expect(response.body.createdAt.split("T")[0]).toBe(fechaFormato);
+    expect(response.body.updatedAt.split("T")[0]).toBe(fechaFormato);
+  });
+
+  test("[GET code 400] [/api/1.0/contract/:_id] Test de obtener información de un contrato inexistente", async () => {
+    const idInvalido = mongoose.Types.ObjectId();
+    const response = await request(app)
+      .get(`/api/1.0/contract/${idInvalido}`)
+      .set("Authorization", `Bearer ${jwt}`);
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe("El contrato no existe");
   });
 });
 
@@ -252,7 +313,7 @@ afterAll(async () => {
     Empleado.deleteOne({
       correo: empleado.correo,
     }),
-    Contrato.deleteOne({ numero_contrato: empleado.numero_documento }),
+    Contrato.deleteOne({ _id }),
   ]);
   mongoose.connection.close();
   server.close();
