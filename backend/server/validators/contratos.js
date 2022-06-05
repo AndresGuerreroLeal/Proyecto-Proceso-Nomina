@@ -1,5 +1,5 @@
 /**
- * Archivo de validación de la información que llega al servidor
+ * Archivo de validación de la información que llega al servidor para Contratos
  *
  * @author Juan-CamiloF
  */
