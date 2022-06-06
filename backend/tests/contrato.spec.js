@@ -277,11 +277,11 @@ describe("-----Test de endpoint obtener información de un contrato-----", () =>
       porcentajeSaludEmpleador
     );
     expect(response.body.fondo_pensiones).toBe(contrato.fondo_pensiones);
-    expect(response.body.porcentaje_pensiones_empleado).toBe(
-      contrato.porcentaje_pensiones_empleado
+    expect(response.body.porcentaje_pension_empleado).toBe(
+      contrato.porcentaje_pension_empleado
     );
-    expect(response.body.porcentaje_pensiones_empleador).toBe(
-      contrato.porcentaje_pensiones_empleador
+    expect(response.body.porcentaje_pension_empleador).toBe(
+      contrato.porcentaje_pension_empleador
     );
     expect(response.body.arl).toBe(contrato.arl);
     expect(response.body.porcentaje_arl).toBe(contrato.porcentaje_arl);
