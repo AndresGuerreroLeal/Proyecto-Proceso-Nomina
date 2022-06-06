@@ -274,7 +274,7 @@ describe("-----Test de endpoint obtener información de un contrato-----", () =>
       contrato.porcentaje_salud_empleado
     );
     expect(response.body.porcentaje_salud_empleador).toBe(
-      contrato.porcentaje_salud_empleador
+      porcentajeSaludEmpleador
     );
     expect(response.body.fondo_pensiones).toBe(contrato.fondo_pensiones);
     expect(response.body.porcentaje_pensiones_empleado).toBe(
@@ -286,11 +286,11 @@ describe("-----Test de endpoint obtener información de un contrato-----", () =>
     expect(response.body.arl).toBe(contrato.arl);
     expect(response.body.porcentaje_arl).toBe(contrato.porcentaje_arl);
     expect(response.body.fondo_cesantias).toBe(contrato.fondo_cesantias);
-    expect(response.body.porcentaje_parafiscal_SENA).toBe(
-      contrato.porcentaje_parafiscal_SENA
+    expect(response.body.porcentaje_parafiscal_sena).toBe(
+      contrato.porcentaje_parafiscal_sena
     );
-    expect(response.body.porcentaje_parafiscal_ICBF).toBe(
-      contrato.porcentaje_parafiscal_ICBF
+    expect(response.body.porcentaje_parafiscal_icbf).toBe(
+      contrato.porcentaje_parafiscal_icbf
     );
     expect(response.body.porcentaje_parafiscal_caja_compensacion).toBe(
       contrato.porcentaje_parafiscal_caja_compensacion
