@@ -72,7 +72,6 @@ const empleado3 = {
 let jwt;
 let datosReporte;
 let _id;
-let ruta;
 
 const fecha = Date.now();
 const fechaActual = new Date(fecha).toISOString().split("T")[0];
@@ -105,7 +104,6 @@ describe("-----Test de endpoint de crear reporte------", () => {
     const dbReportes = await ReportesEmpleados.find().exec();
     datosReporte = dbReportes[0];
     _id = datosReporte._id;
-    ruta = datosReporte.reporte;
     expect(response.status).toBe(201);
     expect(dbReportes.length).toBe(1);
     expect(datosReporte._id);
