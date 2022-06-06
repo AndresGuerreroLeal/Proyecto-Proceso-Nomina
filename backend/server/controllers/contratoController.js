@@ -47,7 +47,9 @@ const ContratoController = {
 
       /* Cálculo de aportes para salud */
       const porcentajeSaludEmpleado = req.body.porcentaje_salud_empleado;
-      const porcentajeSaludEmpleador = req.body.porcentaje_salud_empleador;
+      const porcentajeSaludEmpleador = req.body.salario_integral
+        ? req.body.porcentaje_salud_empleador
+        : 0;
       const valorSaludEmpleado = Math.round(
         sueldo * (porcentajeSaludEmpleado / 100)
       );
@@ -56,9 +58,8 @@ const ContratoController = {
         : 0;
 
       /* Cálculo de aportes para pensión */
-      const porcentajePensionEmpleado = req.body.porcentaje_pensiones_empleado;
-      const porcentajePensionEmpleador =
-        req.body.porcentaje_pensiones_empleador;
+      const porcentajePensionEmpleado = req.body.porcentaje_pension_empleado;
+      const porcentajePensionEmpleador = req.body.porcentaje_pension_empleador;
       const valorPensionEmpleado = Math.round(
         sueldo * (porcentajePensionEmpleado / 100)
       );
@@ -98,14 +99,14 @@ const ContratoController = {
 
       /* Cálculo parafiscales */
       const porcentajeParafiscalSENA = req.body.salario_integral
-        ? req.body.porcentaje_parafiscal_SENA
+        ? req.body.porcentaje_parafiscal_sena
         : 0;
       const valorParafiscalSENA = Math.round(
         sueldo * (porcentajeParafiscalSENA / 100)
       );
 
       const porcentajeParafiscalICBF = req.body.salario_integral
-        ? req.body.valor_parafiscal_ICBF
+        ? req.body.valor_parafiscal_icbf
         : 0;
       const valorParafiscalICBF = Math.round(
         sueldo * (porcentajeParafiscalICBF / 100)
@@ -146,8 +147,8 @@ const ContratoController = {
         aportes_salud_empleado: valorSaludEmpleado,
         aportes_salud_empleador: valorSaludEmpleador,
         fondo_pensiones: req.body.fondo_pensiones,
-        porcentaje_pensiones_empleado: porcentajePensionEmpleado,
-        porcentaje_pensiones_empleador: porcentajePensionEmpleador,
+        porcentaje_pension_empleado: porcentajePensionEmpleado,
+        porcentaje_pension_empleador: porcentajePensionEmpleador,
         aportes_pension_empleado: valorPensionEmpleado,
         aportes_pension_empleador: valorPensionEmpleador,
         arl: req.body.arl,
@@ -160,10 +161,10 @@ const ContratoController = {
         valor_intereses_cesantias: valorInteresesCesantias,
         porcentaje_vacaciones: porcentajeVacaciones,
         valor_vacaciones: valorVacaciones,
-        porcentaje_parafiscal_SENA: porcentajeParafiscalSENA,
-        valor_parafiscal_SENA: valorParafiscalSENA,
-        porcentaje_parafiscal_ICBF: porcentajeParafiscalICBF,
-        valor_parafiscal_ICBF: valorParafiscalICBF,
+        porcentaje_parafiscal_sena: porcentajeParafiscalSENA,
+        valor_parafiscal_sena: valorParafiscalSENA,
+        porcentaje_parafiscal_icbf: porcentajeParafiscalICBF,
+        valor_parafiscal_icbf: valorParafiscalICBF,
         porcentaje_parafiscal_caja_compensacion:
           porcentajeParafiscalCajaCompensacion,
         valor_parafiscal_caja_compensacion: valorParafiscalCajaCompesacion,
