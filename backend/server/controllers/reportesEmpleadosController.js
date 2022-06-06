@@ -190,7 +190,7 @@ const ReportesEmpleadosController = {
 
       const eliminarReporte = await ReporteEmpleado.findByIdAndDelete(
         req.params._id
-      );
+      ).exec();
       if (!eliminarReporte) {
         log.error("El reporte no existe");
         return res.status(400).send({ message: "El reporte no existe" });
