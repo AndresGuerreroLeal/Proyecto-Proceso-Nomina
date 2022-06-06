@@ -65,8 +65,8 @@ exports.validacionCrear = [
   check("arl").exists().notEmpty(),
   check("porcentaje_arl").exists().isFloat({ min: 0, max: 100 }),
   check("fondo_cesantias").exists().notEmpty(),
-  check("porcentaje_parafiscal_SENA").exists().isFloat({ min: 0, max: 100 }),
-  check("porcentaje_parafiscal_ICBF").exists().isFloat({ min: 0, max: 100 }),
+  check("porcentaje_parafiscal_sena").exists().isFloat({ min: 0, max: 100 }),
+  check("porcentaje_parafiscal_icbf").exists().isFloat({ min: 0, max: 100 }),
   check("porcentaje_parafiscal_caja_compensacion")
     .exists()
     .isFloat({ min: 0, max: 100 }),

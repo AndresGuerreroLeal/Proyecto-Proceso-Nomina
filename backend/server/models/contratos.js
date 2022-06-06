@@ -120,19 +120,19 @@ const ContratoSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    porcentaje_parafiscal_SENA: {
+    porcentaje_parafiscal_sena: {
       type: Number,
       required: true,
     },
-    valor_parafiscal_SENA: {
+    valor_parafiscal_sena: {
       type: Number,
       required: true,
     },
-    porcentaje_parafiscal_ICBF: {
+    porcentaje_parafiscal_icbf: {
       type: Number,
       required: true,
     },
-    valor_parafiscal_ICBF: {
+    valor_parafiscal_icbf: {
       type: Number,
       required: true,
     },

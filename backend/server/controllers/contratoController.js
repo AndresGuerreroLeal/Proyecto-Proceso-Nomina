@@ -97,14 +97,14 @@ const ContratoController = {
 
       /* Cálculo parafiscales */
       const porcentajeParafiscalSENA = req.body.salario_integral
-        ? req.body.porcentaje_parafiscal_SENA
+        ? req.body.porcentaje_parafiscal_sena
         : 0;
       const valorParafiscalSENA = Math.round(
         sueldo * (porcentajeParafiscalSENA / 100)
       );
 
       const porcentajeParafiscalICBF = req.body.salario_integral
-        ? req.body.valor_parafiscal_ICBF
+        ? req.body.valor_parafiscal_icbf
         : 0;
       const valorParafiscalICBF = Math.round(
         sueldo * (porcentajeParafiscalICBF / 100)
@@ -159,10 +159,10 @@ const ContratoController = {
         valor_intereses_cesantias: valorInteresesCesantias,
         porcentaje_vacaciones: porcentajeVacaciones,
         valor_vacaciones: valorVacaciones,
-        porcentaje_parafiscal_SENA: porcentajeParafiscalSENA,
-        valor_parafiscal_SENA: valorParafiscalSENA,
-        porcentaje_parafiscal_ICBF: porcentajeParafiscalICBF,
-        valor_parafiscal_ICBF: valorParafiscalICBF,
+        porcentaje_parafiscal_sena: porcentajeParafiscalSENA,
+        valor_parafiscal_sena: valorParafiscalSENA,
+        porcentaje_parafiscal_icbf: porcentajeParafiscalICBF,
+        valor_parafiscal_icbf: valorParafiscalICBF,
         porcentaje_parafiscal_caja_compensacion:
           porcentajeParafiscalCajaCompensacion,
         valor_parafiscal_caja_compensacion: valorParafiscalCajaCompesacion,
