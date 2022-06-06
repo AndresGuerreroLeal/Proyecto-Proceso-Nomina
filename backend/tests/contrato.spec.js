@@ -66,8 +66,12 @@ const aportesSaludEmpleado = Math.round(
   contrato.sueldo * (contrato.porcentaje_salud_empleado / 100)
 );
 
+const porcentajeSaludEmpleador = contrato.salario_integral
+  ? contrato.porcentaje_salud_empleado
+  : 0;
+
 const aportesSaludEmpleador = contrato.salario_integral
-  ? Math.round(contrato.sueldo * (contrato.porcentaje_salud_empleador / 100))
+  ? Math.round(contrato.sueldo * (porcentajeSaludEmpleador / 100))
   : 0;
 
 const aportesPensionEmpleado = Math.round(
@@ -175,7 +179,7 @@ describe("-----Test de endpoint crear un contrato-----", () => {
       contrato.porcentaje_salud_empleado
     );
     expect(response.body.porcentaje_salud_empleador).toBe(
-      contrato.porcentaje_salud_empleador
+      porcentajeSaludEmpleador
     );
     expect(response.body.aportes_salud_empleado).toBe(aportesSaludEmpleado);
     expect(response.body.aportes_salud_empleador).toBe(aportesSaludEmpleador);
