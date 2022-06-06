@@ -4,8 +4,9 @@
  * @author Juan-CamiloF
  */
 
-const { check } = require("express-validator");
+const { check, param } = require("express-validator");
 const validate = require("./validate");
+const mongoose = require("mongoose");
 
 const regex = /^[0-9]*$/;
 let validacion = {
@@ -71,6 +72,21 @@ exports.validacionCrear = [
     .exists()
     .isFloat({ min: 0, max: 100 }),
   check("salario_integral").exists().isBoolean(),
+  (req, res, next) => {
+    validate(req, res, next);
+  },
+];
+
+//Validación de la información obtener un empleados
+exports.validacionObtener = [
+  param("_id")
+    .exists()
+    .notEmpty()
+    .custom((value) => {
+      if (!mongoose.Types.ObjectId.isValid(value))
+        return Promise.reject("No hay identificador del contrato");
+      return Promise.resolve(true);
+    }),
   (req, res, next) => {
     validate(req, res, next);
   },

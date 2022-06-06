@@ -7,15 +7,24 @@
 const express = require("express");
 const router = express.Router();
 const { auth, admin, reports } = require("../middleware/auth");
-const { validacionCrear } = require("../validators/contratos");
+const {
+  validacionCrear,
+  validacionObtener,
+} = require("../validators/contratos");
 /**
  * @see ContratosController
  *
  * Se extrae métodos del objeto ContratosController
  */
-const { crearContrato } = require("../controllers/contratoController");
+const {
+  crearContrato,
+  obtenerContrato,
+} = require("../controllers/contratoController");
 
 //Ruta de crear contratos [POST]
 router.post("/create", [auth, admin], validacionCrear, crearContrato);
+
+//Ruta de obtener contrato [GET]
+router.get("/:_id", [auth, reports], validacionObtener, obtenerContrato);
 
 module.exports = router;
