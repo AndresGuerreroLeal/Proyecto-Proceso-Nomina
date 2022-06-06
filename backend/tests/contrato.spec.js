@@ -49,8 +49,8 @@ let contrato = {
   porcentaje_salud_empleado: 4,
   porcentaje_salud_empleador: 8.5,
   fondo_pensiones: "Fondo de pensiones",
-  porcentaje_pensiones_empleado: 4,
-  porcentaje_pensiones_empleador: 12,
+  porcentaje_pension_empleado: 4,
+  porcentaje_pension_empleador: 12,
   arl: "Arl",
   porcentaje_arl: 0.522,
   fondo_cesantias: "Fondo de cesantias",
@@ -71,10 +71,10 @@ const aportesSaludEmpleador = contrato.salario_integral
   : 0;
 
 const aportesPensionEmpleado = Math.round(
-  contrato.sueldo * (contrato.porcentaje_pensiones_empleado / 100)
+  contrato.sueldo * (contrato.porcentaje_pension_empleado / 100)
 );
 const aportesPensionEmpleador = Math.round(
-  contrato.sueldo * (contrato.porcentaje_pensiones_empleador / 100)
+  contrato.sueldo * (contrato.porcentaje_pension_empleador / 100)
 );
 
 const valorArl = Math.round(contrato.sueldo * (contrato.porcentaje_arl / 100));
@@ -180,11 +180,11 @@ describe("-----Test de endpoint crear un contrato-----", () => {
     expect(response.body.aportes_salud_empleado).toBe(aportesSaludEmpleado);
     expect(response.body.aportes_salud_empleador).toBe(aportesSaludEmpleador);
     expect(response.body.fondo_pensiones).toBe(contrato.fondo_pensiones);
-    expect(response.body.porcentaje_pensiones_empleado).toBe(
-      contrato.porcentaje_pensiones_empleado
+    expect(response.body.porcentaje_pension_empleado).toBe(
+      contrato.porcentaje_pension_empleado
     );
-    expect(response.body.porcentaje_pensiones_empleador).toBe(
-      contrato.porcentaje_pensiones_empleador
+    expect(response.body.porcentaje_pension_empleador).toBe(
+      contrato.porcentaje_pension_empleador
     );
     expect(response.body.aportes_pension_empleado).toBe(aportesPensionEmpleado);
     expect(response.body.aportes_pension_empleador).toBe(

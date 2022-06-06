@@ -70,11 +70,11 @@ const ContratoSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    porcentaje_pensiones_empleado: {
+    porcentaje_pension_empleado: {
       type: Number,
       required: true,
     },
-    porcentaje_pensiones_empleador: {
+    porcentaje_pension_empleador: {
       type: Number,
       required: true,
     },

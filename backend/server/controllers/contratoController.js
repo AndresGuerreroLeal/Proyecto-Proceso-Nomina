@@ -56,9 +56,8 @@ const ContratoController = {
         : 0;
 
       /* Cálculo de aportes para pensión */
-      const porcentajePensionEmpleado = req.body.porcentaje_pensiones_empleado;
-      const porcentajePensionEmpleador =
-        req.body.porcentaje_pensiones_empleador;
+      const porcentajePensionEmpleado = req.body.porcentaje_pension_empleado;
+      const porcentajePensionEmpleador = req.body.porcentaje_pension_empleador;
       const valorPensionEmpleado = Math.round(
         sueldo * (porcentajePensionEmpleado / 100)
       );
@@ -146,8 +145,8 @@ const ContratoController = {
         aportes_salud_empleado: valorSaludEmpleado,
         aportes_salud_empleador: valorSaludEmpleador,
         fondo_pensiones: req.body.fondo_pensiones,
-        porcentaje_pensiones_empleado: porcentajePensionEmpleado,
-        porcentaje_pensiones_empleador: porcentajePensionEmpleador,
+        porcentaje_pension_empleado: porcentajePensionEmpleado,
+        porcentaje_pension_empleador: porcentajePensionEmpleador,
         aportes_pension_empleado: valorPensionEmpleado,
         aportes_pension_empleador: valorPensionEmpleador,
         arl: req.body.arl,

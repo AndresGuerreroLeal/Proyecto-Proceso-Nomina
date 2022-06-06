@@ -58,8 +58,8 @@ exports.validacionCrear = [
   check("porcentaje_salud_empleado").exists().isFloat({ min: 0, max: 100 }),
   check("porcentaje_salud_empleador").exists().isFloat({ min: 0, max: 100 }),
   check("fondo_pensiones").exists().notEmpty(),
-  check("porcentaje_pensiones_empleado").exists().isFloat({ min: 0, max: 100 }),
-  check("porcentaje_pensiones_empleador")
+  check("porcentaje_pension_empleado").exists().isFloat({ min: 0, max: 100 }),
+  check("porcentaje_pension_empleador")
     .exists()
     .isFloat({ min: 0, max: 100 }),
   check("arl").exists().notEmpty(),
