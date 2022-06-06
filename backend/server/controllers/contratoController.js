@@ -47,7 +47,9 @@ const ContratoController = {
 
       /* Cálculo de aportes para salud */
       const porcentajeSaludEmpleado = req.body.porcentaje_salud_empleado;
-      const porcentajeSaludEmpleador = req.body.porcentaje_salud_empleador;
+      const porcentajeSaludEmpleador = req.body.salario_integral
+        ? req.body.porcentaje_salud_empleador
+        : 0;
       const valorSaludEmpleado = Math.round(
         sueldo * (porcentajeSaludEmpleado / 100)
       );
