@@ -20,7 +20,7 @@ const ReportesEmpleadosController = {
    * @return archivo xlsx con los empleados @code 201 o mensaje @code 400
    */
   crearReporte: async (req, res) => {
-    log.info("[POST] Petición de crear un contrato");
+    log.info("[GET] Petición de crear un reporte de empleados");
     try {
       const cantidadEmpleados = await Empleado.estimatedDocumentCount().exec();
       if (cantidadEmpleados < 1) {
@@ -59,6 +59,7 @@ const ReportesEmpleadosController = {
       const { reporteEstado, wb } = crearArchivoReporte(
         columnas,
         empleados,
+        "reportesEmpleados",
         "Empleados",
         nombre
       );
@@ -73,7 +74,7 @@ const ReportesEmpleadosController = {
       }
 
       const fechaInicio = empleados[0].createdAt;
-      const fechaFin = empleados[cantidadEmpleados - 1].createdAt;
+      const fechaFinal = empleados[cantidadEmpleados - 1].createdAt;
 
       const url = req.protocol + "://" + req.get("host");
       const reporteUrl =
@@ -83,7 +84,7 @@ const ReportesEmpleadosController = {
         nombre,
         cantidad_empleados: cantidadEmpleados,
         fecha_inicio: fechaInicio.toISOString().split("T")[0],
-        fecha_final: fechaFin.toISOString().split("T")[0],
+        fecha_final: fechaFinal.toISOString().split("T")[0],
         reporte: reporteUrl,
       });
 
@@ -114,7 +115,7 @@ const ReportesEmpleadosController = {
    * @return documento @code 200 o mensaje @code 400
    */
   descargarReporte: async (req, res) => {
-    log.info("[GET] Petición para descargar reporte empleado");
+    log.info("[GET] Petición para descargar reporte de empleados");
 
     try {
       const archivo = path.normalize(
@@ -134,7 +135,7 @@ const ReportesEmpleadosController = {
    * @return lista de reportes de empleados @code 200 o mensaje @code 400
    */
   listarReportes: async (req, res) => {
-    log.info("[GET] Petición para obtener lista reportes de empleados");
+    log.info("[GET] Petición para obtener lista de reportes de empleados");
 
     try {
       const { pageNumber, pageSize } = req.query;
@@ -194,7 +195,7 @@ const ReportesEmpleadosController = {
         log.error("El reporte no existe");
         return res.status(400).send({ message: "El reporte no existe" });
       }
-      
+
       log.info("Se eliminó el reporte de empleados exitosamente");
       return res
         .status(200)
