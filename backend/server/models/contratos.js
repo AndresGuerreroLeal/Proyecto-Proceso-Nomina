@@ -70,11 +70,11 @@ const ContratoSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    porcentaje_pensiones_empleado: {
+    porcentaje_pension_empleado: {
       type: Number,
       required: true,
     },
-    porcentaje_pensiones_empleador: {
+    porcentaje_pension_empleador: {
       type: Number,
       required: true,
     },
@@ -120,19 +120,19 @@ const ContratoSchema = new mongoose.Schema(
       type: Number,
       required: true,
     },
-    porcentaje_parafiscal_SENA: {
+    porcentaje_parafiscal_sena: {
       type: Number,
       required: true,
     },
-    valor_parafiscal_SENA: {
+    valor_parafiscal_sena: {
       type: Number,
       required: true,
     },
-    porcentaje_parafiscal_ICBF: {
+    porcentaje_parafiscal_icbf: {
       type: Number,
       required: true,
     },
-    valor_parafiscal_ICBF: {
+    valor_parafiscal_icbf: {
       type: Number,
       required: true,
     },

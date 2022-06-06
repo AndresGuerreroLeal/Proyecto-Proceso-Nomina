@@ -49,13 +49,13 @@ let contrato = {
   porcentaje_salud_empleado: 4,
   porcentaje_salud_empleador: 8.5,
   fondo_pensiones: "Fondo de pensiones",
-  porcentaje_pensiones_empleado: 4,
-  porcentaje_pensiones_empleador: 12,
+  porcentaje_pension_empleado: 4,
+  porcentaje_pension_empleador: 12,
   arl: "Arl",
   porcentaje_arl: 0.522,
   fondo_cesantias: "Fondo de cesantias",
-  porcentaje_parafiscal_SENA: 0,
-  porcentaje_parafiscal_ICBF: 0,
+  porcentaje_parafiscal_sena: 0,
+  porcentaje_parafiscal_icbf: 0,
   porcentaje_parafiscal_caja_compensacion: 4,
   salario_integral: false,
 };
@@ -66,15 +66,19 @@ const aportesSaludEmpleado = Math.round(
   contrato.sueldo * (contrato.porcentaje_salud_empleado / 100)
 );
 
+const porcentajeSaludEmpleador = contrato.salario_integral
+  ? contrato.porcentaje_salud_empleado
+  : 0;
+
 const aportesSaludEmpleador = contrato.salario_integral
-  ? Math.round(contrato.sueldo * (contrato.porcentaje_salud_empleador / 100))
+  ? Math.round(contrato.sueldo * (porcentajeSaludEmpleador / 100))
   : 0;
 
 const aportesPensionEmpleado = Math.round(
-  contrato.sueldo * (contrato.porcentaje_pensiones_empleado / 100)
+  contrato.sueldo * (contrato.porcentaje_pension_empleado / 100)
 );
 const aportesPensionEmpleador = Math.round(
-  contrato.sueldo * (contrato.porcentaje_pensiones_empleador / 100)
+  contrato.sueldo * (contrato.porcentaje_pension_empleador / 100)
 );
 
 const valorArl = Math.round(contrato.sueldo * (contrato.porcentaje_arl / 100));
@@ -94,7 +98,7 @@ const valorInteresesCesantias = Math.round(
 const valorVacaciones = Math.round(contrato.sueldo * (50 / 12 / 100));
 
 const porcentajeParafiscalSENA = contrato.salario_integral
-  ? contrato.porcentaje_parafiscal_SENA
+  ? contrato.porcentaje_parafiscal_sena
   : 0;
 
 const valorParafiscalSENA = Math.round(
@@ -102,7 +106,7 @@ const valorParafiscalSENA = Math.round(
 );
 
 const porcentajeParafiscalICBF = contrato.salario_integral
-  ? contrato.porcentaje_parafiscal_ICBF
+  ? contrato.porcentaje_parafiscal_icbf
   : 0;
 
 const valorParafiscalICBF = Math.round(
@@ -175,16 +179,16 @@ describe("-----Test de endpoint crear un contrato-----", () => {
       contrato.porcentaje_salud_empleado
     );
     expect(response.body.porcentaje_salud_empleador).toBe(
-      contrato.porcentaje_salud_empleador
+      porcentajeSaludEmpleador
     );
     expect(response.body.aportes_salud_empleado).toBe(aportesSaludEmpleado);
     expect(response.body.aportes_salud_empleador).toBe(aportesSaludEmpleador);
     expect(response.body.fondo_pensiones).toBe(contrato.fondo_pensiones);
-    expect(response.body.porcentaje_pensiones_empleado).toBe(
-      contrato.porcentaje_pensiones_empleado
+    expect(response.body.porcentaje_pension_empleado).toBe(
+      contrato.porcentaje_pension_empleado
     );
-    expect(response.body.porcentaje_pensiones_empleador).toBe(
-      contrato.porcentaje_pensiones_empleador
+    expect(response.body.porcentaje_pension_empleador).toBe(
+      contrato.porcentaje_pension_empleador
     );
     expect(response.body.aportes_pension_empleado).toBe(aportesPensionEmpleado);
     expect(response.body.aportes_pension_empleador).toBe(
@@ -200,14 +204,14 @@ describe("-----Test de endpoint crear un contrato-----", () => {
       valorInteresesCesantias
     );
     expect(response.body.valor_vacaciones).toBe(valorVacaciones);
-    expect(response.body.porcentaje_parafiscal_SENA).toBe(
+    expect(response.body.porcentaje_parafiscal_sena).toBe(
       porcentajeParafiscalSENA
     );
-    expect(response.body.valor_parafiscal_SENA).toBe(valorParafiscalSENA);
-    expect(response.body.porcentaje_parafiscal_ICBF).toBe(
+    expect(response.body.valor_parafiscal_sena).toBe(valorParafiscalSENA);
+    expect(response.body.porcentaje_parafiscal_icbf).toBe(
       porcentajeParafiscalICBF
     );
-    expect(response.body.valor_parafiscal_ICBF).toBe(valorParafiscalICBF);
+    expect(response.body.valor_parafiscal_icbf).toBe(valorParafiscalICBF);
     expect(response.body.porcentaje_parafiscal_caja_compensacion).toBe(
       contrato.porcentaje_parafiscal_caja_compensacion
     );
