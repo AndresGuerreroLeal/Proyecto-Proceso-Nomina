@@ -12,15 +12,24 @@ import { useNavigate } from "react-router-dom";
 const EmpleadoState = ({ children }) => {
   const [cargando, setCargando] = useState(false);
   const [empleados, setEmpleados] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [count, setCount] = useState(0);
-  const [totalpages, setTotalPages] = useState(0);
+  const [reportesEmpleados,setReportesEmpleados] = useState([])
+
+  const [pageEmpleados, setPageEmpleados] = useState(0);
+  const [rowsPerPageEmpleados, setRowsPerPageEmpleados] = useState(5);
+  const [totalpagesEmpleados, setTotalPagesEmpleados] = useState(0);
+  const [countEmpleados, setCountEmpleados] = useState(0);
+  
   const [estado, setEstado] = useState("active");
   const [empleado, setEmpleado] = useState({});
   const [modalEmpleado, setModalEmpleado] = useState(false);
   const [empleadoEditar, setEmpledadoEditar] = useState({});
   const [empleadoEstado, setEmpleadoEstado] = useState({});
+  const [reporteEliminar,setReporteEliminar] = useState({})
+
+  const [pageReportes, setPageReportes] = useState(0);
+  const [rowsPerPageReportes, setRowsPerPageReportes] = useState(5);
+  const [totalpagesReportes, setTotalPagesReportes] = useState(0);
+  const [countReportes, setCountReportes] = useState(0);
 
   const navigate = useNavigate();
 
@@ -34,15 +43,15 @@ const EmpleadoState = ({ children }) => {
 
       const { data } = await clienteAxios.get(
         `/api/1.0/employee/list-${estado}?pageNumber=${
-          page + 1
-        }&pageSize=${rowsPerPage}`,
+          pageEmpleados + 1
+        }&pageSize=${rowsPerPageEmpleados}`,
         TokenAuth(token)
       );
 
       setEmpleados(data.docs);
-      setPage(data.page - 1);
-      setCount(data.totalDocs);
-      setTotalPages(data.totalPages);
+      setPageEmpleados(data.page - 1);
+      setCountEmpleados(data.totalDocs);
+      setTotalPagesEmpleados(data.totalPages);
     } catch (err) {
       mostrarAlerta({
         message: err.response.data.message,
@@ -216,6 +225,9 @@ const EmpleadoState = ({ children }) => {
       );
 
       setEmpleadoEstado({});
+
+      setCountEmpleados(countEmpleados - 1);  
+
     } catch (err) {
       console.log(err);
     } finally {
@@ -223,22 +235,86 @@ const EmpleadoState = ({ children }) => {
     }
   };
 
+  const obtenerReportes = async () => {
+    setCargando(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.get(
+        `/api/1.0/report-employee/list/?pageNumber=${
+          pageReportes + 1
+        }&pageSize=${rowsPerPageReportes}`,
+        TokenAuth(token)
+      );
+
+      setReportesEmpleados(data.docs);
+      setPageReportes(data.page - 1);
+      setCountReportes(data.totalDocs);
+      setTotalPagesReportes(data.totalPages);
+    } catch (err) {
+      mostrarAlerta({
+        message: err.response.data.message,
+        categoria: "error",
+      });
+    } finally {
+      setCargando(false);
+    }
+  };
+
+  const eliminarReporte = async (id) => {
+    setCargando(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.delete(
+        `/api/1.0/report-employee/delete/${id}`,
+        TokenAuth(token)
+      );
+      
+
+      mostrarAlerta({
+        message: data.message,
+        categoria: "info",
+      });
+
+      setReportesEmpleados(
+        reportesEmpleados.filter((reporteState) => reporteState._id !== id)
+      );
+      
+      setCountReportes(countReportes - 1)
+
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setCargando(false);
+    }
+  };
+
+
   return (
     <EmpleadoContext.Provider
       value={{
         cargando,
         empleados,
-        page,
-        rowsPerPage,
-        count,
-        totalpages,
+        pageEmpleados,
+        rowsPerPageEmpleados,
+        countEmpleados,
+        totalpagesEmpleados,
         estado,
         empleado,
         modalEmpleado,
         empleadoEditar,
         empleadoEstado,
-        setRowsPerPage,
-        setPage,
+        reportesEmpleados,
+        pageReportes,
+        rowsPerPageReportes,
+        countReportes,
+        totalpagesReportes,
+        reporteEliminar,
+        setRowsPerPageEmpleados,
+        setPageEmpleados,
         crearEmpleado,
         obtenerEmpleados,
         setEstado,
@@ -249,6 +325,11 @@ const EmpleadoState = ({ children }) => {
         editarEmpleado,
         obtenerEmpleadoEstado,
         actualizarEstado,
+        obtenerReportes,
+        setRowsPerPageReportes,
+        setPageReportes,
+        eliminarReporte,
+        setReporteEliminar,
       }}
     >
       {children}

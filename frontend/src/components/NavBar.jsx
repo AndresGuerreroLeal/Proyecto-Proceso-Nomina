@@ -77,8 +77,8 @@ const NavBar = () => {
       return;
     }
 
-    changeMenuProperties();
     setOpen(!open);
+    changeMenuProperties();
   };
 
   const [menuempleados, setMenuEmpleados] = useState(false);

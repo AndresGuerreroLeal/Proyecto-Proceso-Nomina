@@ -44,12 +44,12 @@ const Empleados = () => {
     const {
       empleados,
       cargando,
-      page,
-      rowsPerPage,
-      count,
-      totalpages,
-      setPage,
-      setRowsPerPage,
+      pageEmpleados,
+      rowsPerPageEmpleados,
+      countEmpleados,
+      totalpagesEmpleados,
+      setPageEmpleados,
+      setRowsPerPageEmpleados,
       obtenerEmpleados,
       estado,
       setEstado,
@@ -83,16 +83,16 @@ const Empleados = () => {
     };
 
     obtenerEmpleadosState();
-  }, [rowsPerPage,page,estado]);
+  }, [rowsPerPageEmpleados,pageEmpleados,estado]);
       
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    setPageEmpleados(newPage)
   };
   
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value),10);
-    setPage(0);
+    setRowsPerPageEmpleados(parseInt(event.target.value),10);
+    setPageEmpleados(0);
   };
 
   const useStyles = makeStyles((theme) => ({
@@ -109,6 +109,36 @@ const Empleados = () => {
     obtenerEmpleadoEditar(empleado)
     navigate(`editar-empleado/${empleado._id}`);
   }
+
+  const handleDownload =(docurl)=>{
+    const token = localStorage.getItem("token");
+
+    let config = {
+      responseType: "blob",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    clienteAxios
+      .get(docurl, config)
+      .then((res) => res.data)
+      .then((file) => {
+        const downloadUrl = window.URL.createObjectURL(new Blob([file]));
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.setAttribute(
+          "download",
+          `reportesempleado.xlsx`
+        );
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }  
 
   return (
     <>
@@ -200,8 +230,8 @@ const Empleados = () => {
               <TableBody>
                 {empleados
                   .slice(
-                    page - totalpages * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
+                    pageEmpleados - totalpagesEmpleados * rowsPerPageEmpleados,
+                    pageEmpleados * rowsPerPageEmpleados + rowsPerPageEmpleados
                   )
                   .map((row) => {
                     return (
@@ -277,9 +307,9 @@ const Empleados = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 15]}
             component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
+            count={countEmpleados}
+            rowsPerPage={rowsPerPageEmpleados}
+            page={pageEmpleados}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
             labelRowsPerPage={"Número de filas"}
@@ -292,8 +322,12 @@ const Empleados = () => {
 
       {modalEmpleado && <ModalEmpleado />}
 
-      <Button variant="contained" color="primary">
-        <Link to="reportes-empleados">Generar reportes</Link>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => handleDownload("/api/1.0/report-employee/create")}
+      >
+        Generar reportes
       </Button>
     </>
   );
