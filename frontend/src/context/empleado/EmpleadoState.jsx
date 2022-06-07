@@ -289,7 +289,9 @@ const EmpleadoState = ({ children }) => {
         editarEmpleado,
         obtenerEmpleadoEstado,
         actualizarEstado,
-        obtenerReportes
+        obtenerReportes,
+        setRowsPerPageReportes,
+        setPageReportes,
       }}
     >
       {children}
