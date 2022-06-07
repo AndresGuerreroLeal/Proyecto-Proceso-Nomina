@@ -24,6 +24,7 @@ const EmpleadoState = ({ children }) => {
   const [modalEmpleado, setModalEmpleado] = useState(false);
   const [empleadoEditar, setEmpledadoEditar] = useState({});
   const [empleadoEstado, setEmpleadoEstado] = useState({});
+  const [reporteEliminar,setReporteEliminar] = useState({})
 
   const [pageReportes, setPageReportes] = useState(0);
   const [rowsPerPageReportes, setRowsPerPageReportes] = useState(5);
@@ -224,6 +225,9 @@ const EmpleadoState = ({ children }) => {
       );
 
       setEmpleadoEstado({});
+
+      setCountEmpleados(countEmpleados - 1);  
+
     } catch (err) {
       console.log(err);
     } finally {
@@ -258,6 +262,37 @@ const EmpleadoState = ({ children }) => {
     }
   };
 
+  const eliminarReporte = async (id) => {
+    setCargando(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.delete(
+        `/api/1.0/report-employee/delete/${id}`,
+        TokenAuth(token)
+      );
+      
+
+      mostrarAlerta({
+        message: data.message,
+        categoria: "info",
+      });
+
+      setReportesEmpleados(
+        reportesEmpleados.filter((reporteState) => reporteState._id !== id)
+      );
+      
+      setCountReportes(countReportes - 1)
+
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setCargando(false);
+    }
+  };
+
+
   return (
     <EmpleadoContext.Provider
       value={{
@@ -277,6 +312,7 @@ const EmpleadoState = ({ children }) => {
         rowsPerPageReportes,
         countReportes,
         totalpagesReportes,
+        reporteEliminar,
         setRowsPerPageEmpleados,
         setPageEmpleados,
         crearEmpleado,
@@ -292,6 +328,8 @@ const EmpleadoState = ({ children }) => {
         obtenerReportes,
         setRowsPerPageReportes,
         setPageReportes,
+        eliminarReporte,
+        setReporteEliminar,
       }}
     >
       {children}

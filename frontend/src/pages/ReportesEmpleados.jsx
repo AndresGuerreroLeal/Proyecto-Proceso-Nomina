@@ -20,6 +20,8 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ModalDialog from "../components/ModalDialog";
 import ModalDeshabilitar from "../components/ModalDeshabilitar";
 import DownloadIcon from '@mui/icons-material/Download';
+import AlertaContext from "../context/alerta/AlertaContext";
+import Alerta from "../components/Alerta";
 
 const columns = [
   { id: "nombre", label: "Nombre", minWidth: 130 },
@@ -45,6 +47,7 @@ const ReportesEmpleado = () => {
       setPageReportes,
       setRowsPerPageReportes,
       obtenerReportes,
+      eliminarReporte,
       estado,
       setEstado,
       obtenerEmpleado,
@@ -53,8 +56,12 @@ const ReportesEmpleado = () => {
       mostrarModalEmpleado,
       obtenerEmpleadoEditar,
       actualizarEstado,
-      obtenerEmpleadoEstado
+      obtenerEmpleadoEstado,
+      reporteEliminar,
+      setReporteEliminar
     } = useContext(EmpleadoContext);
+
+  const { alerta } = useContext(AlertaContext);
 
     const navigate = useNavigate()
 
@@ -66,8 +73,13 @@ const ReportesEmpleado = () => {
     setOpenDeshabilitar(false)
   }
   
-  const handleDeshabilitar = ()=>{
-    setOpenDeshabilitar(true)
+  const obtenerReporte = (reporte)=>{
+    setOpenEliminar(true)
+    setReporteEliminar(reporte)
+  }
+
+  const handleEliminarReporte = ()=>{
+    eliminarReporte(reporteEliminar)
     setOpenEliminar(false)
   }
 
@@ -79,8 +91,6 @@ const ReportesEmpleado = () => {
     obtenerReportesState();
   }, [rowsPerPageReportes,pageReportes]);
   
-  console.log(reportesEmpleados)
-
   const handleChangePage = (event, newPage) => {
     setPageReportes(newPage);
   };
@@ -132,9 +142,20 @@ const ReportesEmpleado = () => {
       });
   }  
 
+  const {message} = alerta
 
   return (
     <>
+      {openEliminar && (
+        <ModalDialog
+          open={openEliminar}
+          setOpen={setOpenEliminar}
+          titulo={`¿Está seguro de eliminar el reporte?`}
+          contenido={"Se eliminará permanentemente y no podrá ser recuperado."}
+          eliminar={handleEliminarReporte}
+        />
+      )}
+
       <div className={classes.header}>
         <Typography variant="h4" component="h2">
           Reportes de Empleados
@@ -154,6 +175,8 @@ const ReportesEmpleado = () => {
             marginBottom: "30px",
           }}
         >
+          {message && <Alerta />}
+
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
@@ -206,11 +229,17 @@ const ReportesEmpleado = () => {
                                   <Button
                                     variant="outlined"
                                     color="primary"
-                                    onClick={() => handleDownload(row.reporte,row.nombre)}
+                                    onClick={() =>
+                                      handleDownload(row.reporte, row.nombre)
+                                    }
                                   >
                                     <DownloadIcon />
                                   </Button>
-                                  <Button variant="outlined" color="secondary">
+                                  <Button
+                                    variant="outlined"
+                                    color="secondary"
+                                    onClick={() => obtenerReporte(row._id)}
+                                  >
                                     <DeleteIcon />
                                   </Button>
                                 </div>
