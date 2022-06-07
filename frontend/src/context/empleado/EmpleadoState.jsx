@@ -12,15 +12,22 @@ import { useNavigate } from "react-router-dom";
 const EmpleadoState = ({ children }) => {
   const [cargando, setCargando] = useState(false);
   const [empleados, setEmpleados] = useState([]);
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
-  const [count, setCount] = useState(0);
-  const [totalpages, setTotalPages] = useState(0);
+
+  const [pageEmpleados, setPageEmpleados] = useState(0);
+  const [rowsPerPageEmpleados, setRowsPerPageEmpleados] = useState(5);
+  const [totalpagesEmpleados, setTotalPagesEmpleados] = useState(0);
+  const [countEmpleados, setCountEmpleados] = useState(0);
+  
   const [estado, setEstado] = useState("active");
   const [empleado, setEmpleado] = useState({});
   const [modalEmpleado, setModalEmpleado] = useState(false);
   const [empleadoEditar, setEmpledadoEditar] = useState({});
   const [empleadoEstado, setEmpleadoEstado] = useState({});
+
+  const [pageReportes, setPageReportes] = useState(0);
+  const [rowsPerPageReportes, setRowsPerPageReportes] = useState(5);
+  const [totalpagesReportes, setTotalPagesReportes] = useState(0);
+  const [countReportes, setCountReportes] = useState(0);
 
   const navigate = useNavigate();
 
@@ -34,15 +41,15 @@ const EmpleadoState = ({ children }) => {
 
       const { data } = await clienteAxios.get(
         `/api/1.0/employee/list-${estado}?pageNumber=${
-          page + 1
-        }&pageSize=${rowsPerPage}`,
+          pageEmpleados + 1
+        }&pageSize=${rowsPerPageEmpleados}`,
         TokenAuth(token)
       );
 
       setEmpleados(data.docs);
-      setPage(data.page - 1);
-      setCount(data.totalDocs);
-      setTotalPages(data.totalPages);
+      setPageEmpleados(data.page - 1);
+      setCountEmpleados(data.totalDocs);
+      setTotalPagesEmpleados(data.totalPages);
     } catch (err) {
       mostrarAlerta({
         message: err.response.data.message,
@@ -228,17 +235,17 @@ const EmpleadoState = ({ children }) => {
       value={{
         cargando,
         empleados,
-        page,
-        rowsPerPage,
-        count,
-        totalpages,
+        pageEmpleados,
+        rowsPerPageEmpleados,
+        countEmpleados,
+        totalpagesEmpleados,
         estado,
         empleado,
         modalEmpleado,
         empleadoEditar,
         empleadoEstado,
-        setRowsPerPage,
-        setPage,
+        setRowsPerPageEmpleados,
+        setPageEmpleados,
         crearEmpleado,
         obtenerEmpleados,
         setEstado,
