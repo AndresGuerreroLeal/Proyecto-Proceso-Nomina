@@ -1,7 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
-//Material ui
+// Context
+import EmpleadoContext from "../context/empleado/EmpleadoContext";
+import AlertaContext from "../context/alerta/AlertaContext";
+
+// Components
+import ModalDialog from "../components/ModalDialog";
+import Alerta from "../components/Alerta";
+
+// Material ui
 import { Button, makeStyles, Typography } from "@material-ui/core";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
@@ -12,16 +20,9 @@ import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import clienteAxios from "../config/axios";
-import EmpleadoContext from "../context/empleado/EmpleadoContext";
-import { CircularProgress, FormControl, InputLabel, MenuItem, Select, TextField } from "@mui/material";
-import ModalEmpleado from "../components/ModalEmpleado";
-import EditIcon from '@mui/icons-material/Edit';
+import { CircularProgress } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import ModalDialog from "../components/ModalDialog";
-import ModalDeshabilitar from "../components/ModalDeshabilitar";
 import DownloadIcon from '@mui/icons-material/Download';
-import AlertaContext from "../context/alerta/AlertaContext";
-import Alerta from "../components/Alerta";
 
 const columns = [
   { id: "nombre", label: "Nombre", minWidth: 130 },
@@ -48,15 +49,10 @@ const ReportesEmpleado = () => {
       setRowsPerPageReportes,
       obtenerReportes,
       eliminarReporte,
-      estado,
-      setEstado,
       obtenerEmpleado,
-      modalEmpleado,
       empleadoEstado,
-      mostrarModalEmpleado,
       obtenerEmpleadoEditar,
       actualizarEstado,
-      obtenerEmpleadoEstado,
       reporteEliminar,
       setReporteEliminar
     } = useContext(EmpleadoContext);
@@ -66,12 +62,7 @@ const ReportesEmpleado = () => {
     const navigate = useNavigate()
 
   const [openEliminar,setOpenEliminar] = useState(false);
-  const [openDeshabilitar,setOpenDeshabilitar] = useState(false)
 
-  const handleDeshabilitarEmpleado = (concepto)=>{
-    actualizarEstado({ ...empleadoEstado, concepto });
-    setOpenDeshabilitar(false)
-  }
   
   const obtenerReporte = (reporte)=>{
     setOpenEliminar(true)
@@ -109,11 +100,6 @@ const ReportesEmpleado = () => {
   }));
 
   const classes = useStyles();
-
-  const handleEmploye = (empleado)=>{
-    obtenerEmpleadoEditar(empleado)
-    navigate(`editar-empleado/${empleado._id}`);
-  }
 
   const handleDownload =(docurl,nombre)=>{
     const token = localStorage.getItem("token");
