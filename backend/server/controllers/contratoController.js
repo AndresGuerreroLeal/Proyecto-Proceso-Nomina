@@ -185,16 +185,24 @@ const ContratoController = {
   },
 
   /**
-   * @code GET / :_id Obtener contratos
+   * @code GET / list : Listar contratos
    *
-   * @param idContrato
+   * @param pageSize y @param pageNumber
    *
-   * @return contrato @code 200 o mensaje @code 400
+   * @return lista de contratos @code 200 o mensaje @code 400
    */
-  obtenerContrato: async (req, res) => {
-    log.info("[GET] Petición obtener contrato");
+  listarContratos: async (req, res) => {
+    log.info("[GET] Petición listar contratos");
     try {
+      const { pageSize, pageNumber } = req.query;
+      if (!pageSize || !pageNumber) {
+        log.error("Sin datos de paginación");
+        return res
+          .status(400)
+          .send({ message: "No hay parametros de paginación" });
+      }
       const campos = {
+        _id: 1,
         numero_contrato: 1,
         tipo_contrato: 1,
         fecha_inicio: 1,
@@ -216,7 +224,86 @@ const ContratoController = {
         porcentaje_parafiscal_caja_compensacion: 1,
         salario_integral: 1,
         createdAt: 1,
-        updatedAt: 1
+        updatedAt: 1,
+      };
+
+      let options = {
+        page: parseInt(pageNumber, 10) < 0 ? 0 : parseInt(pageNumber, 10),
+        limit: parseInt(pageSize, 10) < 0 ? 10 : parseInt(pageSize, 10),
+        sort: {
+          numero_contrato: 1,
+        },
+        select: campos,
+      };
+
+      const contratos = await Contrato.paginate({ estado: "ACTIVO" }, options);
+      return res.status(200).send(contratos);
+    } catch (err) {
+      httpError(res, err);
+    }
+  },
+
+  /**
+   * @code GET / contract : Obtener cantidad de empleados
+   *
+   * @return cantidad de contratos @code 200 o mensaje @code 400
+   */
+  cantidadContratos: async (req, res) => {
+    log.info("[GET] Petición para obtener la cantidad de contratos");
+    try {
+      const cantidadContratos = await Contrato.countDocuments().exec();
+      const contratosActivos = await Contrato.countDocuments({
+        estado: "ACTIVO",
+      }).exec();
+      const contratosInactivos = await Contrato.countDocuments({
+        estado: "INACTIVO",
+      }).exec();
+
+      const cantidad = {
+        cantidadContratos,
+        contratosActivos,
+        contratosInactivos,
+      };
+      return res.status(200).send(cantidad);
+    } catch (err) {
+      httpError(res, err);
+    }
+  },
+
+  /**
+   * @code GET / :_id : Obtener contratos
+   *
+   * @param idContrato
+   *
+   * @return contrato @code 200 o mensaje @code 400
+   */
+  obtenerContrato: async (req, res) => {
+    log.info("[GET] Petición obtener contrato");
+    try {
+      const campos = {
+        _id: 1,
+        numero_contrato: 1,
+        tipo_contrato: 1,
+        fecha_inicio: 1,
+        sueldo: 1,
+        cargo: 1,
+        tipo_cotizante: 1,
+        auxilio_transporte: 1,
+        fondo_salud: 1,
+        porcentaje_salud_empleado: 1,
+        porcentaje_salud_empleador: 1,
+        fondo_pensiones: 1,
+        porcentaje_pension_empleado: 1,
+        porcentaje_pension_empleador: 1,
+        arl: 1,
+        porcentaje_arl: 1,
+        fondo_cesantias: 1,
+        porcentaje_parafiscal_sena: 1,
+        porcentaje_parafiscal_icbf: 1,
+        porcentaje_parafiscal_caja_compensacion: 1,
+        salario_integral: 1,
+        createdAt: 1,
+        updatedAt: 1,
       };
       const contrato = await Contrato.findById(req.params._id)
         .select(campos)

@@ -61,6 +61,122 @@ let contrato = {
   salario_integral: false,
 };
 
+const contrato1 = {
+  numero_contrato: "1234567892",
+  tipo_contrato: "Tipo de contrato",
+  fecha_inicio: "2022-02-02",
+  sueldo: 1000000,
+  cargo: "Tester",
+  tipo_cotizante: "Dependientte",
+  auxilio_transporte: 117172,
+  fondo_salud: "Fondo de salud",
+  porcentaje_salud_empleado: 4,
+  porcentaje_salud_empleador: 0,
+  aportes_salud_empleado: 40000,
+  aportes_salud_empleador: 0,
+  fondo_pensiones: "Fondo de pensiones",
+  porcentaje_pension_empleado: 4,
+  porcentaje_pension_empleador: 12,
+  aportes_pension_empleado: 40000,
+  aportes_pension_empleador: 120000,
+  arl: "Arl",
+  porcentaje_arl: 0.522,
+  valor_arl: 5220,
+  valor_prima_servicios: 93098,
+  fondo_cesantias: "Fondo de cesantias",
+  valor_cesantias: 93098,
+  valor_intereses_cesantias: 11172,
+  valor_vacaciones: 41667,
+  porcentaje_parafiscal_sena: 0,
+  valor_parafiscal_sena: 0,
+  porcentaje_parafiscal_icbf: 0,
+  valor_parafiscal_icbf: 0,
+  porcentaje_parafiscal_caja_compensacion: 4,
+  valor_parafiscal_caja_compensacion: 40000,
+  total_devengos: 1037172,
+  total_deducciones: 80000,
+  total_valor_empleado: 1521427,
+  salario_integral: false,
+  estado: "ACTIVO",
+};
+
+const contrato2 = {
+  numero_contrato: "1234567893",
+  tipo_contrato: "Tipo de contrato",
+  fecha_inicio: "2022-02-02",
+  sueldo: 1000000,
+  cargo: "Tester",
+  tipo_cotizante: "Dependientte",
+  auxilio_transporte: 117172,
+  fondo_salud: "Fondo de salud",
+  porcentaje_salud_empleado: 4,
+  porcentaje_salud_empleador: 0,
+  aportes_salud_empleado: 40000,
+  aportes_salud_empleador: 0,
+  fondo_pensiones: "Fondo de pensiones",
+  porcentaje_pension_empleado: 4,
+  porcentaje_pension_empleador: 12,
+  aportes_pension_empleado: 40000,
+  aportes_pension_empleador: 120000,
+  arl: "Arl",
+  porcentaje_arl: 0.522,
+  valor_arl: 5220,
+  valor_prima_servicios: 93098,
+  fondo_cesantias: "Fondo de cesantias",
+  valor_cesantias: 93098,
+  valor_intereses_cesantias: 11172,
+  valor_vacaciones: 41667,
+  porcentaje_parafiscal_sena: 0,
+  valor_parafiscal_sena: 0,
+  porcentaje_parafiscal_icbf: 0,
+  valor_parafiscal_icbf: 0,
+  porcentaje_parafiscal_caja_compensacion: 4,
+  valor_parafiscal_caja_compensacion: 40000,
+  total_devengos: 1037172,
+  total_deducciones: 80000,
+  total_valor_empleado: 1521427,
+  salario_integral: false,
+  estado: "ACTIVO",
+};
+const contrato3 = {
+  numero_contrato: "1234567894",
+  tipo_contrato: "Tipo de contrato",
+  fecha_inicio: "2022-02-02",
+  sueldo: 1000000,
+  cargo: "Tester",
+  tipo_cotizante: "Dependientte",
+  auxilio_transporte: 117172,
+  fondo_salud: "Fondo de salud",
+  porcentaje_salud_empleado: 4,
+  porcentaje_salud_empleador: 0,
+  aportes_salud_empleado: 40000,
+  aportes_salud_empleador: 0,
+  fondo_pensiones: "Fondo de pensiones",
+  porcentaje_pension_empleado: 4,
+  porcentaje_pension_empleador: 12,
+  aportes_pension_empleado: 40000,
+  aportes_pension_empleador: 120000,
+  arl: "Arl",
+  porcentaje_arl: 0.522,
+  valor_arl: 5220,
+  valor_prima_servicios: 93098,
+  fondo_cesantias: "Fondo de cesantias",
+  valor_cesantias: 93098,
+  valor_intereses_cesantias: 11172,
+  valor_vacaciones: 41667,
+  porcentaje_parafiscal_sena: 0,
+  valor_parafiscal_sena: 0,
+  porcentaje_parafiscal_icbf: 0,
+  valor_parafiscal_icbf: 0,
+  porcentaje_parafiscal_caja_compensacion: 4,
+  valor_parafiscal_caja_compensacion: 40000,
+  total_devengos: 1037172,
+  total_deducciones: 80000,
+  total_valor_empleado: 1521427,
+  salario_integral: false,
+  estado: "ACTIVO",
+};
+
 /* Cálculos de valores del contrato para nomina */
 
 const aportesSaludEmpleado = Math.round(
@@ -149,6 +265,9 @@ beforeAll(async () => {
       updatedAt: new Date(),
     }).save(),
     new Empleado(empleado).save(),
+    new Contrato(contrato1).save(),
+    new Contrato(contrato2).save(),
+    new Contrato(contrato3).save(),
   ]);
 });
 
@@ -252,6 +371,260 @@ describe("-----Test de endpoint crear un contrato-----", () => {
   });
 });
 
+describe("-----Test de endpoint listar contratos-----", () => {
+  test("[GET code 200] [/api/1.0/contract/list] Test de listar contratos cantidad[1] ", async () => {
+    const response = await request(app)
+      .get("/api/1.0/contract/list?pageSize=10&pageNumber=1")
+      .set("Authorization", `Bearer ${jwt}`);
+    expect(response.status).toBe(200);
+    expect(response.body.docs[0]._id).toBe(_id);
+    expect(response.body.docs[0].numero_contrato).toBe(
+      contrato.numero_contrato
+    );
+    expect(response.body.docs[0].tipo_contrato).toBe(contrato.tipo_contrato);
+    expect(response.body.docs[0].fecha_inicio.split("T")[0]).toBe(
+      contrato.fecha_inicio
+    );
+    expect(response.body.docs[0].sueldo).toBe(contrato.sueldo);
+    expect(response.body.docs[0].cargo).toBe(contrato.cargo);
+    expect(response.body.docs[0].tipo_cotizante).toBe(contrato.tipo_cotizante);
+    expect(response.body.docs[0].auxilio_transporte).toBe(
+      contrato.auxilio_transporte
+    );
+    expect(response.body.docs[0].fondo_salud).toBe(contrato.fondo_salud);
+    expect(response.body.docs[0].porcentaje_salud_empleado).toBe(
+      contrato.porcentaje_salud_empleado
+    );
+    expect(response.body.docs[0].porcentaje_salud_empleador).toBe(
+      porcentajeSaludEmpleador
+    );
+    expect(response.body.docs[0].fondo_pensiones).toBe(
+      contrato.fondo_pensiones
+    );
+    expect(response.body.docs[0].porcentaje_pension_empleado).toBe(
+      contrato.porcentaje_pension_empleado
+    );
+    expect(response.body.docs[0].porcentaje_pension_empleador).toBe(
+      contrato.porcentaje_pension_empleador
+    );
+    expect(response.body.docs[0].arl).toBe(contrato.arl);
+    expect(response.body.docs[0].porcentaje_arl).toBe(contrato.porcentaje_arl);
+    expect(response.body.docs[0].fondo_cesantias).toBe(
+      contrato.fondo_cesantias
+    );
+    expect(response.body.docs[0].porcentaje_parafiscal_sena).toBe(
+      contrato.porcentaje_parafiscal_sena
+    );
+    expect(response.body.docs[0].porcentaje_parafiscal_icbf).toBe(
+      contrato.porcentaje_parafiscal_icbf
+    );
+    expect(response.body.docs[0].porcentaje_parafiscal_caja_compensacion).toBe(
+      contrato.porcentaje_parafiscal_caja_compensacion
+    );
+    expect(response.body.docs[0].salario_integral).toBe(
+      contrato.salario_integral
+    );
+    expect(response.body.docs[0].createdAt);
+    expect(response.body.docs[0].updatedAt);
+    expect(response.body.totalDocs).toBe(4);
+    expect(response.body.limit).toBe(10);
+    expect(response.body.totalPages).toBe(1);
+    expect(response.body.page).toBe(1);
+    expect(response.body.pagingCounter).toBe(1);
+    expect(response.body.hasPrevPage).toBe(false);
+    expect(response.body.hasNextPage).toBe(false);
+    expect(response.body.prevPage).toBe(null);
+    expect(response.body.nextPage).toBe(null);
+  });
+
+  test("[GET code 200] [/api/1.0/contract/list] Test de listar contratos cantidad[3] ", async () => {
+    const response = await request(app)
+      .get("/api/1.0/contract/list?pageSize=10&pageNumber=1")
+      .set("Authorization", `Bearer ${jwt}`);
+    expect(response.status).toBe(200);
+    //Contrato posición 1
+    expect(response.body.docs[1]._id);
+    expect(response.body.docs[1].numero_contrato).toBe(
+      contrato1.numero_contrato
+    );
+    expect(response.body.docs[1].tipo_contrato).toBe(contrato1.tipo_contrato);
+    expect(response.body.docs[1].fecha_inicio.split("T")[0]).toBe(
+      contrato1.fecha_inicio
+    );
+    expect(response.body.docs[1].sueldo).toBe(contrato1.sueldo);
+    expect(response.body.docs[1].cargo).toBe(contrato1.cargo);
+    expect(response.body.docs[1].tipo_cotizante).toBe(contrato1.tipo_cotizante);
+    expect(response.body.docs[1].auxilio_transporte).toBe(
+      contrato1.auxilio_transporte
+    );
+    expect(response.body.docs[1].fondo_salud).toBe(contrato1.fondo_salud);
+    expect(response.body.docs[1].porcentaje_salud_empleado).toBe(
+      contrato1.porcentaje_salud_empleado
+    );
+    expect(response.body.docs[1].porcentaje_salud_empleador).toBe(
+      porcentajeSaludEmpleador
+    );
+    expect(response.body.docs[1].fondo_pensiones).toBe(
+      contrato1.fondo_pensiones
+    );
+    expect(response.body.docs[1].porcentaje_pension_empleado).toBe(
+      contrato1.porcentaje_pension_empleado
+    );
+    expect(response.body.docs[1].porcentaje_pension_empleador).toBe(
+      contrato1.porcentaje_pension_empleador
+    );
+    expect(response.body.docs[1].arl).toBe(contrato1.arl);
+    expect(response.body.docs[1].porcentaje_arl).toBe(contrato1.porcentaje_arl);
+    expect(response.body.docs[1].fondo_cesantias).toBe(
+      contrato1.fondo_cesantias
+    );
+    expect(response.body.docs[1].porcentaje_parafiscal_sena).toBe(
+      contrato1.porcentaje_parafiscal_sena
+    );
+    expect(response.body.docs[1].porcentaje_parafiscal_icbf).toBe(
+      contrato1.porcentaje_parafiscal_icbf
+    );
+    expect(response.body.docs[1].porcentaje_parafiscal_caja_compensacion).toBe(
+      contrato1.porcentaje_parafiscal_caja_compensacion
+    );
+    expect(response.body.docs[1].salario_integral).toBe(
+      contrato1.salario_integral
+    );
+    expect(response.body.docs[1].createdAt);
+    expect(response.body.docs[1].updatedAt);
+    //Contrato posición 2
+    expect(response.body.docs[2]._id);
+    expect(response.body.docs[2].numero_contrato).toBe(
+      contrato2.numero_contrato
+    );
+    expect(response.body.docs[2].tipo_contrato).toBe(contrato2.tipo_contrato);
+    expect(response.body.docs[2].fecha_inicio.split("T")[0]).toBe(
+      contrato2.fecha_inicio
+    );
+    expect(response.body.docs[2].sueldo).toBe(contrato2.sueldo);
+    expect(response.body.docs[2].cargo).toBe(contrato2.cargo);
+    expect(response.body.docs[2].tipo_cotizante).toBe(contrato2.tipo_cotizante);
+    expect(response.body.docs[2].auxilio_transporte).toBe(
+      contrato2.auxilio_transporte
+    );
+    expect(response.body.docs[2].fondo_salud).toBe(contrato2.fondo_salud);
+    expect(response.body.docs[2].porcentaje_salud_empleado).toBe(
+      contrato2.porcentaje_salud_empleado
+    );
+    expect(response.body.docs[2].porcentaje_salud_empleador).toBe(
+      porcentajeSaludEmpleador
+    );
+    expect(response.body.docs[2].fondo_pensiones).toBe(
+      contrato2.fondo_pensiones
+    );
+    expect(response.body.docs[2].porcentaje_pension_empleado).toBe(
+      contrato2.porcentaje_pension_empleado
+    );
+    expect(response.body.docs[2].porcentaje_pension_empleador).toBe(
+      contrato1.porcentaje_pension_empleador
+    );
+    expect(response.body.docs[2].arl).toBe(contrato2.arl);
+    expect(response.body.docs[2].porcentaje_arl).toBe(contrato2.porcentaje_arl);
+    expect(response.body.docs[2].fondo_cesantias).toBe(
+      contrato2.fondo_cesantias
+    );
+    expect(response.body.docs[2].porcentaje_parafiscal_sena).toBe(
+      contrato2.porcentaje_parafiscal_sena
+    );
+    expect(response.body.docs[2].porcentaje_parafiscal_icbf).toBe(
+      contrato2.porcentaje_parafiscal_icbf
+    );
+    expect(response.body.docs[2].porcentaje_parafiscal_caja_compensacion).toBe(
+      contrato2.porcentaje_parafiscal_caja_compensacion
+    );
+    expect(response.body.docs[2].salario_integral).toBe(
+      contrato2.salario_integral
+    );
+    expect(response.body.docs[2].createdAt);
+    expect(response.body.docs[2].updatedAt);
+    //Contrato posición 3
+    expect(response.body.docs[3]._id);
+    expect(response.body.docs[3].numero_contrato).toBe(
+      contrato3.numero_contrato
+    );
+    expect(response.body.docs[3].tipo_contrato).toBe(contrato3.tipo_contrato);
+    expect(response.body.docs[3].fecha_inicio.split("T")[0]).toBe(
+      contrato3.fecha_inicio
+    );
+    expect(response.body.docs[3].sueldo).toBe(contrato3.sueldo);
+    expect(response.body.docs[3].cargo).toBe(contrato3.cargo);
+    expect(response.body.docs[3].tipo_cotizante).toBe(contrato3.tipo_cotizante);
+    expect(response.body.docs[3].auxilio_transporte).toBe(
+      contrato3.auxilio_transporte
+    );
+    expect(response.body.docs[3].fondo_salud).toBe(contrato3.fondo_salud);
+    expect(response.body.docs[3].porcentaje_salud_empleado).toBe(
+      contrato3.porcentaje_salud_empleado
+    );
+    expect(response.body.docs[3].porcentaje_salud_empleador).toBe(
+      porcentajeSaludEmpleador
+    );
+    expect(response.body.docs[3].fondo_pensiones).toBe(
+      contrato3.fondo_pensiones
+    );
+    expect(response.body.docs[3].porcentaje_pension_empleado).toBe(
+      contrato3.porcentaje_pension_empleado
+    );
+    expect(response.body.docs[3].porcentaje_pension_empleador).toBe(
+      contrato3.porcentaje_pension_empleador
+    );
+    expect(response.body.docs[3].arl).toBe(contrato3.arl);
+    expect(response.body.docs[3].porcentaje_arl).toBe(contrato3.porcentaje_arl);
+    expect(response.body.docs[3].fondo_cesantias).toBe(
+      contrato3.fondo_cesantias
+    );
+    expect(response.body.docs[3].porcentaje_parafiscal_sena).toBe(
+      contrato3.porcentaje_parafiscal_sena
+    );
+    expect(response.body.docs[3].porcentaje_parafiscal_icbf).toBe(
+      contrato3.porcentaje_parafiscal_icbf
+    );
+    expect(response.body.docs[3].porcentaje_parafiscal_caja_compensacion).toBe(
+      contrato3.porcentaje_parafiscal_caja_compensacion
+    );
+    expect(response.body.docs[3].salario_integral).toBe(
+      contrato3.salario_integral
+    );
+    expect(response.body.docs[3].createdAt);
+    expect(response.body.docs[3].updatedAt);
+
+    expect(response.body.totalDocs).toBe(4);
+    expect(response.body.limit).toBe(10);
+    expect(response.body.totalPages).toBe(1);
+    expect(response.body.page).toBe(1);
+    expect(response.body.pagingCounter).toBe(1);
+    expect(response.body.hasPrevPage).toBe(false);
+    expect(response.body.hasNextPage).toBe(false);
+    expect(response.body.prevPage).toBe(null);
+    expect(response.body.nextPage).toBe(null);
+  });
+
+  test("[GET code 400] [/api/1.0/contract/list] Test de listar contratos sin datos de paginación", async () => {
+    const response = await request(app)
+      .get("/api/1.0/contract/list")
+      .set("Authorization", `Bearer ${jwt}`);
+    expect(response.status).toBe(400);
+    expect(response.body.message).toBe("No hay parametros de paginación");
+  });
+});
+
+describe("-----Test de endpoint de cantidad contratos-----", () => {
+  test("[GET code 200] [/api/1.0/contract/] Test de obtener cantidad de contratos", async () => {
+    const response = await request(app)
+      .get("/api/1.0/contract/")
+      .set("Authorization", `Bearer ${jwt}`);
+    expect(response.status).toBe(200);
+    expect(response.body.cantidadContratos).toBe(4);
+    expect(response.body.contratosActivos).toBe(4);
+    expect(response.body.contratosInactivos).toBe(0);
+  });
+});
+
 describe("-----Test de endpoint obtener información de un contrato-----", () => {
   test("[GET code 200] [/api/1.0/contract/:_id] Test de obtener información de un contrato existente", async () => {
     const response = await request(app)
@@ -317,7 +690,14 @@ afterAll(async () => {
     Empleado.deleteOne({
       correo: empleado.correo,
     }),
-    Contrato.deleteOne({ _id }),
+    Contrato.deleteMany({
+      numero_contrato: [
+        contrato.numero_contrato,
+        contrato1.numero_contrato,
+        contrato2.numero_contrato,
+        contrato3.numero_contrato,
+      ],
+    }),
   ]);
   mongoose.connection.close();
   server.close();

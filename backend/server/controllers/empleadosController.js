@@ -181,7 +181,7 @@ const EmpleadosController = {
         },
       };
       const empleados = await Empleado.paginate({ estado: "ACTIVO" }, options);
-      res.status(200).send(empleados);
+      return res.status(200).send(empleados);
     } catch (err) {
       httpError(res, err);
     }
@@ -216,7 +216,7 @@ const EmpleadosController = {
         { estado: "INACTIVO" },
         options
       );
-      res.status(200).send(empleados);
+      return res.status(200).send(empleados);
     } catch (err) {
       httpError(res, err);
     }
@@ -243,7 +243,7 @@ const EmpleadosController = {
         cantidadActivos,
         cantidadInactivos,
       };
-      res.status(200).send(cantidad);
+      return res.status(200).send(cantidad);
     } catch (err) {
       httpError(res, err);
     }
