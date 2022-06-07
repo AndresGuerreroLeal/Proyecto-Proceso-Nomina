@@ -7,13 +7,20 @@
 const path = require("path");
 const xl = require("excel4node");
 const fs = require("fs");
-const crearArchivoReporte = (columnas, datos, nombreHoja, nombre) => {
+const crearArchivoReporte = (
+  columnas,
+  datos,
+  directorio,
+  nombreHoja,
+  nombre
+) => {
   let reporteEstado = {
     nombre: "",
     creado: false,
     error: "",
     reporte: new xl.Workbook(),
   };
+
   //Crear archivo excel, hoja y estilos
   const wb = new xl.Workbook();
   const ws = wb.addWorksheet(nombreHoja);
@@ -51,10 +58,30 @@ const crearArchivoReporte = (columnas, datos, nombreHoja, nombre) => {
   //Generación de datos
   for (let i = 0; i < datos.length; i++) {
     for (let j = 0; j < columnas.length; j++) {
-      if (columnas[j] !== "createdAt" && columnas[j] !== "updatedAt") {
-        ws.cell(i + 2, j + 1).string(
-          datos[i][columnas[j].toLowerCase().split(" ").join("_")]
-        );
+      if (
+        columnas[j] !== "createdAt" &&
+        columnas[j] !== "updatedAt" &&
+        columnas[j] !== "fecha_inicio"
+      ) {
+        if (
+          typeof datos[i][columnas[j].toLowerCase().split(" ").join("_")] ==
+          "number"
+        ) {
+          ws.cell(i + 2, j + 1).number(
+            datos[i][columnas[j].toLowerCase().split(" ").join("_")]
+          );
+        } else if (
+          typeof datos[i][columnas[j].toLowerCase().split(" ").join("_")] ==
+          "boolean"
+        ) {
+          ws.cell(i + 2, j + 1).bool(
+            datos[i][columnas[j].toLowerCase().split(" ").join("_")]
+          );
+        } else {
+          ws.cell(i + 2, j + 1).string(
+            datos[i][columnas[j].toLowerCase().split(" ").join("_")]
+          );
+        }
       } else {
         let fecha = new Date(datos[i][columnas[j]]);
         ws.cell(i + 2, j + 1).string(fecha.toISOString().split("T")[0]);
@@ -65,7 +92,7 @@ const crearArchivoReporte = (columnas, datos, nombreHoja, nombre) => {
   //Obtener nombre, la ruta y guardar el reporte
   const nombreFinal = nombre.split(" ").join("-") + "-" + Date.now() + ".xlsx";
   const ruta = path.normalize(
-    `${process.cwd()}/server/archivos/reportesEmpleados/${nombreFinal}`
+    `${process.cwd()}/server/archivos/${directorio}/${nombreFinal}`
   );
   wb.write(ruta, (err) => {
     if (err) {

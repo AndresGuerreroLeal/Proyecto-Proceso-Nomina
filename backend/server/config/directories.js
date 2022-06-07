@@ -10,7 +10,13 @@ const log = require("./logger");
 const pathArchivos = `${__dirname}/../archivos`;
 const pathDocumentos = `${__dirname}/../archivos/documentos`;
 const pathReportesEmpleados = `${__dirname}/../archivos/reportesEmpleados`;
-const paths = [pathArchivos, pathDocumentos, pathReportesEmpleados];
+const pathReportesContratos = `${__dirname}/../archivos/reportesContratos`;
+const paths = [
+  pathArchivos,
+  pathDocumentos,
+  pathReportesEmpleados,
+  pathReportesContratos,
+];
 const createDirectories = () => {
   //Recorrer rutas y crear directorios
   for (let dir of paths) {

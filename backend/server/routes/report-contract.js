@@ -9,7 +9,7 @@ const router = express.Router();
 const { auth, admin, reports } = require("../middleware/auth");
 const { validacionId } = require("../validators/reportes");
 /**
- * @see ReportesEmpleadosController
+ * @see ReportesContratosController
  *
  * Se extrae métodos del objeto ReportesEmpleadosController
  */
@@ -18,18 +18,18 @@ const {
   descargarReporte,
   listarReportes,
   eliminarReporte,
-} = require("../controllers/reportesEmpleadosController");
+} = require("../controllers/reportesContratosController");
 
-//Ruta de crear reporte empleado [GET]
+//Ruta de crear reporte contratos [GET]
 router.get("/create", [auth, reports], crearReporte);
 
-//Ruta de descargar reportes empleados [GET]
+//Ruta de descargar reportes contratos [GET]
 router.get("/download/:file", [auth, reports], descargarReporte);
 
-//Ruta de listar reportes de empleados [GET]
+//Ruta de listar reportes de contratos [GET]
 router.get("/list", [auth, reports], listarReportes);
 
-//Ruta de eliminar reportes de empleados [DELETE]
+//Ruta de eliminar reportes de contratos [DELETE]
 router.delete("/delete/:_id", [auth, admin], validacionId, eliminarReporte);
 
 module.exports = router;
