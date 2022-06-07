@@ -244,6 +244,33 @@ const ContratoController = {
   },
 
   /**
+   * @code GET / contract : Obtener cantidad de empleados
+   *
+   * @return cantidad de contratos @code 200 o mensaje @code 400
+   */
+  cantidadContratos: async (req, res) => {
+    log.info("[GET] Petición para obtener la cantidad de contratos");
+    try {
+      const cantidadContratos = await Contrato.countDocuments().exec();
+      const contratosActivos = await Contrato.countDocuments({
+        estado: "ACTIVO",
+      }).exec();
+      const contratosInactivos = await Contrato.countDocuments({
+        estado: "INACTIVO",
+      }).exec();
+
+      const cantidad = {
+        cantidadContratos,
+        contratosActivos,
+        contratosInactivos,
+      };
+      return res.status(200).send(cantidad);
+    } catch (err) {
+      httpError(res, err);
+    }
+  },
+
+  /**
    * @code GET / :_id : Obtener contratos
    *
    * @param idContrato
