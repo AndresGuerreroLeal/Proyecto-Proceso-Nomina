@@ -87,7 +87,7 @@ const Empleados = () => {
       
 
   const handleChangePage = (event, newPage) => {
-    setPageEmpleados(newPage);
+    setPageEmpleados(newPage)
   };
   
   const handleChangeRowsPerPage = (event) => {

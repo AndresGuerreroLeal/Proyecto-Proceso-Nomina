@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom";
 const EmpleadoState = ({ children }) => {
   const [cargando, setCargando] = useState(false);
   const [empleados, setEmpleados] = useState([]);
+  const [reportesEmpleados,setReportesEmpleados] = useState([])
 
   const [pageEmpleados, setPageEmpleados] = useState(0);
   const [rowsPerPageEmpleados, setRowsPerPageEmpleados] = useState(5);
@@ -230,6 +231,33 @@ const EmpleadoState = ({ children }) => {
     }
   };
 
+  const obtenerReportes = async () => {
+    setCargando(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.get(
+        `/api/1.0/report-employee/list/?pageNumber=${
+          pageReportes + 1
+        }&pageSize=${rowsPerPageReportes}`,
+        TokenAuth(token)
+      );
+
+      setReportesEmpleados(data.docs);
+      setPageReportes(data.page - 1);
+      setCountReportes(data.totalDocs);
+      setTotalPagesReportes(data.totalPages);
+    } catch (err) {
+      mostrarAlerta({
+        message: err.response.data.message,
+        categoria: "error",
+      });
+    } finally {
+      setCargando(false);
+    }
+  };
+
   return (
     <EmpleadoContext.Provider
       value={{
@@ -244,6 +272,11 @@ const EmpleadoState = ({ children }) => {
         modalEmpleado,
         empleadoEditar,
         empleadoEstado,
+        reportesEmpleados,
+        pageReportes,
+        rowsPerPageReportes,
+        countReportes,
+        totalpagesReportes,
         setRowsPerPageEmpleados,
         setPageEmpleados,
         crearEmpleado,
@@ -256,6 +289,7 @@ const EmpleadoState = ({ children }) => {
         editarEmpleado,
         obtenerEmpleadoEstado,
         actualizarEstado,
+        obtenerReportes
       }}
     >
       {children}

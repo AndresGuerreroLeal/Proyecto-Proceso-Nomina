@@ -22,13 +22,13 @@ import ModalDeshabilitar from "../components/ModalDeshabilitar";
 import DownloadIcon from '@mui/icons-material/Download';
 
 const columns = [
-  { id: "nombre", label: "Nombre", minWidth: 100 },
-  { id: "cantidad_empleados", label: "Cantidad de Empleados", minWidth: 130 },
-  { id: "createdAt", label: "Fecha de Generación", minWidth: 130 },
+  { id: "nombre", label: "Nombre", minWidth: 130 },
+  { id: "cantidad_empleados", label: "Cantidad de Empleados", minWidth: 100,  align: "center" },
+  { id: "createdAt", label: "Fecha de Generación", minWidth: 100 },
   {
     id: "acciones",
     label: "Acciones",
-    minWidth: 100,
+    minWidth: 150,
     align: "center",
   },
 ];
@@ -36,15 +36,15 @@ const columns = [
 const ReportesEmpleado = () => {
 
     const {
-      empleados,
+      reportesEmpleados,
       cargando,
-      page,
-      rowsPerPage,
-      count,
-      totalpages,
-      setPage,
-      setRowsPerPage,
-      obtenerEmpleados,
+      pageReportes,
+      rowsPerPageReportes,
+      countReportes,
+      totalpagesReportes,
+      setPageReportes,
+      setRowsPerPageReportes,
+      obtenerReportes,
       estado,
       setEstado,
       obtenerEmpleado,
@@ -72,21 +72,22 @@ const ReportesEmpleado = () => {
   }
 
   useEffect(() => {
-    const obtenerEmpleadosState = async () => {
-      await obtenerEmpleados(estado)
+    const obtenerReportesState = async () => {
+      await obtenerReportes()
     };
 
-    obtenerEmpleadosState();
-  }, [rowsPerPage,page,estado]);
-      
+    obtenerReportesState();
+  }, [rowsPerPageReportes,pageReportes]);
+  
+  console.log(reportesEmpleados)
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    setPageReportes(newPage);
   };
   
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value),10);
-    setPage(0);
+    setRowsPerPageReportes(parseInt(event.target.value),10);
+    setPageReportes(0);
   };
 
   const useStyles = makeStyles((theme) => ({
@@ -172,10 +173,10 @@ const ReportesEmpleado = () => {
                 </TableRow>
               </TableHead>
               <TableBody>
-                {empleados
+                {reportesEmpleados
                   .slice(
-                    page - totalpages * rowsPerPage,
-                    page * rowsPerPage + rowsPerPage
+                    pageReportes - totalpagesReportes * rowsPerPageReportes,
+                    pageReportes * rowsPerPageReportes + rowsPerPageReportes
                   )
                   .map((row) => {
                     return (
@@ -191,8 +192,8 @@ const ReportesEmpleado = () => {
                           return (
                             <TableCell key={column.id} align={column.align}>
                               <div onClick={() => obtenerEmpleado(row)}>
-                                {column.format && typeof value === "number"
-                                  ? column.format(value)
+                                {column.id === "createdAt"
+                                  ? value.split("T")[0]
                                   : value}
                               </div>
                               {column.id === "acciones" && (
@@ -202,8 +203,7 @@ const ReportesEmpleado = () => {
                                     display: "flex",
                                     justifyContent: "space-between",
                                     alignItems: "center",
-                                    width:"90%",
-                                    gap:"1"
+                                    gap: "5px",
                                   }}
                                 >
                                   <Button variant="outlined" color="primary">
@@ -226,9 +226,9 @@ const ReportesEmpleado = () => {
           <TablePagination
             rowsPerPageOptions={[5, 10, 15]}
             component="div"
-            count={count}
-            rowsPerPage={rowsPerPage}
-            page={page}
+            count={countReportes}
+            rowsPerPage={rowsPerPageReportes}
+            page={pageReportes}
             onPageChange={handleChangePage}
             onRowsPerPageChange={handleChangeRowsPerPage}
             labelRowsPerPage={"Número de filas"}
