@@ -105,7 +105,7 @@ const ReportesEmpleado = () => {
     navigate(`editar-empleado/${empleado._id}`);
   }
 
-  const handleDownload =(docurl)=>{
+  const handleDownload =(docurl,nombre)=>{
     const token = localStorage.getItem("token");
 
     let config = {
@@ -122,10 +122,7 @@ const ReportesEmpleado = () => {
         const downloadUrl = window.URL.createObjectURL(new Blob([file]));
         const link = document.createElement("a");
         link.href = downloadUrl;
-        link.setAttribute(
-          "download",
-          `reportesempleado.xlsx`
-        );
+        link.setAttribute("download", `${nombre}.xlsx`);
         document.body.appendChild(link);
         link.click();
         link.remove();
@@ -206,7 +203,11 @@ const ReportesEmpleado = () => {
                                     gap: "5px",
                                   }}
                                 >
-                                  <Button variant="outlined" color="primary">
+                                  <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={() => handleDownload(row.reporte,row.nombre)}
+                                  >
                                     <DownloadIcon />
                                   </Button>
                                   <Button variant="outlined" color="secondary">
