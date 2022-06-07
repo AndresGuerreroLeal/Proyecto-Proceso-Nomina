@@ -19,10 +19,14 @@ const {
 const {
   crearContrato,
   obtenerContrato,
+  listarContratos,
 } = require("../controllers/contratoController");
 
 //Ruta de crear contratos [POST]
 router.post("/create", [auth, admin], validacionCrear, crearContrato);
+
+//Ruta de listar contratos [GET]
+router.get("/list", [auth, reports], listarContratos);
 
 //Ruta de obtener contrato [GET]
 router.get("/:_id", [auth, reports], validacionObtener, obtenerContrato);
