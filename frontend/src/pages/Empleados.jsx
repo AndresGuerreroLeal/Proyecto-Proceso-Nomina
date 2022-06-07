@@ -110,6 +110,37 @@ const Empleados = () => {
     navigate(`editar-empleado/${empleado._id}`);
   }
 
+  const handleDownload =(docurl)=>{
+    const token = localStorage.getItem("token");
+
+    let config = {
+      responseType: "blob",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    clienteAxios
+      .get(docurl, config)
+      .then((res) => res.data)
+      .then((file) => {
+        const downloadUrl = window.URL.createObjectURL(new Blob([file]));
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.setAttribute(
+          "download",
+          `reportesempleado.xlsx`
+        );
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }  
+
+
   return (
     <>
       {openEliminar && (
@@ -292,8 +323,12 @@ const Empleados = () => {
 
       {modalEmpleado && <ModalEmpleado />}
 
-      <Button variant="contained" color="primary">
-        <Link to="reportes-empleados">Generar reportes</Link>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={() => handleDownload("/api/1.0/report-employee/create")}
+      >
+        Generar reportes
       </Button>
     </>
   );
