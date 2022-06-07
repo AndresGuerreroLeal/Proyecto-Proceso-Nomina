@@ -9,9 +9,9 @@ const UiState = ({ children }) => {
 
   const changeMenuProperties =()=>{
     if(open){
-      setMenuProperties({ widthMenu: 333, visibility: "visible" });
-    }else{
       setMenuProperties({ widthMenu: 0, visibility: "visible" });
+    }else{
+      setMenuProperties({ widthMenu: 333, visibility: "visible" });
     }
   }
 
