@@ -613,6 +613,18 @@ describe("-----Test de endpoint listar contratos-----", () => {
   });
 });
 
+describe("-----Test de endpoint de cantidad contratos-----", () => {
+  test("[GET code 200] [/api/1.0/contract/] Test de obtener cantidad de contratos", async () => {
+    const response = await request(app)
+      .get("/api/1.0/contract/")
+      .set("Authorization", `Bearer ${jwt}`);
+    expect(response.status).toBe(200);
+    expect(response.body.cantidadContratos).toBe(4);
+    expect(response.body.contratosActivos).toBe(4);
+    expect(response.body.contratosInactivos).toBe(0);
+  });
+});
+
 describe("-----Test de endpoint obtener información de un contrato-----", () => {
   test("[GET code 200] [/api/1.0/contract/:_id] Test de obtener información de un contrato existente", async () => {
     const response = await request(app)
