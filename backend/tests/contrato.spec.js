@@ -19,6 +19,7 @@ const admin = {
 
 let jwt;
 let _id;
+let idEmpleado;
 
 const empleado = {
   nombres: "Empleado1",
@@ -307,6 +308,36 @@ describe("-----Test de endpoint obtener información de un contrato-----", () =>
       .set("Authorization", `Bearer ${jwt}`);
     expect(response.status).toBe(400);
     expect(response.body.message).toBe("El contrato no existe");
+  });
+});
+
+describe("-----Test de actualizar estado de un contrato-----", () => {
+  test("[PUT code 200] [/api/1.0/employee/state/:_id] Test de actualizar estado de un contrato ACTIVO a INACTIVO", async () => {
+    let respuesta = await Empleado.findOne({
+      numero_documento: empleado.numero_documento,
+    });
+    respuesta = JSON.stringify(respuesta);
+    idEmpleado = respuesta.split('"')[3];
+    const response = await request(app)
+      .put(`/api/1.0/employee/state/${idEmpleado}`)
+      .set("Authorization", `Bearer ${jwt}`)
+      .send({ concepto: "Se actualizo estado" });
+    expect(response.status).toBe(201);
+    expect(response.body.contrato.estado).toBe("INACTIVO");
+    expect(response.body.mensajeContrato).toBe(
+      "Estado del contrato actualizado"
+    );
+  });
+  test("[PUT code 200] [/api/1.0/employee/state/:_id] Test de actualizar estado de un contrato INACTIVO a ACTIVO", async () => {
+    const response = await request(app)
+      .put(`/api/1.0/employee/state/${idEmpleado}`)
+      .set("Authorization", `Bearer ${jwt}`)
+      .send({ concepto: "Se actualizo estado" });
+    expect(response.status).toBe(201);
+    expect(response.body.contrato.estado).toBe("ACTIVO");
+    expect(response.body.mensajeContrato).toBe(
+      "Estado del contrato actualizado"
+    );
   });
 });
 

@@ -793,8 +793,11 @@ describe("-----Test de actualizar estado de empleados-----", () => {
       .set("Authorization", `Bearer ${jwt}`)
       .send({ concepto: "Se actualizo estado" });
     expect(response.status).toBe(201);
-    expect(response.body.estado).toBe("ACTIVO");
-    expect(response.body.concepto).toBe("Se actualizo estado");
+    expect(response.body.empleado.estado).toBe("ACTIVO");
+    expect(response.body.empleado.concepto).toBe("Se actualizo estado");
+    expect(response.body.mensajeEmpleado).toBe(
+      "Estado del empleado actualizado"
+    );
   });
 
   test("[PUT code 201] [/api/1.0/employee/state/:_id] Test de actualizar estado de un empleado ACTIVO A INACTIVO", async () => {
@@ -803,8 +806,11 @@ describe("-----Test de actualizar estado de empleados-----", () => {
       .set("Authorization", `Bearer ${jwt}`)
       .send({ concepto: "Se actualizo estado" });
     expect(response.status).toBe(201);
-    expect(response.body.estado).toBe("INACTIVO");
-    expect(response.body.concepto).toBe("Se actualizo estado");
+    expect(response.body.empleado.estado).toBe("INACTIVO");
+    expect(response.body.empleado.concepto).toBe("Se actualizo estado");
+    expect(response.body.mensajeEmpleado).toBe(
+      "Estado del empleado actualizado"
+    );
   });
 
   test("[PUT code 400] [/api/1.0/employee/state/:_id] Test de actualizar estado de un empleado con identificador sin uso", async () => {
