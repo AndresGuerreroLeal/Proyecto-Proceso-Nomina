@@ -7,6 +7,7 @@
 const log = require("../config/logger");
 const httpError = require("../helpers/handleError");
 const Empleado = require("../models/empleados");
+const Contrato = require("../models/contratos");
 const validarDocumento = require("../validators/file");
 const {
   subirDocumento,
@@ -504,7 +505,7 @@ const EmpleadosController = {
   },
 
   /**
-   * @code GET / :_id Obtener empleados
+   * @code GET / :_id : Obtener empleados
    *
    * @param idEmpleado
    *
@@ -523,6 +524,25 @@ const EmpleadosController = {
     } catch (err) {
       httpError(res, err);
     }
+  },
+
+  /**
+   * @code GET / without-contract : Obtener empleados sin contrato
+   *
+   * @return empleados @code 200 o mensaje @code 400
+   */
+  empleadosSinContrato: async (req, res) => {
+    log.info("[GET] Petición para obtener empleados sin contrato");
+
+    const empleados = await Empleado.find({});
+    const empleadosSinContrato = [];
+    for (const empleado of empleados) {
+      const contrato = await Contrato.findOne({
+        numero_contrato: empleado.numero_documento,
+      });
+      if (!contrato) empleadosSinContrato.push(empleado);
+    }
+    return res.status(200).send(empleadosSinContrato);
   },
 };
 
