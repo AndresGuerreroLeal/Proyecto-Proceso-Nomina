@@ -96,7 +96,7 @@ beforeAll(async () => {
   ]);
 });
 
-describe("-----Test de endpoint de crear reporte------", () => {
+describe("-----Test de endpoint de crear reporte-----", () => {
   test("[GET code 201] [/api/1.0/report-employee/create] Test para crear un reporte de empleados", async () => {
     const response = await request(app)
       .get("/api/1.0/report-employee/create")
@@ -164,7 +164,7 @@ describe("-----Test de endpoint de NO crear reporte-----", () => {
   });
 });
 
-describe("----Test de endpoint de eliminar reportes------", () => {
+describe("-----Test de endpoint de eliminar reportes-----", () => {
   test("[DELETE code 200] [/api/1.0/report-employe/delete/:_id] Test para eliminar un reporte existente", async () => {
     const response = await request(app)
       .delete(`/api/1.0/report-employee/delete/${_id}`)
@@ -174,6 +174,7 @@ describe("----Test de endpoint de eliminar reportes------", () => {
       "Se eliminó el reporte de empleados exitosamente"
     );
   });
+  
   test("[DELETE code 400] [/api/1.0/report-employee/delete/:_id] Test para eliminar un reporte NO existente", async () => {
     const idInexistente = new mongoose.Types.ObjectId();
     const response = await request(app)

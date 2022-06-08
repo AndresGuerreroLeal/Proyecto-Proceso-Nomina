@@ -148,7 +148,7 @@ describe("-----Test de endpoint para información de la sesión-----", () => {
   });
 });
 
-describe("-----Test de endpoint olvide mi contraseña-----", () => {
+describe("-----Test de endpoint de olvide mi contraseña-----", () => {
   test("[PUT code 200] [/api/1.0/auth/forgot-password] Test de olvide mi contraseña con correo válido", async () => {
     const response = await request(app)
       .put("/api/1.0/auth/forgot-password")
@@ -173,7 +173,7 @@ describe("-----Test de endpoint olvide mi contraseña-----", () => {
   });
 });
 
-describe("-----Test de endpoint crear una nueva contraseña-----", () => {
+describe("-----Test de endpoint de crear una nueva contraseña-----", () => {
   test("[PUT code 201] [/api/1.0/auth/create-new-password/{token}] Test para crear una nueva contraseña de un usuario y token válido", async () => {
     const response = await request(app)
       .put(`/api/1.0/auth/create-new-password/${usuario.tokenCuenta}`)
@@ -196,7 +196,7 @@ describe("-----Test de endpoint crear una nueva contraseña-----", () => {
   });
 });
 
-describe("-----Test de endpoint actualizar contraseña-----", () => {
+describe("-----Test de endpoint de actualizar contraseña-----", () => {
   test("[PUT code 201] [/api/1.0/auth/update-password] Test para actualizar una contraseña de manera válida", async () => {
     const response = await request(app)
       .put("/api/1.0/auth/update-password")
@@ -220,7 +220,7 @@ describe("-----Test de endpoint actualizar contraseña-----", () => {
   });
 });
 
-describe("-----Test de endpoint actualizar información------", () => {
+describe("-----Test de endpoint de actualizar información-----", () => {
   test("[PUT code 201] [/api/1.0/auth/update-info] Test para actualizar la información de una manera válida", async () => {
     const response = await request(app)
       .put("/api/1.0/auth/update-info")
