@@ -20,7 +20,10 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ModalDialog from "../components/ModalDialog";
 import ModalDeshabilitar from "../components/ModalDeshabilitar";
 import Alerta from "../components/Alerta";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import AlertaContext from "../context/alerta/AlertaContext";
+import Perfil from "./Perfil";
+import AuthContext from "../context/auth/AuthContext";
 
 const columns = [
   { id: "numero_documento", label: "Número de Documento", minWidth: 100 },
@@ -32,6 +35,12 @@ const columns = [
     minWidth: 170,
     align: "right",
     format: (value) => value.toLocaleString("en-US"),
+  },
+  {
+    id: "ver_detalle",
+    label: "Ver Detalle",
+    minWidth: 100,
+    align: "center",
   },
   {
     id: "acciones",
@@ -63,6 +72,8 @@ const Empleados = () => {
       actualizarEstado,
       obtenerEmpleadoEstado,
     } = useContext(EmpleadoContext);
+
+    const { perfil } = useContext(AuthContext);
 
     const {alerta} = useContext(AlertaContext)
 
@@ -198,11 +209,13 @@ const Empleados = () => {
           <MenuItem value="inactive">Inactivo</MenuItem>
         </TextField>
 
-        <Link to="nuevo-empleado">
-          <Button variant="contained" color="primary">
-            Nuevo Empleado
-          </Button>
-        </Link>
+        {perfil?.roles.length >= 2 && (
+          <Link to="nuevo-empleado">
+            <Button variant="contained" color="primary">
+              Nuevo Empleado
+            </Button>
+          </Link>
+        )}
       </div>
 
       {cargando ? (
@@ -228,7 +241,17 @@ const Empleados = () => {
                     <TableCell
                       key={column.id}
                       align={column.align}
-                      style={{ minWidth: column.minWidth }}
+                      style={{
+                        minWidth: column.minWidth,
+                        display:
+                          perfil?.roles.length <= 1 &&
+                          column.id === "acciones" &&
+                          "none",
+                        hidden:
+                          column.id === "ver_detalle" &&
+                          estado !== "active" &&
+                          "hidden",
+                      }}
                     >
                       {column.label}
                     </TableCell>
@@ -254,55 +277,65 @@ const Empleados = () => {
 
                           return (
                             <TableCell key={column.id} align={column.align}>
-                              <div onClick={() => obtenerEmpleado(row)}>
-                                {column.format && typeof value === "number"
-                                  ? column.format(value)
-                                  : value}
-                              </div>
-                              {column.id === "acciones" && (
-                                <div
-                                  key={column.id}
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    gap: "5px",
-                                  }}
+                              {column.format && typeof value === "number"
+                                ? column.format(value)
+                                : value}
+
+                              {column.id === "ver_detalle" && (
+                                <Button
+                                  variant="outlined"
+                                  color="primary"
+                                  onClick={() => obtenerEmpleado(row)}
                                 >
-                                  {estado === "active" ? (
-                                    <>
+                                  <LibraryBooksIcon />
+                                </Button>
+                              )}
+
+                              {column.id === "acciones" &&
+                                perfil?.roles.length >= 2 && (
+                                  <div
+                                    key={column.id}
+                                    style={{
+                                      display: "flex",
+                                      justifyContent: "space-between",
+                                      alignItems: "center",
+                                      gap: "5px",
+                                    }}
+                                  >
+                                    {estado === "active" ? (
+                                      <>
+                                        <Button
+                                          variant="outlined"
+                                          color="primary"
+                                          onClick={() => handleEmploye(row)}
+                                        >
+                                          <EditIcon />
+                                        </Button>
+                                        <Button
+                                          variant="outlined"
+                                          color="secondary"
+                                          onClick={() => {
+                                            obtenerEmpleadoEstado(row);
+                                            setOpenEliminar(!openEliminar);
+                                          }}
+                                        >
+                                          <DeleteIcon />
+                                        </Button>
+                                      </>
+                                    ) : (
                                       <Button
                                         variant="outlined"
                                         color="primary"
-                                        onClick={() => handleEmploye(row)}
-                                      >
-                                        <EditIcon />
-                                      </Button>
-                                      <Button
-                                        variant="outlined"
-                                        color="secondary"
                                         onClick={() => {
                                           obtenerEmpleadoEstado(row);
                                           setOpenEliminar(!openEliminar);
                                         }}
                                       >
-                                        <DeleteIcon />
+                                        ACTIVAR
                                       </Button>
-                                    </>
-                                  ) : (
-                                    <Button
-                                      variant="outlined"
-                                      color="primary"
-                                      onClick={() => {
-                                        obtenerEmpleadoEstado(row);
-                                        setOpenEliminar(!openEliminar);
-                                      }}
-                                    >
-                                      ACTIVAR
-                                    </Button>
-                                  )}
-                                </div>
-                              )}
+                                    )}
+                                  </div>
+                                )}
                             </TableCell>
                           );
                         })}

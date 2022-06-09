@@ -99,7 +99,9 @@ const NavBar = () => {
         open={open}
         onClose={toggleDrawer}
       >
-        <img src={logosm} className={classes.logonavbar} />
+        <Link to="" style={{ width: "100%", display: "flex" }}>
+          <img src={logosm} className={classes.logonavbar} />
+        </Link>
         <Divider />
         <List
           sx={{ width: "100%", maxWidth: 360, bgcolor: "background.paper" }}

@@ -11,6 +11,7 @@ import UiState from "./context/ui/UiState";
 //Layout
 import DashboardLayout from "./layout/DashboardLayout";
 import FormLayout from "./layout/FormLayout";
+import RutaPrivada from "./layout/RutaPrivada";
 import ActualizarContrasenia from "./pages/ActualizarContrasenia";
 import ContratoForm from "./pages/ContratoForm";
 
@@ -59,15 +60,20 @@ function App() {
                     />
 
                     <Route path="empleados" element={<Empleados />} />
-                    <Route
-                      path="empleados/nuevo-empleado"
-                      element={<EmpleadoForm />}
-                    />
 
-                    <Route
-                      path="empleados/editar-empleado/:id"
-                      element={<EmpleadoForm />}
-                    />
+                    <Route element={<RutaPrivada />}>
+                      <Route
+                        path="empleados/nuevo-empleado"
+                        element={<EmpleadoForm />}
+                      />
+                    </Route>
+
+                    <Route element={<RutaPrivada />}>
+                      <Route
+                        path="empleados/editar-empleado/:id"
+                        element={<EmpleadoForm />}
+                      />
+                    </Route>
 
                     <Route
                       path="reportes-empleados"
@@ -75,7 +81,12 @@ function App() {
                     />
 
                     <Route path="contratos" element={<Contratos />} />
-                    <Route path="contratos/nuevo-contrato" element={<ContratoForm />} />
+                    <Route element={<RutaPrivada />}>
+                      <Route
+                        path="contratos/nuevo-contrato"
+                        element={<ContratoForm />}
+                      />
+                    </Route>
 
                     <Route
                       path="reportes-contratos"

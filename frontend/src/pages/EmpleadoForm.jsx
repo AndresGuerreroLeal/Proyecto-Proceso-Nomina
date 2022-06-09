@@ -329,8 +329,8 @@ const EmpleadoForm = () => {
                   <div className="container__documento">
                     <Button
                       variant="contained"
-                      fullWidth
                       onClick={() => handleDownload(empleadoEditar.documento)}
+                      fullWidth
                     >
                       Ver Documento
                     </Button>
@@ -537,11 +537,11 @@ const EmpleadoForm = () => {
                 ) : (
                   <Button
                     type="submit"
-                    fullWidth
                     variant="contained"
                     sx={{ mt: 3, mb: 2 }}
+                    style={{ marginX: "auto" }}
                   >
-                    {empleadoEditar ? "Guardar Cambios" : "Crear usuario"}
+                    {empleadoEditar?._id ? "Guardar Cambios" : "Crear usuario"}
                   </Button>
                 )}
               </Grid>
