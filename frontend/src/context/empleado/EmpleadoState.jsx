@@ -224,13 +224,19 @@ const EmpleadoState = ({ children }) => {
       );
 
       setEmpleados(
-        empleados.filter((empleadoState) => empleadoState._id !== data._id)
+        empleados.filter(
+          (empleadoState) => empleadoState._id !== data.empleado._id
+        )
       );
+
+      mostrarAlerta({
+        message: data.mensajeEmpleado,
+        categoria: "success",
+      });
 
       setEmpleadoEstado({});
 
-      setCountEmpleados(countEmpleados - 1);  
-
+      setCountEmpleados(countEmpleados - 1);
     } catch (err) {
       console.log(err);
     } finally {

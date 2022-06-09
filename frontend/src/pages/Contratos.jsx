@@ -74,9 +74,6 @@ const Contratos = () => {
 
   const [openEliminar, setOpenEliminar] = useState(false);
   
-
-  console.log(contrato);
-
   useEffect(()=>{
     obtenerEmpleadosSinContrato();
   },[])

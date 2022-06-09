@@ -19,6 +19,8 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import ModalDialog from "../components/ModalDialog";
 import ModalDeshabilitar from "../components/ModalDeshabilitar";
+import Alerta from "../components/Alerta";
+import AlertaContext from "../context/alerta/AlertaContext";
 
 const columns = [
   { id: "numero_documento", label: "Número de Documento", minWidth: 100 },
@@ -59,8 +61,10 @@ const Empleados = () => {
       mostrarModalEmpleado,
       obtenerEmpleadoEditar,
       actualizarEstado,
-      obtenerEmpleadoEstado
+      obtenerEmpleadoEstado,
     } = useContext(EmpleadoContext);
+
+    const {alerta} = useContext(AlertaContext)
 
     const navigate = useNavigate()
 
@@ -140,6 +144,8 @@ const Empleados = () => {
       });
   }  
 
+  const { message } = alerta;
+
   return (
     <>
       {openEliminar && (
@@ -212,6 +218,8 @@ const Empleados = () => {
             marginBottom: "30px",
           }}
         >
+          {message && <Alerta />}
+
           <TableContainer sx={{ maxHeight: 440 }}>
             <Table stickyHeader aria-label="sticky table">
               <TableHead>
