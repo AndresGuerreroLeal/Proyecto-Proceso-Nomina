@@ -1,12 +1,11 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 // Context
 import EmpleadoContext from "../context/empleado/EmpleadoContext";
 import AlertaContext from "../context/alerta/AlertaContext";
 
 // Components
-import ModalDialog from "../components/ModalDialog";
 import Alerta from "../components/Alerta";
 
 // Material ui
@@ -21,7 +20,6 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import clienteAxios from "../config/axios";
 import { CircularProgress } from "@mui/material";
-import DeleteIcon from '@mui/icons-material/Delete';
 import EditIcon from '@mui/icons-material/Edit';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import contratoContext from "../context/contrato/ContratoContext";
@@ -72,10 +70,6 @@ const Contratos = () => {
   const {empleadosSinContrato,obtenerEmpleadosSinContrato} = useContext(EmpleadoContext)
 
   const { alerta } = useContext(AlertaContext);
-
-  const navigate = useNavigate();
-
-  const [openEliminar, setOpenEliminar] = useState(false);
   
   useEffect(()=>{
     obtenerEmpleadosSinContrato();
@@ -138,14 +132,6 @@ const Contratos = () => {
 
   return (
     <>
-      {openEliminar && (
-        <ModalDialog
-          open={openEliminar}
-          setOpen={setOpenEliminar}
-          titulo={`¿Está seguro de eliminar el contrato?`}
-          contenido={"Se eliminará permanentemente y no podrá ser recuperado."}
-        />
-      )}
 
       {modalContrato && <ModalContrato />}
 
