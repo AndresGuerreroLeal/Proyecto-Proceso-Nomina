@@ -567,6 +567,7 @@ const EmpleadosController = {
     for (const empleado of empleados) {
       const contrato = await Contrato.findOne({
         numero_contrato: empleado.numero_documento,
+        estado: "ACTIVO",
       });
       if (!contrato) empleadosSinContrato.push(empleado);
     }
