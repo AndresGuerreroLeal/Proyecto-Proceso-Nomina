@@ -97,7 +97,7 @@ const ContratoForm = () => {
       });
 
       if (id && contratoEditar) {
-        editarContrato({ ...empleado, documento: contratoEditar.documento });
+        editarContrato(contrato);
       } else {
         crearContrato(contrato);
       }

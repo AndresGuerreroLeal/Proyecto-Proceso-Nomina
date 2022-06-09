@@ -5,6 +5,8 @@ import ContratoContext from "./ContratoContext";
 
 const ContratoState = ({ children }) => {
   const [contratos,setContratos] = useState([])
+  const [cargando,setCargando] = useState(false)
+  const [contratoEditar, setContratoEditar] = useState({});
 
   const crearContrato = async (contrato) => {
     setCargando(true);
@@ -39,11 +41,19 @@ const ContratoState = ({ children }) => {
     }
   };
 
+  const obtenerContratoEditarAPI = () => {};
+
+  const editarContrato = () => {};
+
   return (
     <ContratoContext.Provider
       value={{
         contratos,
-        crearContrato
+        cargando,
+        contratoEditar,
+        crearContrato,
+        obtenerContratoEditarAPI,
+        editarContrato,
       }}
     >
       {children}
