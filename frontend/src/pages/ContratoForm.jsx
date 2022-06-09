@@ -119,13 +119,16 @@ const ContratoForm = () => {
   }, [id]);
 
   useEffect(()=>{
+    console.log(contratoEditar)
     if(contratoEditar && id){
       formik.setFieldValue("numero_contrato",contratoEditar.numero_contrato)
       formik.setFieldValue("tipo_contrato",contratoEditar.tipo_contrato)
-      formik.setFieldValue("fecha_inicio",contratoEditar.fecha_inicio)
+      formik.setFieldValue("fecha_inicio",contratoEditar.fecha_inicio.split("T")[0])
       formik.setFieldValue("sueldo",contratoEditar.sueldo)
       formik.setFieldValue("cargo",contratoEditar.cargo)
       formik.setFieldValue("tipo_cotizante",contratoEditar.tipo_cotizante)
+      formik.setFieldValue("fondo_pensiones",contratoEditar.fondo_pensiones)
+      formik.setFieldValue("fondo_cesantias",contratoEditar.fondo_cesantias)
       formik.setFieldValue("fondo_salud",contratoEditar.fondo_salud)
       formik.setFieldValue("porcentaje_salud_empleado", contratoEditar.porcentaje_salud_empleado);
       formik.setFieldValue("porcentaje_salud_empleador",contratoEditar.porcentaje_salud_empleador)
@@ -169,37 +172,58 @@ const ContratoForm = () => {
                 <Typography variant="p" component="h3">
                   Información Laboral
                 </Typography>
-                <TextField
-                  select
-                  id="numero_contrato"
-                  name="numero_contrato"
-                  label="Número de contrato"
-                  sx={inputStyles}
-                  value={formik.values.numero_contrato}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.numero_contrato &&
-                    Boolean(formik.errors.numero_contrato)
-                  }
-                  helperText={
-                    formik.touched.numero_contrato &&
-                    formik.errors.numero_contrato
-                  }
-                  onBlur={formik.handleBlur}
-                >
-                  {empleadosSinContrato.length > 0 ? (
-                    empleadosSinContrato.map((empleado) => (
-                      <MenuItem
-                        value={empleado.numero_documento}
-                        key={empleado.numero_documento}
-                      >
-                        {empleado.numero_documento}
-                      </MenuItem>
-                    ))
-                  ) : (
-                    <MenuItem>No hay ningun empleado sin contrato</MenuItem>
-                  )}
-                </TextField>
+                {contratoEditar?._id && id ? (
+                  <TextField
+                    id="numero_contrato"
+                    name="numero_contrato"
+                    label="Número de contrato"
+                    sx={inputStyles}
+                    value={formik.values.numero_contrato}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.numero_contrato &&
+                      Boolean(formik.errors.numero_contrato)
+                    }
+                    helperText={
+                      formik.touched.numero_contrato &&
+                      formik.errors.numero_contrato
+                    }
+                    onBlur={formik.handleBlur}
+                    disabled
+                  />
+                ) : (
+                  <TextField
+                    select
+                    id="numero_contrato"
+                    name="numero_contrato"
+                    label="Número de contrato"
+                    sx={inputStyles}
+                    value={formik.values.numero_contrato}
+                    onChange={formik.handleChange}
+                    error={
+                      formik.touched.numero_contrato &&
+                      Boolean(formik.errors.numero_contrato)
+                    }
+                    helperText={
+                      formik.touched.numero_contrato &&
+                      formik.errors.numero_contrato
+                    }
+                    onBlur={formik.handleBlur}
+                  >
+                    {empleadosSinContrato.length > 0 ? (
+                      empleadosSinContrato.map((empleado) => (
+                        <MenuItem
+                          value={empleado.numero_documento}
+                          key={empleado.numero_documento}
+                        >
+                          {empleado.numero_documento}
+                        </MenuItem>
+                      ))
+                    ) : (
+                      <MenuItem>No hay ningun empleado sin contrato</MenuItem>
+                    )}
+                  </TextField>
+                )}
                 <TextField
                   label="Fecha de inicio"
                   variant="outlined"
@@ -300,7 +324,7 @@ const ContratoForm = () => {
                   }
                   onBlur={formik.handleBlur}
                 >
-                  <MenuItem value="Beneficiario ">Beneficiario</MenuItem>
+                  <MenuItem value="Beneficiario">Beneficiario</MenuItem>
                   <MenuItem value="Cotizante">Cotizante</MenuItem>
                 </TextField>
               </Grid>
@@ -326,7 +350,7 @@ const ContratoForm = () => {
                   }
                   onBlur={formik.handleBlur}
                 >
-                  <MenuItem value="Aliansalud ">Aliansalud</MenuItem>
+                  <MenuItem value="Aliansalud">Aliansalud</MenuItem>
                   <MenuItem value="Cafam">Cafam</MenuItem>
                   <MenuItem value="Capital Salud">Capital Salud</MenuItem>
                   <MenuItem value="Capresoca">Capresoca</MenuItem>
