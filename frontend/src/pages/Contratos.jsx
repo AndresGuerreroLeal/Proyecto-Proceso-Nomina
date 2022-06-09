@@ -74,9 +74,6 @@ const Contratos = () => {
 
   const [openEliminar, setOpenEliminar] = useState(false);
   
-
-  console.log(contrato);
-
   useEffect(()=>{
     obtenerEmpleadosSinContrato();
   },[])
@@ -227,22 +224,9 @@ const Contratos = () => {
                                 </Button>
                               )}
                               {column.id === "acciones" && (
-                                <div
-                                  key={column.id}
-                                  style={{
-                                    display: "flex",
-                                    justifyContent: "space-between",
-                                    alignItems: "center",
-                                    gap: "5px",
-                                  }}
-                                >
-                                  <Button variant="outlined" color="primary">
-                                    <EditIcon />
-                                  </Button>
-                                  <Button variant="outlined" color="secondary">
-                                    <DeleteIcon />
-                                  </Button>
-                                </div>
+                                <Button variant="outlined" color="primary">
+                                  <EditIcon />
+                                </Button>
                               )}
                             </TableCell>
                           );
