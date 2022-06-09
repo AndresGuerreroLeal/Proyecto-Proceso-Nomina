@@ -73,23 +73,25 @@ const ContratoForm = () => {
     tipo_contrato: "",
     auxilio_transporte: "",
     fondo_salud: "",
-    porcentaje_salud_empleado: "4%",
-    porcentaje_salud_empleador: "8.5%",
+    porcentaje_salud_empleado: "4",
+    porcentaje_salud_empleador: "8.5",
     fondo_pensiones: "",
-    porcentaje_pension_empleado: "4%",
-    porcentaje_pension_empleador: "12%",
+    porcentaje_pension_empleado: "4",
+    porcentaje_pension_empleador: "12",
     arl: "",
     porcentaje_arl: "",
     fondo_cesantias: "",
-    porcentaje_parafiscal_sena: "2%",
-    porcentaje_parafiscal_icbf: "3%",
-    porcentaje_parafiscal_caja_compensacion: "4%",
+    porcentaje_parafiscal_sena: "2",
+    porcentaje_parafiscal_icbf: "3",
+    porcentaje_parafiscal_caja_compensacion: "4",
     salario_integral: "",
-    reset: true,
+    reset: true
   };
 
   const handleSubmit =  (contrato)=>{
-    
+
+    console.log(contrato)
+
     try {
       window.scroll({
         top: 0,
@@ -141,7 +143,7 @@ const ContratoForm = () => {
       ) : (
         <>
           <Typography variant="h4" component="h2">
-            {contratoEditar._id ? "Editar Contrato" : "Nuevo Contrato"}
+            {contratoEditar?._id ? "Editar Contrato" : "Nuevo Contrato"}
           </Typography>
 
           {message && <Alerta />}

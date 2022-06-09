@@ -6,10 +6,12 @@ import ContratoContext from "./ContratoContext";
 const ContratoState = ({ children }) => {
   const [contratos,setContratos] = useState([])
   const [cargando,setCargando] = useState(false)
-  const [contratoEditar, setContratoEditar] = useState({});
+  const [contratoEditar, setContratoEditar] = useState(null);
 
   const crearContrato = async (contrato) => {
     setCargando(true);
+
+    console.log(contrato);
 
     try {
       const token = localStorage.getItem("token");
@@ -28,7 +30,7 @@ const ContratoState = ({ children }) => {
       });
 
       setTimeout(() => {
-        navigate("/home/empleados");
+        navigate("/home/contratos");
       }, 2000);
     } catch (err) {
       mostrarAlerta({

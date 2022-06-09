@@ -94,26 +94,22 @@ const ContratoSchema = Yup.object().shape({
     .max(6, "Auxilio de transporte inválido")
     .required("Auxilio de transporte requerido"),
   fondo_salud: Yup.string().required("Fondo de salud requerido"),
-  porcentaje_salud_empleado: Yup.string("Caracteres inválidos")
-    .matches(/^[0-9]+$/, "Solo se aceptan dígitos")
+  porcentaje_salud_empleado: Yup.number("Caracteres inválidos")
     .min(4, "Porcentaje de salud de empleado inválido")
     .max(4, "Porcentaje de salud de empleado inválido")
     .required("Porcentaje de salud de empleado requerido"),
-  porcentaje_salud_empleador: Yup.string("Caracteres inválidos")
-    .matches(/^[0-9]+$/, "Solo se aceptan dígitos")
-    .min(4, "Porcentaje de salud de empleador inválido")
-    .max(4, "porcentaje de salud de empleador inválido")
+  porcentaje_salud_empleador: Yup.number("Caracteres inválidos")
+    .min(8.5, "Porcentaje de salud de empleador inválido")
+    .max(8.5, "Porcentaje de salud de empleador inválido")
     .required("Porcentaje de salud de empleador requerido"),
   fondo_pensiones: Yup.string().required("Fondo de pensiones requerido"),
-  porcentaje_pension_empleado: Yup.string("Caracteres inválidos")
-    .matches(/^[0-9]+$/, "Solo se aceptan dígitos")
+  porcentaje_pension_empleado: Yup.number("Caracteres inválidos")
     .min(4, "Porcentaje de pensión de empleado inválido")
     .max(4, "Porcentaje de pensión de empleado inválido")
     .required("Porcentaje de pensión de empleado requerido"),
-  porcentaje_pension_empleador: Yup.string("Caracteres inválidos")
-    .matches(/^[0-9]+$/, "Solo se aceptan dígitos")
-    .min(4, "Porcentaje de pensión de empleador inválido")
-    .max(4, "Porcentaje de pensión de empleador inválido")
+  porcentaje_pension_empleador: Yup.number("Caracteres inválidos")
+    .min(12, "Porcentaje de pensión de empleador inválido")
+    .max(12, "Porcentaje de pensión de empleador inválido")
     .required("Porcentaje de pensión de empleador requerido"),
   arl: Yup.string().required("Arl requerido"),
   porcentaje_arl: Yup.string("Caracteres inválidos")
@@ -122,16 +118,13 @@ const ContratoSchema = Yup.object().shape({
     .max(6.96, "Debe ser maximo de 6.960")
     .required("Porcentaje de arl requerido"),
   fondo_cesantias: Yup.string().required("Fondo de cesantias requerido"),
-  porcentaje_parafiscal_sena: Yup.string("Caracteres inválidos")
-    .matches(/^[0-9]+$/, "Solo se aceptan dígitos")
+  porcentaje_parafiscal_sena: Yup.number("Caracteres inválidos")
     .min(2, "Debe ser minimo del 2%")
     .required("Porcentaje parafiscal sena requerido"),
-  porcentaje_parafiscal_icbf: Yup.string("Caracteres inválidos")
-    .matches(/^[0-9]+$/, "Solo se aceptan dígitos")
+  porcentaje_parafiscal_icbf: Yup.number("Caracteres inválidos")
     .min(3, "Debe ser minimo del 3%")
     .required("Porcentaje parafiscal ICBF requerido"),
-  porcentaje_parafiscal_caja_compensacion: Yup.string("Caracteres inválidos")
-    .matches(/^[0-9]+$/, "Solo se aceptan dígitos")
+  porcentaje_parafiscal_caja_compensacion: Yup.number("Caracteres inválidos")
     .min(4, "Debe ser minimo del 4%")
     .required("Porcentaje parafiscal caja de compesación requerido"),
   salario_integral: Yup.string().required("Salario integral requerido"),
