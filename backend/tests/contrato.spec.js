@@ -278,7 +278,7 @@ beforeEach(async () => {
   jwt = await response.body.jwt;
 });
 
-describe("-----Test de endpoint crear un contrato-----", () => {
+describe("-----Test de endpoint de crear un contrato-----", () => {
   test("[POST code 201] [/api/1.0/contract/create] Test de crear un contrato válido", async () => {
     const response = await request(app)
       .post("/api/1.0/contract/create")
@@ -372,7 +372,7 @@ describe("-----Test de endpoint crear un contrato-----", () => {
   });
 });
 
-describe("-----Test de endpoint listar contratos-----", () => {
+describe("-----Test de endpoint de listar contratos-----", () => {
   test("[GET code 200] [/api/1.0/contract/list] Test de listar contratos cantidad[1] ", async () => {
     const response = await request(app)
       .get("/api/1.0/contract/list?pageSize=10&pageNumber=1")
@@ -626,7 +626,7 @@ describe("-----Test de endpoint de cantidad contratos-----", () => {
   });
 });
 
-describe("-----Test de endpoint obtener información de un contrato-----", () => {
+describe("-----Test de endpoint de obtener información de un contrato-----", () => {
   test("[GET code 200] [/api/1.0/contract/:_id] Test de obtener información de un contrato existente", async () => {
     const response = await request(app)
       .get(`/api/1.0/contract/${_id}`)

@@ -27,8 +27,8 @@ const {
   actualizarEmpleado,
   estadoEmpleado,
   obtenerEmpleado,
+  empleadosSinContrato,
 } = require("../controllers/empleadosController");
-
 
 //Ruta de crear empleado [POST]
 router.post("/create", [auth, admin], validacionCrear, crearEmpleado);
@@ -52,6 +52,9 @@ router.put("/update", [auth, admin], validacionActualizar, actualizarEmpleado);
 router.put("/state/:_id", [auth, admin], validacionEstado, estadoEmpleado);
 
 //Ruta de obtener empleado [GET]
-router.get("/:_id", [auth, reports], validacionObtener, obtenerEmpleado);
+router.get("/get/:_id", [auth, reports], validacionObtener, obtenerEmpleado);
+
+//Ruta de obtener empleados sin contrato [GET]
+router.get("/without-contract", [auth, reports], empleadosSinContrato);
 
 module.exports = router;

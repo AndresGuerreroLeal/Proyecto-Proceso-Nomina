@@ -712,7 +712,7 @@ describe("-----Test de endpoint de actualizar información de empleados SIN AFEC
   });
 });
 
-describe("-----Test para actualizar información de empleados AFECTANDO DOCUMENTO------", () => {
+describe("-----Test de endpoint para actualizar información de empleados AFECTANDO DOCUMENTO-----", () => {
   let nuevaInfo = {
     nombres: "Nuevos nombres",
     apellidos: "Nuevos apellidos",
@@ -786,7 +786,7 @@ describe("-----Test para actualizar información de empleados AFECTANDO DOCUMENT
   });
 });
 
-describe("-----Test de actualizar estado de empleados-----", () => {
+describe("-----Test de endpoint de actualizar estado de empleados-----", () => {
   test("[PUT code 201] [/api/1.0/employee/state/:_id] Test de actualizar estado de un empleado INACTIVO a ACTIVO", async () => {
     const response = await request(app)
       .put(`/api/1.0/employee/state/${_id}`)
@@ -840,10 +840,10 @@ describe("-----Test de actualizar estado de empleados-----", () => {
   });
 });
 
-describe("------Test de obtener información de un empleado------", () => {
-  test("[GET code 200] [/api/1.0/employee/:_id] Test de obtener información de un empleado existente", async () => {
+describe("-----Test de endpoint de obtener información de un empleado-----", () => {
+  test("[GET code 200] [/api/1.0/employee/get/:_id] Test de obtener información de un empleado existente", async () => {
     const response = await request(app)
-      .get(`/api/1.0/employee/${_id}`)
+      .get(`/api/1.0/employee/get/${_id}`)
       .set("Authorization", `Bearer ${jwt}`);
     expect(response.body._id);
     expect(response.body.nombres).toBe("Nuevos nombres");
@@ -861,13 +861,23 @@ describe("------Test de obtener información de un empleado------", () => {
     expect(response.body.numero_cuenta).toBe(info.numero_cuenta);
   });
 
-  test("[GET code 400] [/api/1.0/employee/:_id] Test de obtener información de un empleado inexistente", async () => {
+  test("[GET code 400] [/api/1.0/employee/get/:_id] Test de obtener información de un empleado inexistente", async () => {
     const idInvalido = mongoose.Types.ObjectId();
     const response = await request(app)
-      .get(`/api/1.0/employee/${idInvalido}`)
+      .get(`/api/1.0/employee/get/${idInvalido}`)
       .set("Authorization", `Bearer ${jwt}`);
     expect(response.status).toBe(400);
     expect(response.body.message).toBe("El empleado no existe");
+  });
+});
+
+describe("-----Test de endpoint de obtener empleados sin contrato-----", () => {
+  test("[GET code 200] [/api/1.0/employee/without-contract] Test de obtener empleados sin un contrato vinculado", async () => {
+    const response = await request(app)
+      .get("/api/1.0/employee/without-contract")
+      .set("Authorization", `Bearer ${jwt}`);
+    expect(response.status).toBe(200);
+    expect(response.body.length).toBe(4);
   });
 });
 
@@ -883,7 +893,6 @@ afterAll(async () => {
         empleado1.correo,
         empleado2.correo,
         empleado3.correo,
-        "unCorreoNuevo@gmail.com",
       ],
     }),
   ]);
