@@ -74,6 +74,8 @@ const contrato = {
   estado: "ACTIVO",
 };
 
+
+
 beforeAll(async () => {
   await Promise.all([
     new Roles({ _id: "ADMIN" }).save(),
@@ -107,8 +109,6 @@ describe("-----Test de listar información para nómina-----", () => {
       .set("Authorization", `Bearer ${jwt}`);
     expect(response.status).toBe(200);
     expect(response.body.docs[0]._id);
-    expect(response.body.docs[0].nombres).toBe(empleado.nombres);
-    expect(response.body.docs[0].apellidos).toBe(empleado.apellidos);
     expect(response.body.docs[0].numero_contrato).toBe(
       contrato.numero_contrato
     );
@@ -127,7 +127,7 @@ describe("-----Test de listar información para nómina-----", () => {
       contrato.porcentaje_salud_empleado
     );
     expect(response.body.docs[0].porcentaje_salud_empleador).toBe(
-      porcentajeSaludEmpleador
+      contrato.porcentaje_salud_empleador
     );
     expect(response.body.docs[0].fondo_pensiones).toBe(
       contrato.fondo_pensiones
@@ -157,7 +157,7 @@ describe("-----Test de listar información para nómina-----", () => {
     );
     expect(response.body.docs[0].createdAt);
     expect(response.body.docs[0].updatedAt);
-    expect(response.body.totalDocs).toBe(4);
+    expect(response.body.totalDocs).toBe(1);
     expect(response.body.limit).toBe(10);
     expect(response.body.totalPages).toBe(1);
     expect(response.body.page).toBe(1);

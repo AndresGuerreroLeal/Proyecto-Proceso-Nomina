@@ -23,7 +23,7 @@ const {
   listarContratos,
   cantidadContratos,
   actualizarContrato,
-} = require("../controllers/contratoController");
+} = require("../controllers/contratosController");
 
 //Ruta de crear contratos [POST]
 router.post("/create", [auth, admin], validacionCrear, crearContrato);
