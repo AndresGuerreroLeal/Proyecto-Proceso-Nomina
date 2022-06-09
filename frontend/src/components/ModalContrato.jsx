@@ -140,7 +140,7 @@ const ModalContrato = () => {
                 </Typography>
 
                 <Typography variant="p" component="h4">
-                  Porcentaje parafiscal sena:{" "}
+                  Porcentaje parafiscal SENA:{" "}
                   <span className="texto">
                     {contrato.porcentaje_parafiscal_sena}
                   </span>
