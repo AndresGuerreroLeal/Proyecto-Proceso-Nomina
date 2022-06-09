@@ -60,7 +60,7 @@ const ContratoState = ({ children }) => {
       setContratos([...contratos, data]);
 
       mostrarAlerta({
-        message: "El contrato se creo correctamente",
+        message: "El contrato se creó correctamente",
         categoria: "success",
       });
 
