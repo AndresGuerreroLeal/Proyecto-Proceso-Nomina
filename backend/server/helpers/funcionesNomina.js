@@ -57,7 +57,6 @@ const calculosNomina = (contrato) => {
   const porcentajeVacaciones = 50 / 12;
   const valorVacaciones = Math.round(sueldo * (porcentajeVacaciones / 100));
 
-  console.log(contrato.porcentaje_parafiscal_sena);
   /* Cálculo parafiscales */
   const porcentajeParafiscalSENA = contrato.salario_integral
     ? contrato.porcentaje_parafiscal_sena
