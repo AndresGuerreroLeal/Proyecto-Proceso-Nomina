@@ -37,8 +37,6 @@ const ContratoState = ({ children }) => {
     try {
       const token = localStorage.getItem("token");
 
-      console.log(contrato);
-
       const { data } = await clienteAxios.post(
         "/api/1.0/contract/create",
         contrato,
