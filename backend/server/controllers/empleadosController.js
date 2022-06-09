@@ -7,6 +7,7 @@
 const log = require("../config/logger");
 const httpError = require("../helpers/handleError");
 const Empleado = require("../models/empleados");
+const Contrato = require("../models/contratos");
 const validarDocumento = require("../validators/file");
 const {
   subirDocumento,
@@ -474,6 +475,12 @@ const EmpleadosController = {
     log.info("[PUT] Petición cambiar estado empleado");
 
     try {
+      let mensaje = {
+        empleado: "",
+        mensajeEmpleado: "",
+        contrato: "",
+        mensajeContrato: "",
+      };
       const empleado = await Empleado.findById(req.params._id).exec();
       if (!empleado) {
         log.error("El empleado no existe");
@@ -497,7 +504,29 @@ const EmpleadosController = {
       log.info(
         `Estado del empleado actualizado ${JSON.stringify(empleadoActualizado)}`
       );
-      return res.status(201).send(empleadoActualizado);
+      mensaje.mensajeEmpleado = "Estado del empleado actualizado";
+      mensaje.empleado = empleadoActualizado;
+      const contrato = await Contrato.findOne({
+        numero_contrato: empleado.numero_documento,
+      }).exec();
+
+      if (!contrato) {
+        log.info("El empleado no tiene un contrato definido");
+        mensaje.mensajeContrato = "El empleado no tiene un contrato definido";
+        mensaje.contrato = null;
+      } else {
+        const contratoActualizar = await Contrato.findByIdAndUpdate(
+          contrato._id,
+          {
+            estado: nuevoEstado,
+          },
+          { new: true }
+        ).exec();
+        mensaje.mensajeContrato = "Estado del contrato actualizado";
+        mensaje.contrato = contratoActualizar;
+      }
+
+      return res.status(201).send(mensaje);
     } catch (err) {
       httpError(res, err);
     }
