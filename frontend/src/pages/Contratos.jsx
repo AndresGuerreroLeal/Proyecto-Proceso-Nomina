@@ -225,6 +225,7 @@ const Contratos = () => {
                                     display: "flex",
                                     justifyContent: "space-between",
                                     alignItems: "center",
+                                    gap:"5px"
                                   }}
                                 >
                                   <Button variant="outlined" color="primary">
