@@ -14,6 +14,8 @@ const AuthState = ({ children }) => {
   const [cargando, setCargando] = useState(true);
   const [alertaauth, setAlertaAuth] = useState();
   const [cantidadEmpleados, setCantidadEmpleados] = useState({});
+  const [cantidadContratos, setCantidadContratos] = useState({});
+  const [cargandoAPI, setCargandoAPI] = useState(false);
 
   const navigate = useNavigate({});
 
@@ -106,6 +108,7 @@ const AuthState = ({ children }) => {
   };
 
   const obtenerCantidadEmpleados = async () => {
+    setCargandoAPI(true);
     try {
       const token = localStorage.getItem("token");
 
@@ -120,6 +123,29 @@ const AuthState = ({ children }) => {
         message: err.response.data.message,
         categoria: "error",
       });
+    } finally {
+      setCargandoAPI(false);
+    }
+  };
+
+  const obtenerCantidadContratos = async () => {
+    setCargandoAPI(true);
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.get(
+        "/api/1.0/contract/",
+        TokenAuth(token)
+      );
+
+      setCantidadContratos(data);
+    } catch (err) {
+      setAlertaAuth({
+        message: err.response.data.message,
+        categoria: "error",
+      });
+    } finally {
+      setCargandoAPI(false);
     }
   };
 
@@ -131,12 +157,15 @@ const AuthState = ({ children }) => {
         cargando,
         alertaauth,
         cantidadEmpleados,
+        cantidadContratos,
+        cargandoAPI,
         setToken,
         cerrarSesion,
         actualizarPerfil,
         setAlertaAuth,
         actualizarContrasenia,
         obtenerCantidadEmpleados,
+        obtenerCantidadContratos,
       }}
     >
       {children}
