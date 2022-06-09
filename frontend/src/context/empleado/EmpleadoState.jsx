@@ -41,7 +41,7 @@ const EmpleadoState = ({ children }) => {
     setCargando(true);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
         `/api/1.0/employee/list-${estado}?pageNumber=${
@@ -84,7 +84,7 @@ const EmpleadoState = ({ children }) => {
       formData.append("tipo_cuenta", empleado.tipo_cuenta);
       formData.append("numero_cuenta", empleado.numero_cuenta);
 
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.post(
         "api/1.0/employee/create",
@@ -130,7 +130,7 @@ const EmpleadoState = ({ children }) => {
   const obtenerEmpleadoEditarAPI = async (id) => {
     setCargando(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
         `/api/1.0/employee/${id}`,
@@ -171,7 +171,7 @@ const EmpleadoState = ({ children }) => {
       formData.append("numero_cuenta", empleado.numero_cuenta);
       formData.append("_id", empleado._id);
 
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.put(
         "/api/1.0/employee/update",
@@ -213,7 +213,7 @@ const EmpleadoState = ({ children }) => {
   const actualizarEstado = async (empleado) => {
     setCargando(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.put(
         `/api/1.0/employee/state/${empleado._id}`,
@@ -248,7 +248,7 @@ const EmpleadoState = ({ children }) => {
     setCargando(true);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
         `/api/1.0/report-employee/list/?pageNumber=${
@@ -275,7 +275,7 @@ const EmpleadoState = ({ children }) => {
     setCargando(true);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.delete(
         `/api/1.0/report-employee/delete/${id}`,
@@ -305,7 +305,7 @@ const EmpleadoState = ({ children }) => {
     setCargando(true);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
         `/api/1.0/employee/without-contract`,

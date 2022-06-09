@@ -34,6 +34,9 @@ const ContratoState = ({ children }) => {
   const crearContrato = async (contrato) => {
     setCargando(true);
 
+    contrato.sueldo = Number(contrato.sueldo.split(",").join(""));
+    contrato.porcentaje_arl = Number(contrato.porcentaje_arl);
+
     const salarioMinimo = 1000000
 
     if (contrato.sueldo >= salarioMinimo * 2) {
@@ -49,7 +52,7 @@ const ContratoState = ({ children }) => {
     }
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.post(
         "/api/1.0/contract/create",
@@ -69,6 +72,7 @@ const ContratoState = ({ children }) => {
       }, 2000);
 
     } catch (err) {
+      console.log(err)
       console.log(err.response);
       mostrarAlerta({
         message: err.response.data.message,
@@ -83,7 +87,7 @@ const ContratoState = ({ children }) => {
     setCargando(true);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
         `/api/1.0/contract/list?pageNumber=${
@@ -114,7 +118,7 @@ const ContratoState = ({ children }) => {
     setCargando(true);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
         `/api/1.0/report-contract/list?pageNumber=${
@@ -141,7 +145,7 @@ const ContratoState = ({ children }) => {
     setCargando(true);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.delete(
         `api/1.0/report-contract/delete/${id}`,
@@ -168,7 +172,7 @@ const ContratoState = ({ children }) => {
   const obtenerContrato = async (contrato)=>{
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
         `/api/1.0/contract/${contrato._id}`,

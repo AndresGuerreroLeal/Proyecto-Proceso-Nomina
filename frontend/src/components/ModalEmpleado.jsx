@@ -1,4 +1,4 @@
-import { Box, Button, Modal, Typography } from "@mui/material";
+import { Box, Button, Modal, Paper, Typography } from "@mui/material";
 import React, { useContext } from "react";
 import EmpleadoContext from "../context/empleado/EmpleadoContext";
 import { Grid } from "@mui/material";
@@ -24,7 +24,7 @@ const ModalEmpleado = () => {
   const { perfil } = useContext(AuthContext);
 
   const handleDownload = (docurl) => {
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
 
     let config = {
       responseType: "blob",
@@ -119,15 +119,19 @@ const ModalEmpleado = () => {
 
                 <Typography variant="p" component="h4">
                   Documento:{" "}
-                  <span className="texto">
-                    <a
-                      style={{ cursor: "pointer", color: "black" }}
-                      variant="text"
-                      onClick={() => handleDownload(empleado.documento)}
-                    >
-                      Ver documento
-                    </a>
-                  </span>
+                  <Paper
+                    onClick={() => handleDownload(empleado.documento)}
+                    sx={{
+                      width: "30%",
+                      display: "inline-block",
+                      textAlign: "center",
+                      cursor: "pointer",
+                      backgroundColor: "#2196f3",
+                    }}
+                    elevation={0}
+                  >
+                    Ver documento
+                  </Paper>
                 </Typography>
 
                 <Typography variant="p" component="h4">

@@ -84,11 +84,11 @@ const ContratoSchema = Yup.object().shape({
     new Date().toISOString().split("T")[0],
     "Fecha de inicio requerido"
   ),
-  sueldo: Yup.string("Caracteres inválidos")
-    .matches(/^[0-9]+$/, "Solo se aceptan dígitos")
-    .min(6, "Sueldo inválido")
-    .max(9, "Sueldo inválido")
-    .required("Sueldo requerido"),
+  sueldo: Yup.string()
+    .matches(/^[0-9]+(,[0-9]+,[0-9]+)?$/, "Valor inválido")
+    .required("Sueldo requerido")
+    .min(0, "Sueldo inválido")
+    .max(100000000, "Sueldo inválido"),
   cargo: Yup.string().required("Cargo requerido"),
   tipo_cotizante: Yup.string().required("Tipo de cotizante requerido"),
   fondo_salud: Yup.string().required("Fondo de salud requerido"),

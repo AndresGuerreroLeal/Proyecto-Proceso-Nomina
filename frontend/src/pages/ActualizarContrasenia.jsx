@@ -109,9 +109,8 @@ const ActualizarContrasenia = () => {
 
         <Button
           type="submit"
-          fullWidth
           variant="contained"
-          sx={{ mt: 3, mb: 2, width: "70%" }}
+          sx={{ mt: 3, mb: 2 }}
         >
           Actualizar Contraseña
         </Button>

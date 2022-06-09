@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 
 // Config 
 import formikMain from "../helpers/formikMain";
+import NumberFormat from "react-number-format";
 
 //Material ui
 import { Alert, Button, CircularProgress, Container, Grid, MenuItem, Paper, Select, TextField, Typography } from "@mui/material";
@@ -37,17 +38,7 @@ const inputStyles = {
   marginTop: "1rem",
 };
 
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width:350,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 2,
-};
+const withValueLimit = ({ floatValue }) => floatValue <= 100000000;
 
 const ContratoForm = () => {
   const classes = useStyles();
@@ -74,21 +65,23 @@ const ContratoForm = () => {
     tipo_cotizante: "",
     tipo_contrato: "",
     fondo_salud: "",
-    porcentaje_salud_empleado: "4",
-    porcentaje_salud_empleador: "8.5",
+    porcentaje_salud_empleado: 4,
+    porcentaje_salud_empleador: 8.5,
     fondo_pensiones: "",
-    porcentaje_pension_empleado: "4",
-    porcentaje_pension_empleador: "12",
+    porcentaje_pension_empleado: 4,
+    porcentaje_pension_empleador: 12,
     arl: "",
-    porcentaje_arl: "",
+    porcentaje_arl: 0,
     fondo_cesantias: "",
-    porcentaje_parafiscal_sena: "2",
-    porcentaje_parafiscal_icbf: "3",
-    porcentaje_parafiscal_caja_compensacion: "4",
-    reset: true
+    porcentaje_parafiscal_sena: 2,
+    porcentaje_parafiscal_icbf: 3,
+    porcentaje_parafiscal_caja_compensacion: 4,
+    reset: true,
   };
 
   const handleSubmit =  (contrato)=>{
+
+    console.log(contrato);
 
     try {
       window.scroll({
@@ -251,13 +244,16 @@ const ContratoForm = () => {
                     <MenuItem value="Accidental">Accidental</MenuItem>
                     <MenuItem value="Aprendizaje">Aprendizaje</MenuItem>
                   </TextField>
-                  <TextField
+                  <NumberFormat
                     label="Sueldo"
                     variant="outlined"
                     name="sueldo"
                     sx={inputStyles}
                     value={formik.values.sueldo}
                     onChange={formik.handleChange}
+                    customInput={TextField}
+                    thousandSeparator={true}
+                    isAllowed={withValueLimit}
                     error={
                       formik.touched.sueldo && Boolean(formik.errors.sueldo)
                     }
@@ -565,13 +561,15 @@ const ContratoForm = () => {
                     <CircularProgress />
                   </div>
                 ) : (
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                  >
-                    {contratoEditar ? "Guardar Cambios" : "Crear Contrato"}
-                  </Button>
+                  <div className="container2">
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2 }}
+                    >
+                      {contratoEditar ? "Guardar Cambios" : "Crear Contrato"}
+                    </Button>
+                  </div>
                 )}
               </Grid>
             </Grid>
