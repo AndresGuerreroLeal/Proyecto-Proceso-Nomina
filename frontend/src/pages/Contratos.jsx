@@ -122,7 +122,7 @@ const Contratos = () => {
         const downloadUrl = window.URL.createObjectURL(new Blob([file]));
         const link = document.createElement("a");
         link.href = downloadUrl;
-        link.setAttribute("download", `${nombre}.xlsx`);
+        link.setAttribute("download", `reportescontrato.xlsx`);
         document.body.appendChild(link);
         link.click();
         link.remove();
@@ -263,6 +263,7 @@ const Contratos = () => {
       <Button
         variant="contained"
         color="primary"
+        onClick={() => handleDownload("/api/1.0/report-contract/create")}
       >
         Generar reportes
       </Button>
