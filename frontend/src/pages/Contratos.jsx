@@ -22,7 +22,7 @@ import TableRow from "@mui/material/TableRow";
 import clienteAxios from "../config/axios";
 import { CircularProgress } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import DownloadIcon from '@mui/icons-material/Download';
+import EditIcon from '@mui/icons-material/Edit';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import contratoContext from "../context/contrato/ContratoContext";
 import ModalContrato from "../components/ModalContrato";
@@ -237,7 +237,7 @@ const Contratos = () => {
                                   }}
                                 >
                                   <Button variant="outlined" color="primary">
-                                    <DownloadIcon />
+                                    <EditIcon />
                                   </Button>
                                   <Button variant="outlined" color="secondary">
                                     <DeleteIcon />
