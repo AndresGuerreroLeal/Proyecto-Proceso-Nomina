@@ -67,23 +67,23 @@ const ContratoForm = () => {
   let values = {
     numero_contrato: "",
     cargo: "",
-    fecha_inicio: "",
+    fecha_inicio: new Date().toISOString().split("T")[0],
     sueldo: "",
     tipo_cotizante: "",
     tipo_contrato: "",
     auxilio_transporte: "",
     fondo_salud: "",
-    porcentaje_salud_empleado: "",
-    porcentaje_salud_empleador: "",
+    porcentaje_salud_empleado: "4%",
+    porcentaje_salud_empleador: "8.5%",
     fondo_pensiones: "",
-    porcentaje_pension_empleado: "",
-    porcentaje_pension_empleador: "",
+    porcentaje_pension_empleado: "4%",
+    porcentaje_pension_empleador: "12%",
     arl: "",
     porcentaje_arl: "",
     fondo_cesantias: "",
-    porcentaje_parafiscal_sena: "",
-    porcentaje_parafiscal_icbf: "",
-    porcentaje_parafiscal_caja_compesacion: "",
+    porcentaje_parafiscal_sena: "2%",
+    porcentaje_parafiscal_icbf: "3%",
+    porcentaje_parafiscal_caja_compensacion: "4%",
     salario_integral: "",
     reset: true,
   };
@@ -185,6 +185,7 @@ const ContratoForm = () => {
                     formik.touched.fecha_inicio &&
                     Boolean(formik.errors.fecha_inicio)
                   }
+                  type="date"
                   helperText={
                     formik.touched.fecha_inicio && formik.errors.fecha_inicio
                   }
@@ -225,9 +226,17 @@ const ContratoForm = () => {
                     }
                     onBlur={formik.handleBlur}
                   >
-                    <MenuItem value="CC">CC</MenuItem>
-                    <MenuItem value="CE">CE</MenuItem>
-                    <MenuItem value="TI">TI</MenuItem>
+                    <MenuItem value="A término fijo">A término fijo</MenuItem>
+                    <MenuItem value="A término indefinido">
+                      A término indefinido
+                    </MenuItem>
+                    <MenuItem value="Por obra o labor">
+                      Por obra o labor
+                    </MenuItem>
+                    <MenuItem value="Temporal">Temporal</MenuItem>
+                    <MenuItem value="Ocasional">Ocasional</MenuItem>
+                    <MenuItem value="Accidental">Accidental</MenuItem>
+                    <MenuItem value="Aprendizaje">Aprendizaje</MenuItem>
                   </TextField>
                   <TextField
                     label="Sueldo"
@@ -262,8 +271,8 @@ const ContratoForm = () => {
                   }
                   onBlur={formik.handleBlur}
                 >
-                  <MenuItem value="true">Si</MenuItem>
-                  <MenuItem value="false">No</MenuItem>
+                  <MenuItem value="Si">Si</MenuItem>
+                  <MenuItem value="No">No</MenuItem>
                 </TextField>
               </Grid>
               <Grid item xs={12}>
@@ -271,6 +280,7 @@ const ContratoForm = () => {
                   Datos para aportes de seguridad social y parafiscales
                 </Typography>
                 <TextField
+                  select
                   label="Tipo de cotizante"
                   variant="outlined"
                   name="tipo_cotizante"
@@ -286,7 +296,10 @@ const ContratoForm = () => {
                     formik.errors.tipo_cotizante
                   }
                   onBlur={formik.handleBlur}
-                />
+                >
+                  <MenuItem value="Beneficiario ">Beneficiario</MenuItem>
+                  <MenuItem value="Cotizante">Cotizante</MenuItem>
+                </TextField>
 
                 <TextField
                   label="Auxilio de transporte"
@@ -307,6 +320,7 @@ const ContratoForm = () => {
                 />
 
                 <TextField
+                  select
                   label="Fondo de salud"
                   name="fondo_salud"
                   variant="outlined"
@@ -321,7 +335,21 @@ const ContratoForm = () => {
                     formik.touched.fondo_salud && formik.errors.fondo_salud
                   }
                   onBlur={formik.handleBlur}
-                />
+                >
+                  <MenuItem value="Aliansalud ">Aliansalud</MenuItem>
+                  <MenuItem value="Cafam">Cafam</MenuItem>
+                  <MenuItem value="Capital Salud">Capital Salud</MenuItem>
+                  <MenuItem value="Capresoca">Capresoca</MenuItem>
+                  <MenuItem value="Colsubsidio">Colsubsidio</MenuItem>
+                  <MenuItem value="COMFANDI">COMFANDI</MenuItem>
+                  <MenuItem value="Compensar">Compensar</MenuItem>
+                  <MenuItem value="Coomeva">Coomeva</MenuItem>
+                  <MenuItem value="Coosalud">Coosalud</MenuItem>
+                  <MenuItem value="Sanitas">Sanitas</MenuItem>
+                  <MenuItem value="Sura">Sura</MenuItem>
+                  <MenuItem value="Famisanar">Famisanar</MenuItem>
+                  <MenuItem value="Otro">Otro</MenuItem>
+                </TextField>
 
                 <TextField
                   label="Porcentaje de salud del empleado"
@@ -339,6 +367,7 @@ const ContratoForm = () => {
                     formik.errors.porcentaje_salud_empleado
                   }
                   onBlur={formik.handleBlur}
+                  disabled
                 />
 
                 <TextField
@@ -357,6 +386,7 @@ const ContratoForm = () => {
                     formik.errors.porcentaje_salud_empleador
                   }
                   onBlur={formik.handleBlur}
+                  disabled
                 />
 
                 <TextField
@@ -375,7 +405,17 @@ const ContratoForm = () => {
                     formik.errors.fondo_pensiones
                   }
                   onBlur={formik.handleBlur}
-                />
+                >
+                  <MenuItem value="Protección S.A">Protección S.A</MenuItem>
+                  <MenuItem value="Porvenir S.A">Porvenir S.A</MenuItem>
+                  <MenuItem value="Colfondos Pensiones y Cesantías S.A">
+                    Colfondos Pensiones y Cesantías S.A
+                  </MenuItem>
+                  <MenuItem value="Old Mutual Pensiones y Cesantías S.A">
+                    Old Mutual Pensiones y Cesantías S.A
+                  </MenuItem>
+                  <MenuItem value="Colpensiones">Colpensiones</MenuItem>
+                </TextField>
 
                 <TextField
                   label="Porcentaje de pensión del empleado"
@@ -393,6 +433,7 @@ const ContratoForm = () => {
                     formik.errors.porcentaje_pension_empleado
                   }
                   onBlur={formik.handleBlur}
+                  disabled
                 />
 
                 <TextField
@@ -411,6 +452,7 @@ const ContratoForm = () => {
                     formik.errors.porcentaje_pension_empleador
                   }
                   onBlur={formik.handleBlur}
+                  disabled
                 />
 
                 <TextField
@@ -425,8 +467,12 @@ const ContratoForm = () => {
                   helperText={formik.touched.arl && formik.errors.arl}
                   onBlur={formik.handleBlur}
                 >
-                  <MenuItem value="true">Si</MenuItem>
-                  <MenuItem value="false">N</MenuItem>
+                  <MenuItem value="Sura">Sura</MenuItem>
+                  <MenuItem value="Positiva">Positiva</MenuItem>
+                  <MenuItem value="Axa Colpatria">Axa Colpatria</MenuItem>
+                  <MenuItem value="Colmena">Colmena</MenuItem>
+                  <MenuItem value="Bolívar">Bolívar</MenuItem>
+                  <MenuItem value="La Equidad">La Equidad</MenuItem>
                 </TextField>
 
                 <TextField
@@ -447,8 +493,10 @@ const ContratoForm = () => {
                   }
                   onBlur={formik.handleBlur}
                 >
-                  <MenuItem value="true">Si</MenuItem>
-                  <MenuItem value="false">N</MenuItem>
+                  <MenuItem value="0.522">0.522%</MenuItem>
+                  <MenuItem value="1.044">1.044%</MenuItem>
+                  <MenuItem value="2.436">2.436%</MenuItem>
+                  <MenuItem value="4.350">4.350%</MenuItem>
                 </TextField>
 
                 <TextField
@@ -469,8 +517,13 @@ const ContratoForm = () => {
                   }
                   onBlur={formik.handleBlur}
                 >
-                  <MenuItem value="true">Si</MenuItem>
-                  <MenuItem value="false">N</MenuItem>
+                  <MenuItem value="Colfondos">Colfondos</MenuItem>
+                  <MenuItem value="Porvenir">Porvenir</MenuItem>
+                  <MenuItem value="Protección">Protección</MenuItem>
+                  <MenuItem value="Skandia">Skandia</MenuItem>
+                  <MenuItem value="Fondo Nacional del Ahorro">
+                    Fondo Nacional del Ahorro
+                  </MenuItem>
                 </TextField>
 
                 <TextField
@@ -489,6 +542,7 @@ const ContratoForm = () => {
                     formik.errors.porcentaje_parafiscal_sena
                   }
                   onBlur={formik.handleBlur}
+                  disabled
                 />
 
                 <TextField
@@ -507,6 +561,7 @@ const ContratoForm = () => {
                     formik.errors.porcentaje_parafiscal_icbf
                   }
                   onBlur={formik.handleBlur}
+                  disabled
                 />
 
                 <TextField
@@ -527,6 +582,7 @@ const ContratoForm = () => {
                     formik.errors.porcentaje_parafiscal_caja_compensacion
                   }
                   onBlur={formik.handleBlur}
+                  disabled
                 />
 
                 {cargando ? (
