@@ -98,8 +98,9 @@ const EmpleadoState = ({ children }) => {
       });
 
       setTimeout(() => {
-        navigate("/home/empleados");
+        navigate("/home/nuevo-contrato");
       }, 2000);
+      
     } catch (err) {
       mostrarAlerta({
         message: err.response.data.message,

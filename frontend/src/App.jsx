@@ -12,6 +12,7 @@ import UiState from "./context/ui/UiState";
 import DashboardLayout from "./layout/DashboardLayout";
 import FormLayout from "./layout/FormLayout";
 import ActualizarContrasenia from "./pages/ActualizarContrasenia";
+import ContratoForm from "./pages/ContratoForm";
 
 //Pages
 import Contratos from "./pages/Contratos";
@@ -74,6 +75,8 @@ function App() {
                     />
 
                     <Route path="contratos" element={<Contratos />} />
+                    <Route path="contratos/nuevo-contrato" element={<ContratoForm />} />
+
                     <Route
                       path="reportes-contratos"
                       element={<ReportesContratos />}
