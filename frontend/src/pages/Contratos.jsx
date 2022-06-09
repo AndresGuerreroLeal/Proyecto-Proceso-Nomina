@@ -22,9 +22,10 @@ import TableRow from "@mui/material/TableRow";
 import clienteAxios from "../config/axios";
 import { CircularProgress } from "@mui/material";
 import DeleteIcon from '@mui/icons-material/Delete';
-import DownloadIcon from '@mui/icons-material/Download';
+import EditIcon from '@mui/icons-material/Edit';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import contratoContext from "../context/contrato/ContratoContext";
+import ModalContrato from "../components/ModalContrato";
 
 const columns = [
   { id: "numero_contrato", label: "Número de Contrato", minWidth: 130 },
@@ -53,6 +54,8 @@ const Contratos = () => {
   const {
     contratos,
     cargando,
+    contrato,
+    modalContrato,
     pageContratos,
     rowsPerPageContratos,
     countContratos,
@@ -60,6 +63,7 @@ const Contratos = () => {
     setPageContratos,
     setRowsPerPageContratos,
     obtenerContratos,
+    obtenerContrato,
   } = useContext(contratoContext);
 
   const {empleadosSinContrato,obtenerEmpleadosSinContrato} = useContext(EmpleadoContext)
@@ -70,10 +74,8 @@ const Contratos = () => {
 
   const [openEliminar, setOpenEliminar] = useState(false);
   
-  const obtenerContrato = (contrato) => {
-    setOpenEliminar(true);
-    setContratoEliminar(contrato);
-  };
+
+  console.log(contrato);
 
   useEffect(()=>{
     obtenerEmpleadosSinContrato();
@@ -145,6 +147,8 @@ const Contratos = () => {
         />
       )}
 
+      {modalContrato && <ModalContrato />}
+
       <div className={classes.header}>
         <Typography variant="h4" component="h2">
           Lista Contratos
@@ -208,13 +212,17 @@ const Contratos = () => {
 
                           return (
                             <TableCell key={column.id} align={column.align}>
-                              <div onClick={() => obtenerEmpleado(row)}>
+                              <div>
                                 {column.id === "fecha_inicio"
                                   ? value.split("T")[0]
                                   : value}
                               </div>
                               {column.id === "ver_detalle" && (
-                                <Button variant="outlined" color="primary">
+                                <Button
+                                  variant="outlined"
+                                  color="primary"
+                                  onClick={() => obtenerContrato(row)}
+                                >
                                   <LibraryBooksIcon />
                                 </Button>
                               )}
@@ -225,11 +233,11 @@ const Contratos = () => {
                                     display: "flex",
                                     justifyContent: "space-between",
                                     alignItems: "center",
-                                    gap:"5px"
+                                    gap: "5px",
                                   }}
                                 >
                                   <Button variant="outlined" color="primary">
-                                    <DownloadIcon />
+                                    <EditIcon />
                                   </Button>
                                   <Button variant="outlined" color="secondary">
                                     <DeleteIcon />
