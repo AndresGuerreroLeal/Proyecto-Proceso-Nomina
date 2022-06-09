@@ -5,16 +5,17 @@ import AuthContext from "../context/auth/AuthContext";
 
 //Material ui
 import { makeStyles, Typography } from "@material-ui/core";
-import { Grid, Paper } from "@mui/material";
+import { CircularProgress, Grid, Paper } from "@mui/material";
 
 const useStyles = makeStyles((theme) => ({}));
 
 const Dashboard = () => {
 
-  const {cantidadEmpleados,obtenerCantidadEmpleados} = useContext(AuthContext)
+  const {cantidadEmpleados,cantidadContratos,cargandoAPI,obtenerCantidadEmpleados,obtenerCantidadContratos} = useContext(AuthContext)
 
   useEffect(()=>{
     obtenerCantidadEmpleados();
+    obtenerCantidadContratos();
   },[])
 
   return (
@@ -42,10 +43,20 @@ const Dashboard = () => {
               flexDirection: "column",
             }}
           >
-            <Typography component="h3" variant="h5">
-              Ver Empleados
-            </Typography>
-            <p>Total empleados: {cantidadEmpleados?.cantidadEmpleados}</p>
+            {cargandoAPI ? (
+              <CircularProgress />
+            ) : (
+              <>
+                <Typography component="h3" variant="h5">
+                  Ver Empleados
+                </Typography>
+                <div style={{ textAlign: "center" }}>
+                  <p>Total empleados: {cantidadEmpleados?.cantidadEmpleados}</p>
+                  <p>Total Activos: {cantidadEmpleados?.cantidadActivos}</p>
+                  <p>Total Inactivos: {cantidadEmpleados?.cantidadInactivos}</p>
+                </div>
+              </>
+            )}
           </Paper>
         </Grid>
 
@@ -61,11 +72,22 @@ const Dashboard = () => {
               flexDirection: "column",
             }}
           >
-            <Typography component="h3" variant="h5">
-              Ver contactos
-            </Typography>
-
-            <p>Total contratos: 30</p>
+            {cargandoAPI ? (
+              <CircularProgress />
+            ) : (
+              <>
+                <Typography component="h3" variant="h5">
+                  Ver contactos
+                </Typography>
+                <div style={{ textAlign: "center" }}>
+                  <p>Total contratos: {cantidadContratos?.cantidadContratos}</p>
+                  <p>Total Activos: {cantidadContratos?.contratosActivos}</p>
+                  <p>
+                    Total Inactivos: {cantidadContratos?.contratosInactivos}
+                  </p>
+                </div>
+              </>
+            )}
           </Paper>
         </Grid>
 
