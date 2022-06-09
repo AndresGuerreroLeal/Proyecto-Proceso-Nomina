@@ -71,7 +71,7 @@ const ContratoForm = () => {
     porcentaje_pension_empleado: 4,
     porcentaje_pension_empleador: 12,
     arl: "",
-    porcentaje_arl: 0,
+    porcentaje_arl: "",
     fondo_cesantias: "",
     porcentaje_parafiscal_sena: 2,
     porcentaje_parafiscal_icbf: 3,
@@ -120,6 +120,26 @@ const ContratoForm = () => {
 
   useEffect(()=>{
     if(contratoEditar && id){
+      formik.setFieldValue("numero_contrato",contratoEditar.numero_contrato)
+      formik.setFieldValue("tipo_contrato",contratoEditar.tipo_contrato)
+      formik.setFieldValue("fecha_inicio",contratoEditar.fecha_inicio)
+      formik.setFieldValue("sueldo",contratoEditar.sueldo)
+      formik.setFieldValue("cargo",contratoEditar.cargo)
+      formik.setFieldValue("tipo_cotizante",contratoEditar.tipo_cotizante)
+      formik.setFieldValue("fondo_salud",contratoEditar.fondo_salud)
+      formik.setFieldValue("porcentaje_salud_empleado", contratoEditar.porcentaje_salud_empleado);
+      formik.setFieldValue("porcentaje_salud_empleador",contratoEditar.porcentaje_salud_empleador)
+      formik.setFieldValue("porcentaje_pension_empleado",contratoEditar.porcentaje_pension_empleado)
+      formik.setFieldValue("porcentaje_pension_empleador",contratoEditar.porcentaje_pension_empleador)
+      formik.setFieldValue("arl",contratoEditar.arl)
+      formik.setFieldValue("porcentaje_arl",contratoEditar.porcentaje_arl)
+      formik.setFieldValue("porcentaje_parafiscal_sena",contratoEditar.porcentaje_parafiscal_sena)
+      formik.setFieldValue("porcentaje_parafiscal_icbf",contratoEditar.porcentaje_parafiscal_icbf)
+      formik.setFieldValue(
+        "porcentaje_parafiscal_caja_compensacion",
+        contratoEditar.porcentaje_parafiscal_caja_compensacion
+      );
+      formik.setFieldValue("_id", id);      
     }
   },[contratoEditar])
 

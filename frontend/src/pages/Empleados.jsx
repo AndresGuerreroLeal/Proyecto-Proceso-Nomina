@@ -32,8 +32,8 @@ const columns = [
   {
     id: "correo",
     label: "Correo Electrónico",
-    minWidth: 170,
-    align: "right",
+    minWidth: 80,
+    align: "left",
     format: (value) => value.toLocaleString("en-US"),
   },
   {

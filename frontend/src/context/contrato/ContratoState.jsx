@@ -192,6 +192,10 @@ const ContratoState = ({ children }) => {
     setModalContrato(!modalContrato);
   }
 
+  const obtenerContratoEditar = (contrato)=>{
+    setContratoEditar(contrato);
+  }
+
   return (
     <ContratoContext.Provider
       value={{
@@ -222,7 +226,8 @@ const ContratoState = ({ children }) => {
         eliminarReporte,
         setReporteEliminar,
         obtenerContrato,
-        mostrarModalContrato
+        mostrarModalContrato,
+        obtenerContratoEditar
       }}
     >
       {children}
