@@ -62,17 +62,22 @@ const Contratos = () => {
     obtenerContratos,
   } = useContext(contratoContext);
 
+  const {empleadosSinContrato,obtenerEmpleadosSinContrato} = useContext(EmpleadoContext)
+
   const { alerta } = useContext(AlertaContext);
 
   const navigate = useNavigate();
 
   const [openEliminar, setOpenEliminar] = useState(false);
-
+  
   const obtenerContrato = (contrato) => {
     setOpenEliminar(true);
     setContratoEliminar(contrato);
   };
 
+  useEffect(()=>{
+    obtenerEmpleadosSinContrato();
+  },[])
 
   useEffect(() => {
     const obtenerContratosState = async () => {
@@ -137,7 +142,6 @@ const Contratos = () => {
           setOpen={setOpenEliminar}
           titulo={`¿Está seguro de eliminar el contrato?`}
           contenido={"Se eliminará permanentemente y no podrá ser recuperado."}
-      
         />
       )}
 
@@ -145,6 +149,14 @@ const Contratos = () => {
         <Typography variant="h4" component="h2">
           Lista Contratos
         </Typography>
+
+        {empleadosSinContrato.length > 0 && (
+          <Link to="nuevo-contrato">
+            <Button variant="contained" color="primary">
+              Nuevo Contrato
+            </Button>
+          </Link>
+        )}
       </div>
 
       {cargando ? (
@@ -202,10 +214,7 @@ const Contratos = () => {
                                   : value}
                               </div>
                               {column.id === "ver_detalle" && (
-                                <Button
-                                  variant="outlined"
-                                  color="primary"
-                                >
+                                <Button variant="outlined" color="primary">
                                   <LibraryBooksIcon />
                                 </Button>
                               )}
@@ -218,16 +227,10 @@ const Contratos = () => {
                                     alignItems: "center",
                                   }}
                                 >
-                                  <Button
-                                    variant="outlined"
-                                    color="primary"
-                                  >
+                                  <Button variant="outlined" color="primary">
                                     <DownloadIcon />
                                   </Button>
-                                  <Button
-                                    variant="outlined"
-                                    color="secondary"
-                                  >
+                                  <Button variant="outlined" color="secondary">
                                     <DeleteIcon />
                                   </Button>
                                 </div>
@@ -256,6 +259,13 @@ const Contratos = () => {
           />
         </Paper>
       )}
+
+      <Button
+        variant="contained"
+        color="primary"
+      >
+        Generar reportes
+      </Button>
     </>
   );
 };
