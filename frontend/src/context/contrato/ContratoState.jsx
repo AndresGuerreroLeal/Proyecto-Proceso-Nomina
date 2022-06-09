@@ -34,6 +34,9 @@ const ContratoState = ({ children }) => {
   const crearContrato = async (contrato) => {
     setCargando(true);
 
+    contrato.sueldo = Number(contrato.sueldo.split(",").join(""));
+    contrato.porcentaje_arl = Number(contrato.porcentaje_arl);
+
     const salarioMinimo = 1000000
 
     if (contrato.sueldo >= salarioMinimo * 2) {
@@ -69,6 +72,7 @@ const ContratoState = ({ children }) => {
       }, 2000);
 
     } catch (err) {
+      console.log(err)
       console.log(err.response);
       mostrarAlerta({
         message: err.response.data.message,

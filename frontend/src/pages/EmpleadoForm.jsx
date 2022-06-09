@@ -535,14 +535,18 @@ const EmpleadoForm = () => {
                     <CircularProgress />
                   </div>
                 ) : (
-                  <Button
-                    type="submit"
-                    variant="contained"
-                    sx={{ mt: 3, mb: 2 }}
-                    style={{ marginX: "auto" }}
-                  >
-                    {empleadoEditar?._id ? "Guardar Cambios" : "Crear usuario"}
-                  </Button>
+                  <div className="container2">
+                    <Button
+                      type="submit"
+                      variant="contained"
+                      sx={{ mt: 3, mb: 2 }}
+                      style={{ marginX: "auto" }}
+                    >
+                      {empleadoEditar?._id
+                        ? "Guardar Cambios"
+                        : "Crear usuario"}
+                    </Button>
+                  </div>
                 )}
               </Grid>
             </Grid>
