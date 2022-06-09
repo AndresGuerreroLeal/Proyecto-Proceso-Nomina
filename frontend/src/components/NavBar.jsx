@@ -153,23 +153,23 @@ const NavBar = () => {
           </ListItemButton>
           <Collapse in={menucontratos} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemButton sx={{ pl: 4 }}>
-                <Link to="/contratos" className={classes.opcion}>
+              <Link to="/home/contratos" className={classes.opcion}>
+                <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <WorkHistoryIcon />
                   </ListItemIcon>
                   <ListItemText primary="Listar Contratos" />
-                </Link>
-              </ListItemButton>
+                </ListItemButton>
+              </Link>
 
-              <ListItemButton sx={{ pl: 4 }}>
-                <Link to="admin/reportes-contratos" className={classes.opcion}>
+              <Link to="/home/reportes-contratos" className={classes.opcion}>
+                <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <AssessmentIcon />
                   </ListItemIcon>
                   <ListItemText primary="Reportes Contratos" />
-                </Link>
-              </ListItemButton>
+                </ListItemButton>
+              </Link>
             </List>
           </Collapse>
 
@@ -185,23 +185,23 @@ const NavBar = () => {
           </ListItemButton>
           <Collapse in={menunominas} timeout="auto" unmountOnExit>
             <List component="div" disablePadding>
-              <ListItemButton sx={{ pl: 4 }}>
-                <Link to="/nominas" className={classes.opcion}>
+              <Link to="/home/nominas" className={classes.opcion}>
+                <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <FindInPageIcon />
                   </ListItemIcon>
                   <ListItemText primary="Listar Nominas" />
-                </Link>
-              </ListItemButton>
+                </ListItemButton>
+              </Link>
 
-              <ListItemButton sx={{ pl: 4 }}>
-                <Link to="/reportes-nominas" className={classes.opcion}>
+              <Link to="/home/reportes-nominas" className={classes.opcion}>
+                <ListItemButton sx={{ pl: 4 }}>
                   <ListItemIcon>
                     <AssessmentIcon />
                   </ListItemIcon>
                   <ListItemText primary="Reportes Nominas" />
-                </Link>
-              </ListItemButton>
+                </ListItemButton>
+              </Link>
             </List>
           </Collapse>
         </List>

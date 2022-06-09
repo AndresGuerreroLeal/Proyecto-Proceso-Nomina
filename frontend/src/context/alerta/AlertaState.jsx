@@ -17,7 +17,7 @@ const AlertaState = ({ children }) => {
         message: "",
         categoria: "",
       });
-    }, 3000);
+    }, 2400);
   };
 
   return (
