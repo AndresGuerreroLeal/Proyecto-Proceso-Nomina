@@ -10,13 +10,21 @@ import { useNavigate } from "react-router-dom";
 
 const ContratoState = ({ children }) => {
   const [contratos,setContratos] = useState([])
+  const [reportesContratos,setReportesContratos] = useState([])
   const [cargando,setCargando] = useState(false)
   const [contratoEditar, setContratoEditar] = useState(null);
+
 
   const [pageContratos, setPageContratos] = useState(0);
   const [rowsPerPageContratos, setRowsPerPageContratos] = useState(5);
   const [totalpagesContratos, setTotalPagesContratos] = useState(0);
   const [countContratos, setCountContratos] = useState(0);
+
+  const [pageReportes, setPageReportes] = useState(0);
+  const [rowsPerPageReportes, setRowsPerPageReportes] = useState(5);
+  const [totalpagesReportes, setTotalPagesReportes] = useState(0);
+  const [countReportes, setCountReportes] = useState(0);
+  const [reporteEliminar,setReporteEliminar] = useState({})
 
   const {mostrarAlerta} = useContext(AlertaContext)
 
@@ -101,6 +109,61 @@ const ContratoState = ({ children }) => {
 
   const editarContrato = () => {};
 
+  const obtenerReportes = async () => {
+    setCargando(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.get(
+        `/api/1.0/report-contract/list?pageNumber=${
+          pageReportes + 1
+        }&pageSize=${rowsPerPageReportes}`,
+        TokenAuth(token)
+      );
+
+      setReportesContratos(data.docs);
+      setPageReportes(data.page - 1);
+      setCountReportes(data.totalDocs);
+      setTotalPagesReportes(data.totalPages);
+    } catch (err) {
+      mostrarAlerta({
+        message: err.response.data.message,
+        categoria: "error",
+      });
+    } finally {
+      setCargando(false);
+    }
+  };
+
+  const eliminarReporte = async (id) => {
+    setCargando(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.delete(
+        `api/1.0/report-contract/delete/${id}`,
+        TokenAuth(token)
+      );
+
+      mostrarAlerta({
+        message: data.message,
+        categoria: "success",
+      });
+
+      setReportesContratos(
+        reportesContratos.filter((reporteState) => reporteState._id !== id)
+      );
+
+      setCountReportes(countReportes - 1);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setCargando(false);
+    }
+  };
+
   return (
     <ContratoContext.Provider
       value={{
@@ -111,12 +174,23 @@ const ContratoState = ({ children }) => {
         rowsPerPageContratos,
         countContratos,
         totalpagesContratos,
+        reportesContratos,
+        pageReportes,
+        rowsPerPageReportes,
+        countReportes,
+        totalpagesReportes,
+        reporteEliminar,
         crearContrato,
         obtenerContratoEditarAPI,
         editarContrato,
         setPageContratos,
         setRowsPerPageContratos,
         obtenerContratos,
+        obtenerReportes,
+        setRowsPerPageReportes,
+        setPageReportes,
+        eliminarReporte,
+        setReporteEliminar,
       }}
     >
       {children}
