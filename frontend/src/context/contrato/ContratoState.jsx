@@ -13,7 +13,8 @@ const ContratoState = ({ children }) => {
   const [reportesContratos,setReportesContratos] = useState([])
   const [cargando,setCargando] = useState(false)
   const [contratoEditar, setContratoEditar] = useState(null);
-
+  const [contrato,setContrato] = useState({})
+  const [modalContrato,setModalContrato] = useState(false)
 
   const [pageContratos, setPageContratos] = useState(0);
   const [rowsPerPageContratos, setRowsPerPageContratos] = useState(5);
@@ -164,6 +165,29 @@ const ContratoState = ({ children }) => {
     }
   };
 
+  const obtenerContrato = async (contrato)=>{
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.get(
+        `/api/1.0/contract/${contrato._id}`,
+        TokenAuth(token)
+      );
+
+      setContrato(data);
+      
+      setModalContrato(true);
+
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
+  const mostrarModalContrato = ()=>{
+    setModalContrato(!modalContrato);
+  }
+
   return (
     <ContratoContext.Provider
       value={{
@@ -180,6 +204,8 @@ const ContratoState = ({ children }) => {
         countReportes,
         totalpagesReportes,
         reporteEliminar,
+        contrato,
+        modalContrato,
         crearContrato,
         obtenerContratoEditarAPI,
         editarContrato,
@@ -191,6 +217,8 @@ const ContratoState = ({ children }) => {
         setPageReportes,
         eliminarReporte,
         setReporteEliminar,
+        obtenerContrato,
+        mostrarModalContrato
       }}
     >
       {children}

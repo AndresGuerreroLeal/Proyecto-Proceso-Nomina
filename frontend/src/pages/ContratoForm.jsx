@@ -154,7 +154,7 @@ const ContratoForm = () => {
             <Grid container className={classes.containerGrid}>
               <Grid item xs={12} lg={5.8} justifyContent="flex-start">
                 <Typography variant="p" component="h3">
-                  Información laboral
+                  Información Laboral
                 </Typography>
                 <TextField
                   select
