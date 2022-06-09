@@ -13,6 +13,11 @@ const ContratoState = ({ children }) => {
   const [cargando,setCargando] = useState(false)
   const [contratoEditar, setContratoEditar] = useState(null);
 
+  const [pageContratos, setPageContratos] = useState(0);
+  const [rowsPerPageContratos, setRowsPerPageContratos] = useState(5);
+  const [totalpagesContratos, setTotalPagesContratos] = useState(0);
+  const [countContratos, setCountContratos] = useState(0);
+
   const {mostrarAlerta} = useContext(AlertaContext)
 
   const navigate = useNavigate();
@@ -65,6 +70,33 @@ const ContratoState = ({ children }) => {
     }
   };
 
+  const obtenerContratos = async () => {
+    setCargando(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.get(
+        `/api/1.0/contract/list?pageNumber=${
+          pageContratos + 1
+        }&pageSize=${rowsPerPageContratos}`,
+        TokenAuth(token)
+      );
+
+      setContratos(data.docs);
+      setPageContratos(data.page - 1);
+      setCountContratos(data.totalDocs);
+      setTotalPagesContratos(data.totalPages);
+    } catch (err) {
+      mostrarAlerta({
+        message: err.response.data.message,
+        categoria: "error",
+      });
+    } finally {
+      setCargando(false);
+    }
+  };
+
   const obtenerContratoEditarAPI = () => {};
 
   const editarContrato = () => {};
@@ -75,9 +107,16 @@ const ContratoState = ({ children }) => {
         contratos,
         cargando,
         contratoEditar,
+        pageContratos,
+        rowsPerPageContratos,
+        countContratos,
+        totalpagesContratos,
         crearContrato,
         obtenerContratoEditarAPI,
         editarContrato,
+        setPageContratos,
+        setRowsPerPageContratos,
+        obtenerContratos,
       }}
     >
       {children}

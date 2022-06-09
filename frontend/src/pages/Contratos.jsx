@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-//Material ui
-import { Typography } from "@material-ui/core";
+// Context
+import EmpleadoContext from "../context/empleado/EmpleadoContext";
+import AlertaContext from "../context/alerta/AlertaContext";
+
+// Components
+import ModalDialog from "../components/ModalDialog";
+import Alerta from "../components/Alerta";
+
+// Material ui
+import { Button, makeStyles, Typography } from "@material-ui/core";
 import Paper from "@mui/material/Paper";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -10,130 +19,256 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import clienteAxios from "../config/axios";
+import { CircularProgress } from "@mui/material";
+import DeleteIcon from '@mui/icons-material/Delete';
+import DownloadIcon from '@mui/icons-material/Download';
+import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
+import contratoContext from "../context/contrato/ContratoContext";
 
 const columns = [
-  { id: "name", label: "Name", minWidth: 170 },
-  { id: "code", label: "ISO\u00a0Code", minWidth: 100 },
+  { id: "numero_contrato", label: "Número de Contrato", minWidth: 130 },
   {
-    id: "population",
-    label: "Population",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
+    id: "fecha_inicio",
+    label: "Fecha de inicio",
+    minWidth: 100,
+    align: "center",
+  },
+  { id: "cargo", label: "Cargo", minWidth: 100 },
+  {
+    id: "ver_detalle",
+    label: "Ver Detalle",
+    minWidth: 100,
+    align: "center",
   },
   {
-    id: "size",
-    label: "Size\u00a0(km\u00b2)",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toLocaleString("en-US"),
+    id: "acciones",
+    label: "Acciones",
+    minWidth: 150,
+    align: "center",
   },
-  {
-    id: "density",
-    label: "Density",
-    minWidth: 170,
-    align: "right",
-    format: (value) => value.toFixed(2),
-  },
-];
-
-function createData(name, code, population, size) {
-  const density = population / size;
-  return { name, code, population, size, density };
-}
-
-const rows = [
-  createData("India", "IN", 1324171354, 3287263),
-  createData("China", "CN", 1403500365, 9596961),
-  createData("Italy", "IT", 60483973, 301340),
-  createData("United States", "US", 327167434, 9833520),
-  createData("Canada", "CA", 37602103, 9984670),
-  createData("Australia", "AU", 25475400, 7692024),
-  createData("Germany", "DE", 83019200, 357578),
-  createData("Ireland", "IE", 4857000, 70273),
-  createData("Mexico", "MX", 126577691, 1972550),
-  createData("Japan", "JP", 126317000, 377973),
-  createData("France", "FR", 67022000, 640679),
-  createData("United Kingdom", "GB", 67545757, 242495),
-  createData("Russia", "RU", 146793744, 17098246),
-  createData("Nigeria", "NG", 200962417, 923768),
-  createData("Brazil", "BR", 210147125, 8515767),
 ];
 
 const Contratos = () => {
-  const [page, setPage] = React.useState(0);
-  const [rowsPerPage, setRowsPerPage] = React.useState(10);
+  const {
+    contratos,
+    cargando,
+    pageContratos,
+    rowsPerPageContratos,
+    countContratos,
+    totalpagesContratos,
+    setPageContratos,
+    setRowsPerPageContratos,
+    obtenerContratos,
+  } = useContext(contratoContext);
+
+  const {empleadosSinContrato,obtenerEmpleadosSinContrato} = useContext(EmpleadoContext)
+
+  const { alerta } = useContext(AlertaContext);
+
+  const navigate = useNavigate();
+
+  const [openEliminar, setOpenEliminar] = useState(false);
+  
+  const obtenerContrato = (contrato) => {
+    setOpenEliminar(true);
+    setContratoEliminar(contrato);
+  };
+
+  useEffect(()=>{
+    obtenerEmpleadosSinContrato();
+  },[])
+
+  useEffect(() => {
+    const obtenerContratosState = async () => {
+      await obtenerContratos();
+    };
+
+    obtenerContratosState();
+  }, [rowsPerPageContratos, pageContratos]);
 
   const handleChangePage = (event, newPage) => {
-    setPage(newPage);
+    setPageContratos(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(+event.target.value);
-    setPage(0);
+    setRowsPerPageContratos(parseInt(event.target.value), 10);
+    setPageContratos(0);
   };
+
+  const useStyles = makeStyles((theme) => ({
+    header: {
+      display: "flex",
+      justifyContent: "space-between",
+    },
+  }));
+
+  const classes = useStyles();
+
+  const handleDownload = (docurl, nombre) => {
+    const token = localStorage.getItem("token");
+
+    let config = {
+      responseType: "blob",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    clienteAxios
+      .get(docurl, config)
+      .then((res) => res.data)
+      .then((file) => {
+        const downloadUrl = window.URL.createObjectURL(new Blob([file]));
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.setAttribute("download", `${nombre}.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
+
+  const { message } = alerta;
 
   return (
     <>
-      <Typography variant="h4" component="h2">
-        Lista Contratos
-      </Typography>
-
-      <Paper sx={{ width: "100%", overflow: "hidden", marginTop: "30px" }}>
-        <TableContainer sx={{ maxHeight: 440 }}>
-          <Table stickyHeader aria-label="sticky table">
-            <TableHead>
-              <TableRow>
-                {columns.map((column) => (
-                  <TableCell
-                    key={column.id}
-                    align={column.align}
-                    style={{ minWidth: column.minWidth }}
-                  >
-                    {column.label}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {rows
-                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
-                .map((row) => {
-                  return (
-                    <TableRow
-                      hover
-                      role="checkbox"
-                      tabIndex={-1}
-                      key={row.code}
-                    >
-                      {columns.map((column) => {
-                        const value = row[column.id];
-                        return (
-                          <TableCell key={column.id} align={column.align}>
-                            {column.format && typeof value === "number"
-                              ? column.format(value)
-                              : value}
-                          </TableCell>
-                        );
-                      })}
-                    </TableRow>
-                  );
-                })}
-            </TableBody>
-          </Table>
-        </TableContainer>
-        <TablePagination
-          rowsPerPageOptions={[10, 25, 100]}
-          component="div"
-          count={rows.length}
-          rowsPerPage={rowsPerPage}
-          page={page}
-          onPageChange={handleChangePage}
-          onRowsPerPageChange={handleChangeRowsPerPage}
+      {openEliminar && (
+        <ModalDialog
+          open={openEliminar}
+          setOpen={setOpenEliminar}
+          titulo={`¿Está seguro de eliminar el contrato?`}
+          contenido={"Se eliminará permanentemente y no podrá ser recuperado."}
         />
-      </Paper>
+      )}
+
+      <div className={classes.header}>
+        <Typography variant="h4" component="h2">
+          Lista Contratos
+        </Typography>
+
+        {empleadosSinContrato.length > 0 && (
+          <Link to="nuevo-contrato">
+            <Button variant="contained" color="primary">
+              Nuevo Contrato
+            </Button>
+          </Link>
+        )}
+      </div>
+
+      {cargando ? (
+        <div className="container3">
+          <CircularProgress />
+        </div>
+      ) : (
+        <Paper
+          sx={{
+            width: "100%",
+            overflow: "hidden",
+            marginTop: "30px",
+            marginBottom: "30px",
+          }}
+        >
+          {message && <Alerta />}
+
+          <TableContainer sx={{ maxHeight: 440 }}>
+            <Table stickyHeader aria-label="sticky table">
+              <TableHead>
+                <TableRow>
+                  {columns.map((column) => (
+                    <TableCell
+                      key={column.id}
+                      align={column.align}
+                      style={{ minWidth: column.minWidth }}
+                    >
+                      {column.label}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {contratos
+                  .slice(
+                    pageContratos - totalpagesContratos * rowsPerPageContratos,
+                    pageContratos * rowsPerPageContratos + rowsPerPageContratos
+                  )
+                  .map((row) => {
+                    return (
+                      <TableRow
+                        hover
+                        role="checkbox"
+                        tabIndex={-1}
+                        key={row._id}
+                      >
+                        {columns.map((column) => {
+                          const value = row[column.id];
+
+                          return (
+                            <TableCell key={column.id} align={column.align}>
+                              <div onClick={() => obtenerEmpleado(row)}>
+                                {column.id === "fecha_inicio"
+                                  ? value.split("T")[0]
+                                  : value}
+                              </div>
+                              {column.id === "ver_detalle" && (
+                                <Button variant="outlined" color="primary">
+                                  <LibraryBooksIcon />
+                                </Button>
+                              )}
+                              {column.id === "acciones" && (
+                                <div
+                                  key={column.id}
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "space-between",
+                                    alignItems: "center",
+                                  }}
+                                >
+                                  <Button variant="outlined" color="primary">
+                                    <DownloadIcon />
+                                  </Button>
+                                  <Button variant="outlined" color="secondary">
+                                    <DeleteIcon />
+                                  </Button>
+                                </div>
+                              )}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+              </TableBody>
+            </Table>
+          </TableContainer>
+          <TablePagination
+            rowsPerPageOptions={[5, 10, 15]}
+            component="div"
+            count={countContratos}
+            rowsPerPage={rowsPerPageContratos}
+            page={pageContratos}
+            onPageChange={handleChangePage}
+            onRowsPerPageChange={handleChangeRowsPerPage}
+            labelRowsPerPage={"Número de filas"}
+            labelDisplayedRows={({ from, to, count }) =>
+              `Registros del ${from} al ${to} de ${count}`
+            }
+          />
+        </Paper>
+      )}
+
+      <Button
+        variant="contained"
+        color="primary"
+      >
+        Generar reportes
+      </Button>
     </>
   );
 };
 
 export default Contratos;
+
