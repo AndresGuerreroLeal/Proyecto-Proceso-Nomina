@@ -46,16 +46,16 @@ const EmpleadoSchema = Yup.object().shape({
   genero: Yup.string().required("Genero requerido"),
   numero_celular: Yup.string("Caracteres inválidos")
     .matches(/^[0-9]+$/, "Solo se aceptan dígitos")
-    .min(10, "Numero inválido debe ser de 10 numeros")
-    .max(10, "Numero inválido debe ser de 10 numeros")
-    .required("Numero de celular requerido"),
+    .min(10, "Número inválido debe ser mínimo 10 dígitos")
+    .max(10, "Número inválido debe ser máximo 10 dígitos")
+    .required("Número de celular requerido"),
   correo: Yup.string().email("Correo inválido").required("Correo requerido"),
   tipo_documento: Yup.string().required("Tipo de documento requerido"),
   numero_documento: Yup.string()
     .matches(/^[0-9]+$/, "Solo se aceptan dígitos")
-    .min(10, "Debe ser minimo de 10 dígitos")
-    .max(10, "Debe ser maximo de 10 dígitos")
-    .required("Numero de documento requerido"),
+    .min(10, "Debe ser mínimo de 10 dígitos")
+    .max(10, "Debe ser máximo de 10 dígitos")
+    .required("Número de documento requerido"),
   file: Yup.mixed().required("Archivo requerido"),
   ciudad_residencia: Yup.string().required("Ciudad de residencia requerido"),
   direccion_residencia: Yup.string().required(
@@ -66,9 +66,9 @@ const EmpleadoSchema = Yup.object().shape({
   tipo_cuenta: Yup.string().required("Tipo de cuenta requerido"),
   numero_cuenta: Yup.string()
     .matches(/^[0-9]+$/, "Solo se aceptan dígitos")
-    .min(10, "Debe ser minimo de 10 dígitos")
-    .max(16, "Debe ser maximo de 16 dígitos")
-    .required("Numero de cuenta requerido"),
+    .min(10, "Debe ser mínimo de 10 dígitos")
+    .max(16, "Debe ser máximo de 16 dígitos")
+    .required("Número de cuenta requerido"),
 });
 
 const ConceptoSchema = Yup.object().shape({
@@ -111,18 +111,18 @@ const ContratoSchema = Yup.object().shape({
     .required("Porcentaje de pensión de empleador requerido"),
   arl: Yup.string().required("Arl requerido"),
   porcentaje_arl: Yup.number("Caracteres inválidos")
-    .min(0.522, "Debe ser minimo de 0.522")
-    .max(6.96, "Debe ser maximo de 6.960")
+    .min(0.522, "Debe ser mínimo de 0.522")
+    .max(6.96, "Debe ser máximo de 6.960")
     .required("Porcentaje de arl requerido"),
   fondo_cesantias: Yup.string().required("Fondo de cesantias requerido"),
   porcentaje_parafiscal_sena: Yup.number("Caracteres inválidos")
-    .min(2, "Debe ser minimo del 2%")
+    .min(2, "Debe ser mínimo del 2%")
     .required("Porcentaje parafiscal sena requerido"),
   porcentaje_parafiscal_icbf: Yup.number("Caracteres inválidos")
-    .min(3, "Debe ser minimo del 3%")
+    .min(3, "Debe ser mínimo del 3%")
     .required("Porcentaje parafiscal ICBF requerido"),
   porcentaje_parafiscal_caja_compensacion: Yup.number("Caracteres inválidos")
-    .min(4, "Debe ser minimo del 4%")
+    .min(4, "Debe ser mínimo del 4%")
     .required("Porcentaje parafiscal caja de compesación requerido"),
 });
 
