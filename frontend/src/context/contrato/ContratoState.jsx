@@ -49,7 +49,7 @@ const ContratoState = ({ children }) => {
     }
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.post(
         "/api/1.0/contract/create",
@@ -83,7 +83,7 @@ const ContratoState = ({ children }) => {
     setCargando(true);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
         `/api/1.0/contract/list?pageNumber=${
@@ -114,7 +114,7 @@ const ContratoState = ({ children }) => {
     setCargando(true);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
         `/api/1.0/report-contract/list?pageNumber=${
@@ -141,7 +141,7 @@ const ContratoState = ({ children }) => {
     setCargando(true);
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.delete(
         `api/1.0/report-contract/delete/${id}`,
@@ -168,7 +168,7 @@ const ContratoState = ({ children }) => {
   const obtenerContrato = async (contrato)=>{
 
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
         `/api/1.0/contract/${contrato._id}`,

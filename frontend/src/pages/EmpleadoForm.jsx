@@ -73,7 +73,7 @@ const EmpleadoForm = () => {
   };
 
   const handleDownload =(docurl)=>{
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
 
     let config = {
       responseType: "blob",

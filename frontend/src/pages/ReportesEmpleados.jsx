@@ -105,7 +105,7 @@ const ReportesEmpleado = () => {
   const classes = useStyles();
 
   const handleDownload =(docurl,nombre)=>{
-    const token = localStorage.getItem("token");
+    const token = sessionStorage.getItem("token");
 
     let config = {
       responseType: "blob",

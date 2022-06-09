@@ -64,7 +64,7 @@ const Login = () => {
 
       const { data } = await clienteAxios.post(`/api/1.0/auth`, valores);
 
-      localStorage.setItem("token", data.jwt);
+      sessionStorage.setItem("token", data.jwt);
 
       setToken(data);
 
@@ -147,12 +147,6 @@ const Login = () => {
               id="contrasenia"
             />
             <Grid container className={classes.containerGrid}>
-              <Grid item xs>
-                <FormControlLabel
-                  control={<Checkbox value="remember" color="primary" />}
-                  label="Recordarme"
-                />
-              </Grid>
               <Grid item xs className={classes.containerGridOption}>
                 <Link
                   to="/olvide-contrasenia"

@@ -21,7 +21,7 @@ const AuthState = ({ children }) => {
 
   useEffect(() => {
     const autenticarUsuario = async () => {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
       if (!token) {
         setCargando(false);
         return;
@@ -46,14 +46,14 @@ const AuthState = ({ children }) => {
   }, [token]);
 
   const cerrarSesion = () => {
-    localStorage.removeItem("token");
+    sessionStorage.removeItem("token");
     setToken({});
     setPerfil({});
   };
 
   const actualizarPerfil = async (datos) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.put(
         "/api/1.0/auth/update-info/",
@@ -82,7 +82,7 @@ const AuthState = ({ children }) => {
 
   const actualizarContrasenia = async (datos) => {
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.put(
         "/api/1.0/auth/update-password/",
@@ -110,7 +110,7 @@ const AuthState = ({ children }) => {
   const obtenerCantidadEmpleados = async () => {
     setCargandoAPI(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
         "/api/1.0/employee/",
@@ -131,7 +131,7 @@ const AuthState = ({ children }) => {
   const obtenerCantidadContratos = async () => {
     setCargandoAPI(true);
     try {
-      const token = localStorage.getItem("token");
+      const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
         "/api/1.0/contract/",
