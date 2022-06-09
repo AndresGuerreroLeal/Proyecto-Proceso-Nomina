@@ -26,6 +26,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import contratoContext from "../context/contrato/ContratoContext";
 import ModalContrato from "../components/ModalContrato";
+import AuthContext from "../context/auth/AuthContext";
 
 const columns = [
   { id: "numero_contrato", label: "Número de Contrato", minWidth: 130 },
@@ -65,6 +66,8 @@ const Contratos = () => {
     obtenerContratos,
     obtenerContrato,
   } = useContext(contratoContext);
+
+  const {perfil} = useContext(AuthContext)
 
   const {empleadosSinContrato,obtenerEmpleadosSinContrato} = useContext(EmpleadoContext)
 
@@ -151,7 +154,7 @@ const Contratos = () => {
           Lista Contratos
         </Typography>
 
-        {empleadosSinContrato.length > 0 && (
+        {empleadosSinContrato.length > 0 && perfil?.roles.length >= 2 && (
           <Link to="nuevo-contrato">
             <Button variant="contained" color="primary">
               Nuevo Contrato
@@ -183,7 +186,13 @@ const Contratos = () => {
                     <TableCell
                       key={column.id}
                       align={column.align}
-                      style={{ minWidth: column.minWidth }}
+                      style={{
+                        minWidth: column.minWidth,
+                        display:
+                          perfil?.roles.length <= 1 &&
+                          column.id === "acciones" &&
+                          "none",
+                      }}
                     >
                       {column.label}
                     </TableCell>
@@ -223,11 +232,12 @@ const Contratos = () => {
                                   <LibraryBooksIcon />
                                 </Button>
                               )}
-                              {column.id === "acciones" && (
-                                <Button variant="outlined" color="primary">
-                                  <EditIcon />
-                                </Button>
-                              )}
+                              {column.id === "acciones" &&
+                                perfil?.roles.length >= 2 && (
+                                  <Button variant="outlined" color="primary">
+                                    <EditIcon />
+                                  </Button>
+                                )}
                             </TableCell>
                           );
                         })}

@@ -24,6 +24,7 @@ import { CircularProgress } from "@mui/material";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DownloadIcon from "@mui/icons-material/Download";
 import contratoContext from "../context/contrato/ContratoContext";
+import AuthContext from "../context/auth/AuthContext";
 
 const columns = [
   { id: "nombre", label: "Nombre", minWidth: 150 },
@@ -57,6 +58,8 @@ const ReportesContratos = () => {
     reporteEliminar,
     setReporteEliminar,
   } = useContext(contratoContext);
+
+  const { perfil } = useContext(AuthContext);
 
   const { alerta } = useContext(AlertaContext);
 
@@ -204,7 +207,8 @@ const ReportesContratos = () => {
                                 <div
                                   key={column.id}
                                   style={{
-                                    display: "flex",
+                                    display:
+                                      perfil?.roles.length >= 2 ? "flex" : "",
                                     justifyContent: "space-between",
                                     alignItems: "center",
                                     gap: "5px",
@@ -219,13 +223,16 @@ const ReportesContratos = () => {
                                   >
                                     <DownloadIcon />
                                   </Button>
-                                  <Button
-                                    variant="outlined"
-                                    color="secondary"
-                                    onClick={() => obtenerReporte(row._id)}
-                                  >
-                                    <DeleteIcon />
-                                  </Button>
+
+                                  {perfil?.roles.length >= 2 && (
+                                    <Button
+                                      variant="outlined"
+                                      color="secondary"
+                                      onClick={() => obtenerReporte(row._id)}
+                                    >
+                                      <DeleteIcon />
+                                    </Button>
+                                  )}
                                 </div>
                               )}
                             </TableCell>
