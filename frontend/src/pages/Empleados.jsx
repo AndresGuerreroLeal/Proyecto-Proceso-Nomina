@@ -20,6 +20,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import ModalDialog from "../components/ModalDialog";
 import ModalDeshabilitar from "../components/ModalDeshabilitar";
 import Alerta from "../components/Alerta";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import AlertaContext from "../context/alerta/AlertaContext";
 
 const columns = [
@@ -32,6 +33,12 @@ const columns = [
     minWidth: 170,
     align: "right",
     format: (value) => value.toLocaleString("en-US"),
+  },
+  {
+    id: "ver_detalle",
+    label: "Ver Detalle",
+    minWidth: 100,
+    align: "center",
   },
   {
     id: "acciones",
@@ -254,11 +261,19 @@ const Empleados = () => {
 
                           return (
                             <TableCell key={column.id} align={column.align}>
-                              <div onClick={() => obtenerEmpleado(row)}>
-                                {column.format && typeof value === "number"
-                                  ? column.format(value)
-                                  : value}
-                              </div>
+                              {column.format && typeof value === "number"
+                                ? column.format(value)
+                                : value}
+
+                              {column.id === "ver_detalle" && (
+                                <Button
+                                  variant="outlined"
+                                  color="primary"
+                                  onClick={() => obtenerEmpleado(row)}
+                                >
+                                  <LibraryBooksIcon />
+                                </Button>
+                              )}
                               {column.id === "acciones" && (
                                 <div
                                   key={column.id}
