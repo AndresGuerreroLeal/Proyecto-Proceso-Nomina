@@ -73,7 +73,6 @@ const ContratoForm = () => {
     sueldo: "",
     tipo_cotizante: "",
     tipo_contrato: "",
-    auxilio_transporte: "",
     fondo_salud: "",
     porcentaje_salud_empleado: "4",
     porcentaje_salud_empleador: "8.5",
@@ -86,7 +85,6 @@ const ContratoForm = () => {
     porcentaje_parafiscal_sena: "2",
     porcentaje_parafiscal_icbf: "3",
     porcentaje_parafiscal_caja_compensacion: "4",
-    salario_integral: "",
     reset: true
   };
 
@@ -270,32 +268,6 @@ const ContratoForm = () => {
 
                 <TextField
                   select
-                  id="salario_integral"
-                  label="Salario integral"
-                  name="salario_integral"
-                  sx={inputStyles}
-                  value={formik.values.salario_integral}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.salario_integral &&
-                    Boolean(formik.errors.salario_integral)
-                  }
-                  helperText={
-                    formik.touched.salario_integral &&
-                    formik.errors.salario_integral
-                  }
-                  onBlur={formik.handleBlur}
-                >
-                  <MenuItem value="Si">Si</MenuItem>
-                  <MenuItem value="No">No</MenuItem>
-                </TextField>
-              </Grid>
-              <Grid item xs={12}>
-                <Typography variant="p" component="h3">
-                  Datos para aportes de seguridad social y parafiscales
-                </Typography>
-                <TextField
-                  select
                   label="Tipo de cotizante"
                   variant="outlined"
                   name="tipo_cotizante"
@@ -315,24 +287,11 @@ const ContratoForm = () => {
                   <MenuItem value="Beneficiario ">Beneficiario</MenuItem>
                   <MenuItem value="Cotizante">Cotizante</MenuItem>
                 </TextField>
-
-                <TextField
-                  label="Auxilio de transporte"
-                  variant="outlined"
-                  name="auxilio_transporte"
-                  sx={inputStyles}
-                  value={formik.values.auxilio_transporte}
-                  onChange={formik.handleChange}
-                  error={
-                    formik.touched.auxilio_transporte &&
-                    Boolean(formik.errors.auxilio_transporte)
-                  }
-                  helperText={
-                    formik.touched.auxilio_transporte &&
-                    formik.errors.auxilio_transporte
-                  }
-                  onBlur={formik.handleBlur}
-                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography variant="p" component="h3">
+                  Datos para aportes de seguridad social y parafiscales
+                </Typography>
 
                 <TextField
                   select

@@ -91,11 +91,6 @@ const ContratoSchema = Yup.object().shape({
     .required("Sueldo requerido"),
   cargo: Yup.string().required("Cargo requerido"),
   tipo_cotizante: Yup.string().required("Tipo de cotizante requerido"),
-  auxilio_transporte: Yup.string("Caracteres inválidos")
-    .matches(/^[0-9]+$/, "Solo se aceptan dígitos")
-    .min(5, "Auxilio de transporte inválido")
-    .max(6, "Auxilio de transporte inválido")
-    .required("Auxilio de transporte requerido"),
   fondo_salud: Yup.string().required("Fondo de salud requerido"),
   porcentaje_salud_empleado: Yup.number("Caracteres inválidos")
     .min(4, "Porcentaje de salud de empleado inválido")
@@ -129,7 +124,6 @@ const ContratoSchema = Yup.object().shape({
   porcentaje_parafiscal_caja_compensacion: Yup.number("Caracteres inválidos")
     .min(4, "Debe ser minimo del 4%")
     .required("Porcentaje parafiscal caja de compesación requerido"),
-  salario_integral: Yup.string().required("Salario integral requerido"),
 });
 
 export default {

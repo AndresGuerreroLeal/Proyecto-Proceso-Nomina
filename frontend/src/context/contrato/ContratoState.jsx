@@ -20,10 +20,24 @@ const ContratoState = ({ children }) => {
   const crearContrato = async (contrato) => {
     setCargando(true);
 
-    contrato.salario_integral = contrato.salario_integral === "Si" ? true: false
+    const salarioMinimo = 1000000
+
+    if (contrato.sueldo >= salarioMinimo * 2) {
+      contrato.auxilio_transporte = 0;
+    } else {
+      contrato.auxilio_transporte = 117172;
+    }
+
+    if (contrato.sueldo >= salarioMinimo * 10) {
+      contrato.salario_integral = true;
+    } else {
+      contrato.salario_integral = false;
+    }
 
     try {
       const token = localStorage.getItem("token");
+
+      console.log(contrato);
 
       const { data } = await clienteAxios.post(
         "/api/1.0/contract/create",
