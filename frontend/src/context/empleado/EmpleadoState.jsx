@@ -31,6 +31,8 @@ const EmpleadoState = ({ children }) => {
   const [totalpagesReportes, setTotalPagesReportes] = useState(0);
   const [countReportes, setCountReportes] = useState(0);
 
+  const [empleadosSinContrato,setEmpleadosSinContrato] = useState([])
+
   const navigate = useNavigate();
 
   const { mostrarAlerta } = useContext(AlertaContext);
@@ -98,9 +100,9 @@ const EmpleadoState = ({ children }) => {
       });
 
       setTimeout(() => {
-        navigate("/home/nuevo-contrato");
+        navigate("/home/contratos/nuevo-contrato");
       }, 2000);
-      
+
     } catch (err) {
       mostrarAlerta({
         message: err.response.data.message,
@@ -293,6 +295,25 @@ const EmpleadoState = ({ children }) => {
     }
   };
 
+  const obtenerEmpleadosSinContrato = async ()=>{
+    setCargando(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const { data } = await clienteAxios.get(
+        `/api/1.0/employee/without-contract`,
+        TokenAuth(token)
+      );
+      
+      setEmpleadosSinContrato(data);
+
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setCargando(false);
+    }
+  }
 
   return (
     <EmpleadoContext.Provider
@@ -314,6 +335,7 @@ const EmpleadoState = ({ children }) => {
         countReportes,
         totalpagesReportes,
         reporteEliminar,
+        empleadosSinContrato,
         setRowsPerPageEmpleados,
         setPageEmpleados,
         crearEmpleado,
@@ -331,6 +353,7 @@ const EmpleadoState = ({ children }) => {
         setPageReportes,
         eliminarReporte,
         setReporteEliminar,
+        obtenerEmpleadosSinContrato
       }}
     >
       {children}

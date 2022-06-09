@@ -60,6 +60,8 @@ const ContratoForm = () => {
     editarContrato,
   } = useContext(contratoContext);
 
+  const {empleadosSinContrato,obtenerEmpleadosSinContrato} = useContext(EmpleadoContext)
+
   const {mostrarAlerta,alerta} = useContext(AlertaContext)
 
   const {id} = useParams()
@@ -89,8 +91,6 @@ const ContratoForm = () => {
   };
 
   const handleSubmit =  (contrato)=>{
-
-    console.log(contrato)
 
     try {
       window.scroll({
@@ -132,6 +132,10 @@ const ContratoForm = () => {
     }
   },[contratoEditar])
 
+  useEffect(()=>{
+    obtenerEmpleadosSinContrato()
+  },[])
+
   const {message} = alerta 
 
   return (
@@ -172,9 +176,18 @@ const ContratoForm = () => {
                   }
                   onBlur={formik.handleBlur}
                 >
-                  <MenuItem value="masculino">Masculino</MenuItem>
-                  <MenuItem value="femenino">Femenino</MenuItem>
-                  <MenuItem value="otro">Otro</MenuItem>
+                  {empleadosSinContrato.length > 0 ? (
+                    empleadosSinContrato.map((empleado) => (
+                      <MenuItem
+                        value={empleado.numero_documento}
+                        key={empleado.numero_documento}
+                      >
+                        {empleado.numero_documento}
+                      </MenuItem>
+                    ))
+                  ) : (
+                    <MenuItem>No hay ningun empleado sin contrato</MenuItem>
+                  )}
                 </TextField>
                 <TextField
                   label="Fecha de inicio"
@@ -392,6 +405,7 @@ const ContratoForm = () => {
                 />
 
                 <TextField
+                  select
                   label="Fondo de pensiones"
                   name="fondo_pensiones"
                   variant="outlined"

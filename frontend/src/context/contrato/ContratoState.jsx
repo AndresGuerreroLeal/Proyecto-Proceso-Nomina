@@ -1,17 +1,26 @@
-import { useState } from "react";
+import { useState,useContext } from "react";
 
 //Context
 import ContratoContext from "./ContratoContext";
+import AlertaContext from "../alerta/AlertaContext"
+import clienteAxios from "../../config/axios";
+import TokenAuth from "../../config/tokenAuth";
+
+import { useNavigate } from "react-router-dom";
 
 const ContratoState = ({ children }) => {
   const [contratos,setContratos] = useState([])
   const [cargando,setCargando] = useState(false)
   const [contratoEditar, setContratoEditar] = useState(null);
 
+  const {mostrarAlerta} = useContext(AlertaContext)
+
+  const navigate = useNavigate();
+
   const crearContrato = async (contrato) => {
     setCargando(true);
 
-    console.log(contrato);
+    contrato.salario_integral = contrato.salario_integral === "Si" ? true: false
 
     try {
       const token = localStorage.getItem("token");
@@ -32,12 +41,13 @@ const ContratoState = ({ children }) => {
       setTimeout(() => {
         navigate("/home/contratos");
       }, 2000);
+
     } catch (err) {
+      console.log(err.response);
       mostrarAlerta({
         message: err.response.data.message,
         categoria: "error",
       });
-      console.log(err.response);
     } finally {
       setCargando(false);
     }

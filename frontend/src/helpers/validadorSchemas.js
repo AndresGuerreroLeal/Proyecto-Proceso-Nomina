@@ -76,11 +76,14 @@ const ConceptoSchema = Yup.object().shape({
 });
 
 const ContratoSchema = Yup.object().shape({
-  numero_contrato: Yup.string()
-    .matches(/^[0-9]+$/, "Solo se aceptan dígitos")
+  numero_contrato: Yup.number("Caracteres inválidos")
+    .min(10, "Número de contrato inválido")
     .required("Número de contrato requerido"),
   tipo_contrato: Yup.string().required("Tipo de contrato requerido"),
-  fecha_inicio: Yup.date().min(new Date(), "Fecha de inicio requerido"),
+  fecha_inicio: Yup.date().min(
+    new Date().toISOString().split("T")[0],
+    "Fecha de inicio requerido"
+  ),
   sueldo: Yup.string("Caracteres inválidos")
     .matches(/^[0-9]+$/, "Solo se aceptan dígitos")
     .min(6, "Sueldo inválido")
@@ -112,8 +115,7 @@ const ContratoSchema = Yup.object().shape({
     .max(12, "Porcentaje de pensión de empleador inválido")
     .required("Porcentaje de pensión de empleador requerido"),
   arl: Yup.string().required("Arl requerido"),
-  porcentaje_arl: Yup.string("Caracteres inválidos")
-    .matches(/^[0-9]+$/, "Solo se aceptan dígitos")
+  porcentaje_arl: Yup.number("Caracteres inválidos")
     .min(0.522, "Debe ser minimo de 0.522")
     .max(6.96, "Debe ser maximo de 6.960")
     .required("Porcentaje de arl requerido"),
