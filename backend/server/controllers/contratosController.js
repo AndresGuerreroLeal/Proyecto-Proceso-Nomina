@@ -19,7 +19,7 @@ const ContratoController = {
    */
   crearContrato: async (req, res) => {
     log.info("[POST] Petición de crear un contrato");
-    try {
+    //try {
       //Validar existencia del empleado
       const empleado = await Empleado.findOne({
         numero_documento: req.body.numero_contrato,
@@ -69,9 +69,9 @@ const ContratoController = {
 
       log.info(`Contrato creado ${JSON.stringify(contrato)}`);
       return res.status(201).send(contrato);
-    } catch (err) {
-      httpError(res, err);
-    }
+    // } catch (err) {
+    //   httpError(res, err);
+    // }
   },
 
   /**
