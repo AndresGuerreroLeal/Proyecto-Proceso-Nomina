@@ -110,7 +110,23 @@ const ContratoState = ({ children }) => {
     }
   };
 
-  const obtenerContratoEditarAPI = () => {};
+  const obtenerContratoEditarAPI = async (id) => {
+    setCargando(true);
+    try {
+      const token = sessionStorage.getItem("token");
+
+      const { data } = await clienteAxios.get(
+        `/api/1.0/contract/${id}`,
+        TokenAuth(token)
+      );
+
+      setContratoEditar(data);
+    } catch (err) {
+      console.log(err);
+    } finally {
+      setCargando(false);
+    }
+  };
 
   const editarContrato = () => {};
 

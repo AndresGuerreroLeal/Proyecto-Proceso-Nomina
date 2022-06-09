@@ -81,8 +81,6 @@ const ContratoForm = () => {
 
   const handleSubmit =  (contrato)=>{
 
-    console.log(contrato);
-
     try {
       window.scroll({
         top: 0,
@@ -118,33 +116,53 @@ const ContratoForm = () => {
     }
   }, [id]);
 
-  useEffect(()=>{
-    console.log(contratoEditar)
-    if(contratoEditar && id){
-      formik.setFieldValue("numero_contrato",contratoEditar.numero_contrato)
-      formik.setFieldValue("tipo_contrato",contratoEditar.tipo_contrato)
-      formik.setFieldValue("fecha_inicio",contratoEditar.fecha_inicio.split("T")[0])
-      formik.setFieldValue("sueldo",contratoEditar.sueldo)
-      formik.setFieldValue("cargo",contratoEditar.cargo)
-      formik.setFieldValue("tipo_cotizante",contratoEditar.tipo_cotizante)
-      formik.setFieldValue("fondo_pensiones",contratoEditar.fondo_pensiones)
-      formik.setFieldValue("fondo_cesantias",contratoEditar.fondo_cesantias)
-      formik.setFieldValue("fondo_salud",contratoEditar.fondo_salud)
-      formik.setFieldValue("porcentaje_salud_empleado", contratoEditar.porcentaje_salud_empleado);
-      formik.setFieldValue("porcentaje_salud_empleador",contratoEditar.porcentaje_salud_empleador)
-      formik.setFieldValue("porcentaje_pension_empleado",contratoEditar.porcentaje_pension_empleado)
-      formik.setFieldValue("porcentaje_pension_empleador",contratoEditar.porcentaje_pension_empleador)
-      formik.setFieldValue("arl",contratoEditar.arl)
-      formik.setFieldValue("porcentaje_arl",contratoEditar.porcentaje_arl)
-      formik.setFieldValue("porcentaje_parafiscal_sena",contratoEditar.porcentaje_parafiscal_sena)
-      formik.setFieldValue("porcentaje_parafiscal_icbf",contratoEditar.porcentaje_parafiscal_icbf)
+  useEffect(() => {
+    if (contratoEditar && id) {
+      formik.setFieldValue("numero_contrato", contratoEditar.numero_contrato);
+      formik.setFieldValue("tipo_contrato", contratoEditar.tipo_contrato);
+      formik.setFieldValue(
+        "fecha_inicio",
+        contratoEditar.fecha_inicio.split("T")[0]
+      );
+      formik.setFieldValue("sueldo", contratoEditar.sueldo);
+      formik.setFieldValue("cargo", contratoEditar.cargo);
+      formik.setFieldValue("tipo_cotizante", contratoEditar.tipo_cotizante);
+      formik.setFieldValue("fondo_pensiones", contratoEditar.fondo_pensiones);
+      formik.setFieldValue("fondo_cesantias", contratoEditar.fondo_cesantias);
+      formik.setFieldValue("fondo_salud", contratoEditar.fondo_salud);
+      formik.setFieldValue(
+        "porcentaje_salud_empleado",
+        contratoEditar.porcentaje_salud_empleado
+      );
+      formik.setFieldValue(
+        "porcentaje_salud_empleador",
+        contratoEditar.porcentaje_salud_empleador
+      );
+      formik.setFieldValue(
+        "porcentaje_pension_empleado",
+        contratoEditar.porcentaje_pension_empleado
+      );
+      formik.setFieldValue(
+        "porcentaje_pension_empleador",
+        contratoEditar.porcentaje_pension_empleador
+      );
+      formik.setFieldValue("arl", contratoEditar.arl);
+      formik.setFieldValue("porcentaje_arl", contratoEditar.porcentaje_arl);
+      formik.setFieldValue(
+        "porcentaje_parafiscal_sena",
+        contratoEditar.porcentaje_parafiscal_sena
+      );
+      formik.setFieldValue(
+        "porcentaje_parafiscal_icbf",
+        contratoEditar.porcentaje_parafiscal_icbf
+      );
       formik.setFieldValue(
         "porcentaje_parafiscal_caja_compensacion",
         contratoEditar.porcentaje_parafiscal_caja_compensacion
       );
-      formik.setFieldValue("_id", id);      
+      formik.setFieldValue("_id", id);
     }
-  },[contratoEditar])
+  }, [contratoEditar]);
 
   useEffect(()=>{
     obtenerEmpleadosSinContrato()
