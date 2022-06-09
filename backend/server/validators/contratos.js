@@ -60,9 +60,46 @@ exports.validacionCrear = [
   check("porcentaje_salud_empleador").exists().isFloat({ min: 0, max: 100 }),
   check("fondo_pensiones").exists().notEmpty(),
   check("porcentaje_pension_empleado").exists().isFloat({ min: 0, max: 100 }),
-  check("porcentaje_pension_empleador")
+  check("porcentaje_pension_empleador").exists().isFloat({ min: 0, max: 100 }),
+  check("arl").exists().notEmpty(),
+  check("porcentaje_arl").exists().isFloat({ min: 0, max: 100 }),
+  check("fondo_cesantias").exists().notEmpty(),
+  check("porcentaje_parafiscal_sena").exists().isFloat({ min: 0, max: 100 }),
+  check("porcentaje_parafiscal_icbf").exists().isFloat({ min: 0, max: 100 }),
+  check("porcentaje_parafiscal_caja_compensacion")
     .exists()
     .isFloat({ min: 0, max: 100 }),
+  check("salario_integral").exists().isBoolean(),
+  (req, res, next) => {
+    validate(req, res, next);
+  },
+];
+
+//Validación de la información para actualizar contratos
+exports.validacionActualizar = [
+  check("_id").exists().notEmpty().isLength({ max: 24, min: 24 }),
+  check("numero_contrato")
+    .exists()
+    .notEmpty()
+    .custom((value) => {
+      const validacionCrearDocumento = numero_documento(value);
+      if (!validacionCrearDocumento.valido)
+        return Promise.reject(validacionCrearDocumento.message);
+      return Promise.resolve(true);
+    }),
+  check("tipo_contrato").exists().notEmpty(),
+  check("fecha_inicio").exists().notEmpty().isISO8601().toDate(),
+  check("fecha_fin").optional().isISO8601().toDate(),
+  check("sueldo").isInt({ min: 6, max: 100000000 }),
+  check("cargo").exists().notEmpty(),
+  check("tipo_cotizante").exists().notEmpty(),
+  check("auxilio_transporte").isInt(),
+  check("fondo_salud").exists().notEmpty(),
+  check("porcentaje_salud_empleado").exists().isFloat({ min: 0, max: 100 }),
+  check("porcentaje_salud_empleador").exists().isFloat({ min: 0, max: 100 }),
+  check("fondo_pensiones").exists().notEmpty(),
+  check("porcentaje_pension_empleado").exists().isFloat({ min: 0, max: 100 }),
+  check("porcentaje_pension_empleador").exists().isFloat({ min: 0, max: 100 }),
   check("arl").exists().notEmpty(),
   check("porcentaje_arl").exists().isFloat({ min: 0, max: 100 }),
   check("fondo_cesantias").exists().notEmpty(),

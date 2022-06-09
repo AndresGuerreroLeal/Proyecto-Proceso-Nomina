@@ -8,8 +8,9 @@ const express = require("express");
 const router = express.Router();
 const { auth, admin, reports } = require("../middleware/auth");
 const {
-  validacionCrear,
   validacionObtener,
+  validacionCrear,
+  validacionActualizar,
 } = require("../validators/contratos");
 /**
  * @see ContratosController
@@ -21,6 +22,7 @@ const {
   obtenerContrato,
   listarContratos,
   cantidadContratos,
+  actualizarContrato,
 } = require("../controllers/contratoController");
 
 //Ruta de crear contratos [POST]
@@ -31,6 +33,9 @@ router.get("/list", [auth, reports], listarContratos);
 
 //Ruta de cantidad contratos [GET]
 router.get("/", [auth, reports], cantidadContratos);
+
+//Ruta de actualizar contratos [PUT]
+router.put("/update", [auth, admin], validacionActualizar, actualizarContrato);
 
 //Ruta de obtener contrato [GET]
 router.get("/:_id", [auth, reports], validacionObtener, obtenerContrato);
