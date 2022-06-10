@@ -125,6 +125,16 @@ const NominaSchema = Yup.object().shape({
   mes: Yup.string().required("Mes requerido"),
 });
 
+const NovedadSchema = Yup.object().shape({
+  valor: Yup.string()
+    .matches(/^[0-9]+(,[0-9]+,[0-9]+)?$/, "Valor inválido")
+    .required("Valor requerido")
+    .min(0, "Valor inválido")
+    .max(100000000, "Sueldo inválido"),
+  concepto: Yup.string().required("Concepto requerido"),
+});
+
+
 export default {
   LoginSchema,
   OlvideContraseniaSchema,
@@ -135,4 +145,5 @@ export default {
   ConceptoSchema,
   ContratoSchema,
   NominaSchema,
+  NovedadSchema,
 };

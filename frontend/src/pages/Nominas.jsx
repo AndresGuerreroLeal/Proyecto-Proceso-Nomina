@@ -22,16 +22,15 @@ import TableRow from "@mui/material/TableRow";
 import clienteAxios from "../config/axios";
 import { CircularProgress, MenuItem, TextField } from "@mui/material";
 import NewReleasesIcon from '@mui/icons-material/NewReleases';
-import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
-import contratoContext from "../context/contrato/ContratoContext";
-import ModalContrato from "../components/ModalContrato";
+import LibraryBooksIcon from "@mui/icons-material/LibraryBooks";
 import AuthContext from "../context/auth/AuthContext";
 import formikMain from "../helpers/formikMain";
-import listaAños from "../helpers/listaAños";
-import listaMeses from "../helpers/listaMeses";
+import ModalNomina from "../components/ModalNomina";
+import ModalNuevaNovedad from "../components/ModalNuevaNovedad";
+import ModalNuevaNomina from "../components/ModalNuevaNomina";
 
 const columns = [
-  { id: "cedula", label: "Cédula", minWidth: 130 },
+  { id: "cedula", label: "Cédula", minWidth: 100 },
   {
     id: "nombres",
     label: "Nombres",
@@ -58,24 +57,14 @@ const columns = [
 ];
 
 const Nominas = () => {
-  const {
-    contrato,
-    modalContrato,
-    obtenerContrato,
-    obtenerContratoEditar
-  } = useContext(contratoContext);
   
-  let values = {
-    nombre: "",
-    año: "",
-    mes: "",
-    reset: true,
-  };
-
   const {
     nominas,
     cargando,
+    modalNomina,
     nomina,
+    modalNuevaNovedad,
+    modalNuevaNomina,
     pageNominas,
     rowsPerPageNominas,
     countNominas,
@@ -84,10 +73,19 @@ const Nominas = () => {
     setRowsPerPageNominas,
     obtenerNominas,
     obtenerNomina,
-  } = useContext(NominaContext)
-
+    mostrarModalNuevaNomina,
+    mostrarModalNuevaNovedad,
+  } = useContext(NominaContext);
+  
+    let values = {
+      nombre: "",
+      año: "",
+      mes: "",
+      reset: true,
+    };
+  
   const {perfil} = useContext(AuthContext)
-
+  
   const { alerta } = useContext(AlertaContext);
 
   const navigate = useNavigate();
@@ -115,8 +113,6 @@ const Nominas = () => {
     header: {
       display: "flex",
       justifyContent: "space-between",
-      flexDirection: "column",
-      gap: "15px",
     },
   }));
 
@@ -152,80 +148,28 @@ const Nominas = () => {
   const handleSubmit = ()=>{
   }
 
-  const formik = formikMain(handleSubmit, values, "NominaSchema");
-
   const { message } = alerta;
 
   return (
     <>
-      {modalContrato && <ModalContrato />}
+      {modalNomina && <ModalNomina />}
+      {modalNuevaNovedad && <ModalNuevaNovedad />}
+      {modalNuevaNomina && <ModalNuevaNomina />}
 
       <div className={classes.header}>
         <Typography variant="h4" component="h2">
           Lista Nóminas
         </Typography>
 
-        <div style={{ display: "flex", gap: "20px" }}>
-          <form
-            onSubmit={formik.handleSubmit}
-            style={{ display: "flex", gap: "20px" }}
-          >
-            <TextField
-              id="nombre"
-              name="nombre"
-              label="Nombre"
-              value={formik.values.nombre}
-              onChange={formik.handleChange}
-              error={formik.touched.nombre && Boolean(formik.errors.nombre)}
-              helperText={formik.touched.nombre && formik.errors.nombre}
-            />
-
-            <TextField
-              select
-              id="año"
-              name="año"
-              label="Año"
-              sx={{ width: "100px" }}
-              value={formik.values.año}
-              onChange={formik.handleChange}
-              error={formik.touched.año && Boolean(formik.errors.año)}
-              helperText={formik.touched.año && formik.errors.año}
-            >
-              {listaAños()?.map((año) => (
-                <MenuItem value={año} key={año}>
-                  {año}
-                </MenuItem>
-              ))}
-            </TextField>
-
-            <TextField
-              select
-              id="mes"
-              name="mes"
-              label="Mes"
-              sx={{ width: "80px" }}
-              value={formik.values.mes}
-              onChange={formik.handleChange}
-              error={formik.touched.mes && Boolean(formik.errors.mes)}
-              helperText={formik.touched.mes && formik.errors.mes}
-            >
-              {listaMeses()?.map((mes) => (
-                <MenuItem value={mes} key={mes}>
-                  {mes}
-                </MenuItem>
-              ))}
-            </TextField>
-
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              style={{ height: "max-content" }}
-            >
-              Crear Nómina
-            </Button>
-          </form>
-        </div>
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          style={{ height: "max-content" }}
+          onClick={mostrarModalNuevaNomina}
+        >
+          Crear Nómina
+        </Button>
       </div>
 
       {cargando ? (
@@ -290,7 +234,11 @@ const Nominas = () => {
                               </div>
 
                               {column.id === "novedad" && (
-                                <Button variant="outlined" color="primary">
+                                <Button
+                                  variant="outlined"
+                                  color="primary"
+                                  onClick={mostrarModalNuevaNovedad}
+                                >
                                   <NewReleasesIcon />
                                 </Button>
                               )}

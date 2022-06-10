@@ -11,6 +11,10 @@ const NominaState = ({ children }) => {
   const [reportesNominas,setReportesNominas] = useState([])
   const [cargando,setCargando] = useState(false)
   const [nomina,setNomina] = useState({})
+  
+  const [modalNomina,setModalNomina] = useState(false)
+  const [modalNuevaNomina,setModalNuevaNomina] = useState(false)
+  const [modalNuevaNovedad,setModalNuevaNovedad] = useState(false)
 
   const [pageNominas, setPageNominas] = useState(0);
   const [rowsPerPageNominas, setRowsPerPageNominas] = useState(5);
@@ -79,7 +83,42 @@ const NominaState = ({ children }) => {
     }
   };
 
-  const obtenerNomina = ()=>{
+  const mostrarModalNomina = ()=>{
+    setModalNomina(!modalNomina)
+  }
+
+  const mostrarModalNuevaNomina = ()=>{
+    setModalNuevaNomina(!modalNuevaNomina)
+  }
+
+  const mostrarModalNuevaNovedad = ()=>{
+    setModalNuevaNovedad(!modalNuevaNovedad)
+  }
+
+  const obtenerNomina = async (nomina)=>{
+    try {
+      const token = sessionStorage.getItem("token");
+
+      const { data } = await clienteAxios.get(
+        `/api/1.0/contract/${nomina._id}`,
+        TokenAuth(token)
+      );
+
+      setNomina(data);
+      
+      setModalNomina(true);
+
+    } catch (err) {
+      console.log(err);
+    }    
+  }
+
+  const crearNuevaNovedad = (novedad)=>{
+    consoñe.log(novedad);
+  }
+
+  const crearNuevaNomina = (nomina) =>{
+    console.log(nomina);
   }
 
   return (
@@ -97,11 +136,19 @@ const NominaState = ({ children }) => {
         countNominas,
         totalpagesNominas,
         cargando,
+        modalNomina,
+        modalNuevaNovedad,
+        modalNuevaNomina,
         setPageNominas,
         setRowsPerPageNominas,
         obtenerNominas,
         obtenerReportes,
         obtenerNomina,
+        mostrarModalNomina,
+        mostrarModalNuevaNomina,
+        mostrarModalNuevaNovedad,
+        crearNuevaNovedad,
+        crearNuevaNomina
       }}
     >
       {children}
