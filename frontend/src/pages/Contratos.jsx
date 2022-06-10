@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 // Context
 import EmpleadoContext from "../context/empleado/EmpleadoContext";
@@ -63,6 +63,7 @@ const Contratos = () => {
     setRowsPerPageContratos,
     obtenerContratos,
     obtenerContrato,
+    obtenerContratoEditar
   } = useContext(contratoContext);
 
   const {perfil} = useContext(AuthContext)
@@ -70,7 +71,9 @@ const Contratos = () => {
   const {empleadosSinContrato,obtenerEmpleadosSinContrato} = useContext(EmpleadoContext)
 
   const { alerta } = useContext(AlertaContext);
-  
+
+  const navigate = useNavigate();
+
   useEffect(()=>{
     obtenerEmpleadosSinContrato();
   },[])
@@ -82,6 +85,11 @@ const Contratos = () => {
 
     obtenerContratosState();
   }, [rowsPerPageContratos, pageContratos]);
+
+  const handleContrato = (contrato)=>{
+    obtenerContratoEditar(contrato);
+    navigate(`editar-contrato/${contrato._id}`);
+  }
 
   const handleChangePage = (event, newPage) => {
     setPageContratos(newPage);
@@ -220,7 +228,11 @@ const Contratos = () => {
                               )}
                               {column.id === "acciones" &&
                                 perfil?.roles.length >= 2 && (
-                                  <Button variant="outlined" color="primary">
+                                  <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={() => handleContrato(row)}
+                                  >
                                     <EditIcon />
                                   </Button>
                                 )}

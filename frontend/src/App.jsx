@@ -88,6 +88,13 @@ function App() {
                       />
                     </Route>
 
+                    <Route element={<RutaPrivada />}>
+                      <Route
+                        path="contratos/editar-contrato/:id"
+                        element={<ContratoForm />}
+                      />
+                    </Route>
+
                     <Route
                       path="reportes-contratos"
                       element={<ReportesContratos />}
