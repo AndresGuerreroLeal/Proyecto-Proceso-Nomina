@@ -39,26 +39,23 @@ const ModalNuevaNomina = () => {
     reset: true,
   };
 
-  const { mostrarModalNuevaNomina, modalNuevaNomina,setNominasDisabled } =
+  const { mostrarModalNuevaNomina, modalNuevaNomina, setNominasDisabled } =
     useContext(NominaContext);
 
-  const { alerta,mostrarAlerta } = useContext(AlertaContext);
+  const { alerta, mostrarAlerta } = useContext(AlertaContext);
 
-  const handleDownload = (docurl,nomina) => {
+  const handleDownload = (docurl, nomina) => {
+    console.log(nomina);
+
     const token = sessionStorage.getItem("token");
     const novedades = JSON.parse(localStorage.getItem("novedades"));
 
-    nomina.novedades = novedades && novedades; 
+    nomina.novedades = novedades && novedades;
     nomina.enviar_desprendibles = true;
 
     setNominasDisabled([]);
 
     localStorage.removeItem("novedades");
-
-    mostrarAlerta({
-      message: "Se genero el reporte exitosamente",
-      categoria: "success",
-    });
 
     let config = {
       responseType: "blob",
@@ -67,8 +64,10 @@ const ModalNuevaNomina = () => {
       },
     };
 
+    mostrarModalNuevaNomina(false);
+
     clienteAxios
-      .post(docurl,nomina, config)
+      .post(docurl, nomina, config)
       .then((res) => res.data)
       .then((file) => {
         const downloadUrl = window.URL.createObjectURL(new Blob([file]));
@@ -78,19 +77,21 @@ const ModalNuevaNomina = () => {
         document.body.appendChild(link);
         link.click();
         link.remove();
-        mostrarModalNuevaNomina(false);
+
+        mostrarAlerta({
+          message: "Se genero el reporte exitosamente",
+          categoria: "success",
+        });
       })
       .catch((err) => {
         console.log(err);
       });
+  };
 
-
-    };
-    
-    const handleSubmit = (nomina) => {
-        handleDownload("/api/1.0/payroll/create", nomina);
-    };
-    const formik = formikMain(handleSubmit, values, "NominaSchema");
+  const handleSubmit = (nomina) => {
+    handleDownload("/api/1.0/payroll/create", nomina);
+  };
+  const formik = formikMain(handleSubmit, values, "NominaSchema");
 
   return (
     <div>
@@ -149,8 +150,8 @@ const ModalNuevaNomina = () => {
                 helperText={formik.touched.mes && formik.errors.mes}
                 onBlur={formik.handleBlur}
               >
-                {listaMeses()?.map((mes) => (
-                  <MenuItem value={mes} key={mes}>
+                {listaMeses()?.map((mes, index) => (
+                  <MenuItem value={index + 1} key={index + 1}>
                     {mes}
                   </MenuItem>
                 ))}
