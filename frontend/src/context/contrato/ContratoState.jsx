@@ -85,7 +85,7 @@ const ContratoState = ({ children }) => {
 
   const obtenerContratos = async () => {
     setCargando(true);
-
+    
     try {
       const token = sessionStorage.getItem("token");
 
@@ -112,6 +112,7 @@ const ContratoState = ({ children }) => {
 
   const obtenerContratoEditarAPI = async (id) => {
     setCargando(true);
+
     try {
       const token = sessionStorage.getItem("token");
 
@@ -128,7 +129,64 @@ const ContratoState = ({ children }) => {
     }
   };
 
-  const editarContrato = () => {};
+  const editarContrato = async (contrato) => {
+    setCargando(true);
+    
+    if([contrato.sueldo].includes(",")){
+      contrato.sueldo = Number(contrato.sueldo.split(",").join(""));
+    }
+    contrato.porcentaje_arl = Number(contrato.porcentaje_arl);
+
+    const salarioMinimo = 1000000
+
+    if (contrato.sueldo >= salarioMinimo * 2) {
+      contrato.auxilio_transporte = 0;
+    } else {
+      contrato.auxilio_transporte = 117172;
+    }
+
+    if (contrato.sueldo >= salarioMinimo * 10) {
+      contrato.salario_integral = true;
+    } else {
+      contrato.salario_integral = false;
+    }
+
+    try {
+     
+      const token = sessionStorage.getItem("token");
+
+      const { data } = await clienteAxios.put(
+        "/api/1.0/contract/update",
+        contrato,
+        TokenAuth(token)
+      );
+
+      setContratos(
+        contratos.map((contratoState) =>
+          contratoState._id === data._id ? data : contratoState
+        )
+      );
+
+      setTimeout(() => {
+        navigate("/home/contratos");
+      }, 2000);
+
+      mostrarAlerta({
+        message: "El contrato se actualizó correctamente",
+        categoria: "success",
+      });
+
+      setContratoEditar(null);
+    } catch (err) {
+      mostrarAlerta({
+        message: err.response.data.message,
+        categoria: "error",
+      });
+      console.log(err.response);
+    } finally {
+      setCargando(false);
+    }
+  };
 
   const obtenerReportes = async () => {
     setCargando(true);

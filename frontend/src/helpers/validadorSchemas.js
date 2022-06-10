@@ -80,10 +80,7 @@ const ContratoSchema = Yup.object().shape({
     .min(10, "Número de contrato inválido")
     .required("Número de contrato requerido"),
   tipo_contrato: Yup.string().required("Tipo de contrato requerido"),
-  fecha_inicio: Yup.date().min(
-    new Date().toISOString().split("T")[0],
-    "Fecha de inicio requerido"
-  ),
+  fecha_inicio: Yup.date().required("Fecha de inicio requerida"),
   sueldo: Yup.string()
     .matches(/^[0-9]+(,[0-9]+,[0-9]+)?$/, "Valor inválido")
     .required("Sueldo requerido")
@@ -93,20 +90,16 @@ const ContratoSchema = Yup.object().shape({
   tipo_cotizante: Yup.string().required("Tipo de cotizante requerido"),
   fondo_salud: Yup.string().required("Fondo de salud requerido"),
   porcentaje_salud_empleado: Yup.number("Caracteres inválidos")
-    .min(4, "Porcentaje de salud de empleado inválido")
     .max(4, "Porcentaje de salud de empleado inválido")
     .required("Porcentaje de salud de empleado requerido"),
   porcentaje_salud_empleador: Yup.number("Caracteres inválidos")
-    .min(8.5, "Porcentaje de salud de empleador inválido")
     .max(8.5, "Porcentaje de salud de empleador inválido")
     .required("Porcentaje de salud de empleador requerido"),
   fondo_pensiones: Yup.string().required("Fondo de pensiones requerido"),
   porcentaje_pension_empleado: Yup.number("Caracteres inválidos")
-    .min(4, "Porcentaje de pensión de empleado inválido")
     .max(4, "Porcentaje de pensión de empleado inválido")
     .required("Porcentaje de pensión de empleado requerido"),
   porcentaje_pension_empleador: Yup.number("Caracteres inválidos")
-    .min(12, "Porcentaje de pensión de empleador inválido")
     .max(12, "Porcentaje de pensión de empleador inválido")
     .required("Porcentaje de pensión de empleador requerido"),
   arl: Yup.string().required("Arl requerido"),
@@ -116,13 +109,13 @@ const ContratoSchema = Yup.object().shape({
     .required("Porcentaje de arl requerido"),
   fondo_cesantias: Yup.string().required("Fondo de cesantias requerido"),
   porcentaje_parafiscal_sena: Yup.number("Caracteres inválidos")
-    .min(2, "Debe ser mínimo del 2%")
+    .max(2, "Debe ser máximo del 2%")
     .required("Porcentaje parafiscal sena requerido"),
   porcentaje_parafiscal_icbf: Yup.number("Caracteres inválidos")
-    .min(3, "Debe ser mínimo del 3%")
+    .max(3, "Debe ser máximo del 3%")
     .required("Porcentaje parafiscal ICBF requerido"),
   porcentaje_parafiscal_caja_compensacion: Yup.number("Caracteres inválidos")
-    .min(4, "Debe ser mínimo del 4%")
+    .max(4, "Debe ser máximo del 4%")
     .required("Porcentaje parafiscal caja de compesación requerido"),
 });
 
