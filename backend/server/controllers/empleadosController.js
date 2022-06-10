@@ -112,6 +112,7 @@ const EmpleadosController = {
         apellidos: req.body.apellidos,
         tipo_documento: req.body.tipo_documento,
         numero_documento: req.body.numero_documento,
+        genero: req.body.genero,
         documento: documentoUrl,
         correo: req.body.correo,
         numero_celular: req.body.numero_celular,

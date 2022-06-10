@@ -28,6 +28,11 @@ const EmpleadoSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
+    genero:{
+      type: String,
+      trim: true,
+      requied: true
+    },
     documento: {
       type: String,
       trim: true,

@@ -27,6 +27,7 @@ const empleado = {
   apellidos: "Empleado1",
   tipo_documento: "CC",
   numero_documento: "1234567891",
+  genero: "O",
   documento: "documentoPrimerEmpleado",
   correo: "correoPrimerEmpleado@gmail.com",
   numero_celular: "1234567891",

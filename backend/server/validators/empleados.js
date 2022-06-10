@@ -80,6 +80,7 @@ exports.validacionCrear = [
         return Promise.reject(validacionCrearDocumento.message);
       return Promise.resolve(true);
     }),
+  check("genero").exists().notEmpty().isLength({ min: 1, max: 1 }),
   check("correo").exists().notEmpty().isEmail(),
   check("numero_celular")
     .exists()
@@ -124,6 +125,7 @@ exports.validacionActualizar = [
         return Promise.reject(validacionActualizarDocumento.message);
       return Promise.resolve(true);
     }),
+  check("genero").exists().notEmpty().isLength({ min: 1, max: 1 }),
   check("documento")
     .exists()
     .notEmpty()

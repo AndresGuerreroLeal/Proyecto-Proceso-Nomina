@@ -23,6 +23,7 @@ const info = {
   apellidos: "Apellidos empleados",
   tipo_documento: "CC",
   numero_documento: "1234567890",
+  genero: "O",
   correo: "empleadovalido@gmail.com",
   numero_celular: "1234567890",
   ciudad_residencia: "ciudad",
@@ -38,6 +39,7 @@ const empleado1 = {
   apellidos: "Empleado1",
   tipo_documento: "CC",
   numero_documento: "1234567891",
+  genero: "O",
   documento: "documentoPrimerEmpleado",
   correo: "correoPrimerEmpleado@gmail.com",
   numero_celular: "1234567891",
@@ -55,6 +57,7 @@ const empleado2 = {
   apellidos: "Empleado2",
   tipo_documento: "CC",
   numero_documento: "1234567892",
+  genero: "O",
   documento: "documentoSegundoEmpleado",
   correo: "correoSegundoEmpleado@gmail.com",
   numero_celular: "1234567892",
@@ -72,6 +75,7 @@ const empleado3 = {
   apellidos: "Empleado3",
   tipo_documento: "CC",
   numero_documento: "1234567893",
+  genero: "O",
   documento: "documentoTercerEmpleado",
   correo: "correoTercerEmpleado@gmail.com",
   numero_celular: "1234567893",
@@ -127,6 +131,7 @@ describe("-----Test de endpoint de crear empleado-----", () => {
       .field("apellidos", info.apellidos)
       .field("tipo_documento", info.tipo_documento)
       .field("numero_documento", info.numero_documento)
+      .field("genero", info.genero)
       .field("correo", info.correo)
       .field("numero_celular", info.numero_celular)
       .field("ciudad_residencia", info.ciudad_residencia)
@@ -144,6 +149,7 @@ describe("-----Test de endpoint de crear empleado-----", () => {
     expect(response.body.apellidos).toBe(info.apellidos);
     expect(response.body.tipo_documento).toBe(info.tipo_documento);
     expect(response.body.numero_documento).toBe(info.numero_documento);
+    expect(response.body.genero).toBe(info.genero);
     expect(response.body.correo).toBe(info.correo);
     expect(response.body.numero_celular).toBe(info.numero_celular);
     expect(response.body.ciudad_residencia).toBe(info.ciudad_residencia);
@@ -164,6 +170,7 @@ describe("-----Test de endpoint de crear empleado-----", () => {
       .field("apellidos", info.apellidos)
       .field("tipo_documento", info.tipo_documento)
       .field("numero_documento", info.numero_documento)
+      .field("genero", info.genero)
       .field("correo", info.correo)
       .field("numero_celular", info.numero_celular)
       .field("ciudad_residencia", info.ciudad_residencia)
@@ -189,6 +196,7 @@ describe("-----Test de endpoint de crear empleado-----", () => {
       .field("apellidos", info.apellidos)
       .field("tipo_documento", info.tipo_documento)
       .field("numero_documento", "0987654321")
+      .field("genero", info.genero)
       .field("correo", info.correo)
       .field("numero_celular", info.numero_celular)
       .field("ciudad_residencia", info.ciudad_residencia)
@@ -214,6 +222,7 @@ describe("-----Test de endpoint de crear empleado-----", () => {
       .field("apellidos", info.apellidos)
       .field("tipo_documento", info.tipo_documento)
       .field("numero_documento", "0987654321")
+      .field("genero", info.genero)
       .field("correo", "correovalido@gmail.com")
       .field("numero_celular", info.numero_celular)
       .field("ciudad_residencia", info.ciudad_residencia)
@@ -240,6 +249,7 @@ describe("-----Test de endpoint de crear empleado-----", () => {
       .field("tipo_documento", info.tipo_documento)
       .field("numero_documento", "0987654321")
       .field("correo", "correovalido@gmail.com")
+      .field("genero", info.genero)
       .field("numero_celular", "0987654321")
       .field("ciudad_residencia", info.ciudad_residencia)
       .field("direccion_residencia", info.direccion_residencia)
@@ -263,6 +273,7 @@ describe("-----Test de endpoint de crear empleado-----", () => {
       .field("apellidos", info.apellidos)
       .field("tipo_documento", info.tipo_documento)
       .field("numero_documento", "0987654321")
+      .field("genero", info.genero)
       .field("correo", "correovalido@gmail.com")
       .field("numero_celular", "0987654321")
       .field("ciudad_residencia", info.ciudad_residencia)
@@ -289,6 +300,7 @@ describe("-----Test de endpoint de listar empleados activos-----", () => {
     expect(response.body.docs[0].apellidos).toBe(info.apellidos);
     expect(response.body.docs[0].tipo_documento).toBe(info.tipo_documento);
     expect(response.body.docs[0].numero_documento).toBe(info.numero_documento);
+    expect(response.body.docs[0].genero).toBe(info.genero);
     expect(response.body.docs[0].documento).toBe(ruta);
     expect(response.body.docs[0].correo).toBe(info.correo);
     expect(response.body.docs[0].numero_celular).toBe(info.numero_celular);
@@ -326,6 +338,7 @@ describe("-----Test de endpoint de listar empleados activos-----", () => {
     expect(response.body.docs[1].numero_documento).toBe(
       empleado1.numero_documento
     );
+    expect(response.body.docs[1].genero).toBe(empleado1.genero);
     expect(response.body.docs[1].documento).toBe(empleado1.documento);
     expect(response.body.docs[1].correo).toBe(empleado1.correo);
     expect(response.body.docs[1].numero_celular).toBe(empleado1.numero_celular);
@@ -351,6 +364,7 @@ describe("-----Test de endpoint de listar empleados activos-----", () => {
     expect(response.body.docs[2].numero_documento).toBe(
       empleado2.numero_documento
     );
+    expect(response.body.docs[2].genero).toBe(empleado2.genero);
     expect(response.body.docs[2].documento).toBe(empleado2.documento);
     expect(response.body.docs[2].correo).toBe(empleado2.correo);
     expect(response.body.docs[2].numero_celular).toBe(empleado2.numero_celular);
@@ -376,6 +390,7 @@ describe("-----Test de endpoint de listar empleados activos-----", () => {
     expect(response.body.docs[3].numero_documento).toBe(
       empleado3.numero_documento
     );
+    expect(response.body.docs[3].genero).toBe(empleado3.genero);
     expect(response.body.docs[3].documento).toBe(empleado3.documento);
     expect(response.body.docs[3].correo).toBe(empleado3.correo);
     expect(response.body.docs[3].numero_celular).toBe(empleado3.numero_celular);
@@ -442,6 +457,7 @@ describe("-----Test de endpoint de listar empleados inactivos-----", () => {
     expect(response.body.docs[0].apellidos).toBe(info.apellidos);
     expect(response.body.docs[0].tipo_documento).toBe(info.tipo_documento);
     expect(response.body.docs[0].numero_documento).toBe(info.numero_documento);
+    expect(response.body.docs[0].genero).toBe(info.genero);
     expect(response.body.docs[0].documento).toBe(ruta);
     expect(response.body.docs[0].correo).toBe(info.correo);
     expect(response.body.docs[0].numero_celular).toBe(info.numero_celular);
@@ -505,6 +521,7 @@ describe("-----Test de endpoint de listar empleados inactivos-----", () => {
     expect(response.body.docs[1].numero_documento).toBe(
       empleado1.numero_documento
     );
+    expect(response.body.docs[1].genero).toBe(empleado1.genero);
     expect(response.body.docs[1].documento).toBe(empleado1.documento);
     expect(response.body.docs[1].correo).toBe(empleado1.correo);
     expect(response.body.docs[1].numero_celular).toBe(empleado1.numero_celular);
@@ -529,6 +546,7 @@ describe("-----Test de endpoint de listar empleados inactivos-----", () => {
     expect(response.body.docs[2].numero_documento).toBe(
       empleado2.numero_documento
     );
+    expect(response.body.docs[2].genero).toBe(empleado2.genero);
     expect(response.body.docs[2].documento).toBe(empleado2.documento);
     expect(response.body.docs[2].correo).toBe(empleado2.correo);
     expect(response.body.docs[2].numero_celular).toBe(empleado2.numero_celular);
@@ -553,6 +571,7 @@ describe("-----Test de endpoint de listar empleados inactivos-----", () => {
     expect(response.body.docs[3].numero_documento).toBe(
       empleado3.numero_documento
     );
+    expect(response.body.docs[3].genero).toBe(empleado3.genero);
     expect(response.body.docs[3].documento).toBe(empleado3.documento);
     expect(response.body.docs[3].correo).toBe(empleado3.correo);
     expect(response.body.docs[3].numero_celular).toBe(empleado3.numero_celular);
@@ -607,6 +626,7 @@ describe("-----Test de endpoint de actualizar información de empleados SIN AFEC
     apellidos: info.apellidos,
     tipo_documento: "CE",
     numero_documento: info.numero_documento,
+    genero: info.genero,
     correo: info.correo,
     numero_celular: info.numero_celular,
     ciudad_residencia: "Nueva ciudad",
@@ -638,6 +658,7 @@ describe("-----Test de endpoint de actualizar información de empleados SIN AFEC
     expect(response.body.apellidos).toBe(nuevaInfo.apellidos);
     expect(response.body.tipo_documento).toBe(nuevaInfo.tipo_documento);
     expect(response.body.numero_documento).toBe(nuevaInfo.numero_documento);
+    expect(response.body.genero).toBe(nuevaInfo.genero);
     expect(response.body.correo).toBe(nuevaInfo.correo);
     expect(response.body.numero_celular).toBe(nuevaInfo.numero_celular);
     expect(response.body.ciudad_residencia).toBe(nuevaInfo.ciudad_residencia);
@@ -718,6 +739,7 @@ describe("-----Test de endpoint para actualizar información de empleados AFECTA
     apellidos: "Nuevos apellidos",
     tipo_documento: "CE",
     numero_documento: info.numero_documento,
+    genero: info.genero,
     correo: info.correo,
     numero_celular: info.numero_celular,
     ciudad_residencia: "Nueva ciudad",
@@ -766,6 +788,7 @@ describe("-----Test de endpoint para actualizar información de empleados AFECTA
       .field("tipo_documento", nuevaInfo.tipo_documento)
       .field("documento", nuevaInfo.documento)
       .field("numero_documento", nuevaInfo.numero_documento)
+      .field("genero", nuevaInfo.genero)
       .field("correo", nuevaInfo.correo)
       .field("numero_celular", nuevaInfo.numero_celular)
       .field("ciudad_residencia", nuevaInfo.ciudad_residencia)
@@ -850,6 +873,7 @@ describe("-----Test de endpoint de obtener información de un empleado-----", ()
     expect(response.body.apellidos).toBe("Nuevos apellidos");
     expect(response.body.tipo_documento).toBe("CE");
     expect(response.body.numero_documento).toBe("1234567890");
+    expect(response.body.genero).toBe(info.genero);
     expect(response.body.documento).toBe(ruta);
     expect(response.body.correo).toBe(info.correo);
     expect(response.body.numero_celular).toBe(info.numero_celular);
