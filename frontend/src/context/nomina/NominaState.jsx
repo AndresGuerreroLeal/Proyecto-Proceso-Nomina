@@ -43,7 +43,7 @@ const NominaState = ({ children }) => {
         }&pageSize=${rowsPerPageNominas}`,
         TokenAuth(token)
       );
-      
+
       setNominas(data.docs);
       setPageNominas(data.page - 1);
       setCountNominas(data.totalDocs);
@@ -70,6 +70,9 @@ const NominaState = ({ children }) => {
         }&pageSize=${rowsPerPageReportes}`,
         TokenAuth(token)
       );
+
+              
+      console.log(data)
 
       setReportesNominas(data.docs);
       setPageReportes(data.page - 1);

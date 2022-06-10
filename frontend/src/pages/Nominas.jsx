@@ -276,14 +276,6 @@ const Nominas = () => {
           />
         </Paper>
       )}
-
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => handleDownload("/api/1.0/report-contract/create")}
-      >
-        Generar reportes
-      </Button>
     </>
   );
 };

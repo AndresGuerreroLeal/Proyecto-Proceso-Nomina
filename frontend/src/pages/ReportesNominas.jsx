@@ -26,8 +26,8 @@ import { CircularProgress } from "@mui/material";
 import DownloadIcon from '@mui/icons-material/Download';
 
 const columns = [
-  { id: "numero", label: "Número", minWidth: 100 },
-  { id: "fecha_generacion", label: "Fecha de Generación", minWidth: 100 },
+  { id: "nombre", label: "Nombre", minWidth: 100 },
+  { id: "createdAt", label: "Fecha de Generación", minWidth: 100 },
   {
     id: "acciones",
     label: "Acciones",
@@ -78,7 +78,7 @@ const ReportesNominas = () => {
 
   const classes = useStyles();
 
-  const handleDownload = (docurl, nombre) => {
+  const handleDownload = (docurl,nombre) => {
     const token = sessionStorage.getItem("token");
 
     let config = {
@@ -168,7 +168,7 @@ const ReportesNominas = () => {
                           return (
                             <TableCell key={column.id} align={column.align}>
                               <div>
-                                {column.id === "fecha_generacion"
+                                {column.id === "createdAt"
                                   ? value?.split("T")[0]
                                   : value}
                               </div>
@@ -178,7 +178,7 @@ const ReportesNominas = () => {
                                   variant="outlined"
                                   color="primary"
                                   onClick={() =>
-                                    handleDownload(row.reporte, row.nombre)
+                                    handleDownload(row.nomina, row.nombre)
                                   }
                                 >
                                   <DownloadIcon />
