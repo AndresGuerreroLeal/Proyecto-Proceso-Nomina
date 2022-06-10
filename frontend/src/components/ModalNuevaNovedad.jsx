@@ -12,6 +12,7 @@ import { Grid } from "@mui/material";
 
 import NominaContext from "../context/nomina/NominaContext";
 import formikMain from "../helpers/formikMain";
+import NumberFormat from "react-number-format";
 
 const style = {
   position: "absolute",
@@ -24,6 +25,8 @@ const style = {
   boxShadow: 24,
   p: 2,
 };
+
+const withValueLimit = ({ floatValue }) => floatValue <= 1000000;
 
 const ModalNuevaNovedad = () => {
   let values = {
@@ -74,7 +77,7 @@ const ModalNuevaNovedad = () => {
               }}
               onSubmit={formik.handleSubmit}
             >
-              <TextField
+              <NumberFormat
                 id="valor"
                 fullWidth
                 name="valor"
@@ -84,6 +87,9 @@ const ModalNuevaNovedad = () => {
                 error={formik.touched.valor && Boolean(formik.errors.valor)}
                 helperText={formik.touched.valor && formik.errors.valor}
                 onBlur={formik.handleBlur}
+                customInput={TextField}
+                thousandSeparator={true}
+                isAllowed={withValueLimit}
               />
               <TextField
                 id="concepto"

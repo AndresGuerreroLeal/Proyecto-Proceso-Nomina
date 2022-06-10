@@ -126,6 +126,8 @@ const NominaState = ({ children }) => {
   const crearNuevaNovedad = async (novedad, contrato) => {
     setCargando(true);
 
+    novedad.valor = Number(novedad.valor.split(",").join(""));
+
     let novedades = [...obtenerNovedades, { _id: contrato._id, ...novedad }];
     localStorage.setItem("novedades", JSON.stringify(novedades));
 

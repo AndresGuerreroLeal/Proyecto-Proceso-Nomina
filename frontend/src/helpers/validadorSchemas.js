@@ -121,13 +121,12 @@ const ContratoSchema = Yup.object().shape({
 
 const NominaSchema = Yup.object().shape({
   nombre: Yup.string().required("Nombre requerido"),
-  anio: Yup.string().required("Año requerido"),
+  año: Yup.string().required("Año requerido"),
   mes: Yup.string().required("Mes requerido"),
 });
 
 const NovedadSchema = Yup.object().shape({
   valor: Yup.string()
-    .matches(/^[0-9]+(,[0-9]+,[0-9]+)?$/, "Valor inválido")
     .required("Valor requerido")
     .min(0, "Valor inválido")
     .max(100000000, "Sueldo inválido"),
