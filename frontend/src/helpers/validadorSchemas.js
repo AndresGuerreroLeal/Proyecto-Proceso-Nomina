@@ -121,7 +121,7 @@ const ContratoSchema = Yup.object().shape({
 
 const NominaSchema = Yup.object().shape({
   nombre: Yup.string().required("Nombre requerido"),
-  año: Yup.string().required("Año requerido"),
+  anio: Yup.string().required("Año requerido"),
   mes: Yup.string().required("Mes requerido"),
 });
 

@@ -15,6 +15,9 @@ import NominaContext from "../context/nomina/NominaContext";
 import formikMain from "../helpers/formikMain";
 import listaAños from "../helpers/listaAños";
 import listaMeses from "../helpers/listaMeses";
+import Alerta from "./Alerta";
+import AlertaContext from "../context/alerta/AlertaContext";
+import clienteAxios from "../config/axios";
 
 const style = {
   position: "absolute",
@@ -30,19 +33,58 @@ const style = {
 
 const ModalNuevaNomina = () => {
   let values = {
-    valor: "",
-    concepto: "",
+    mes: "",
+    anio: "",
+    nombre: "",
+    reset: true,
   };
 
-  const { mostrarModalNuevaNomina, modalNuevaNomina, crearNuevaNomina } =
+  const { mostrarModalNuevaNomina, modalNuevaNomina } =
     useContext(NominaContext);
 
-  const handleSubmit = (nomina) => {
-    crearNuevaNomina(nomina);
-  };
+  const { alerta } = useContext(AlertaContext);
 
-  const formik = formikMain(handleSubmit, values, "NominaSchema");
+  
+  const handleDownload = (docurl,nomina) => {
+    const token = sessionStorage.getItem("token");
+    const novedades = JSON.parse(localStorage.getItem("novedades"));
 
+    nomina.novedades = novedades; 
+    nomina.enviar_desprendibles = true;
+
+    let config = {
+      responseType: "blob",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    };
+
+    clienteAxios
+      .post(docurl,nomina, config)
+      .then((res) => res.data)
+      .then((file) => {
+        const downloadUrl = window.URL.createObjectURL(new Blob([file]));
+        const link = document.createElement("a");
+        link.href = downloadUrl;
+        link.setAttribute("download", `reportenomina.xlsx`);
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        mostrarModalNuevaNomina(false);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+
+
+    };
+    
+    const handleSubmit = (nomina) => {
+        handleDownload("/api/1.0/payroll/create", nomina);
+    };
+    const formik = formikMain(handleSubmit, values, "NominaSchema");
+    
+  const { message } = alerta;
   return (
     <div>
       <Modal
@@ -66,6 +108,9 @@ const ModalNuevaNomina = () => {
             <Typography variant="p" component="h3">
               Crear nueva nómina
             </Typography>
+
+            {message && <Alerta />}
+
             <form
               style={{
                 width: "100%",
@@ -74,6 +119,7 @@ const ModalNuevaNomina = () => {
                 justifyContent: "center",
                 gap: "10px",
               }}
+              onSubmit={formik.handleSubmit}
             >
               <TextField
                 id="nombre"
@@ -85,25 +131,6 @@ const ModalNuevaNomina = () => {
                 helperText={formik.touched.nombre && formik.errors.nombre}
                 onBlur={formik.handleBlur}
               />
-
-              <TextField
-                select
-                id="año"
-                name="año"
-                label="Año"
-                fullWidth
-                value={formik.values.año}
-                onChange={formik.handleChange}
-                error={formik.touched.año && Boolean(formik.errors.año)}
-                helperText={formik.touched.año && formik.errors.año}
-                onBlur={formik.handleBlur}
-              >
-                {listaAños()?.map((año) => (
-                  <MenuItem value={año} key={año}>
-                    {año}
-                  </MenuItem>
-                ))}
-              </TextField>
 
               <TextField
                 select
@@ -124,9 +151,29 @@ const ModalNuevaNomina = () => {
                 ))}
               </TextField>
 
+              <TextField
+                select
+                id="anio"
+                name="anio"
+                label="Año"
+                fullWidth
+                value={formik.values.anio}
+                onChange={formik.handleChange}
+                error={formik.touched.anio && Boolean(formik.errors.anio)}
+                helperText={formik.touched.anio && formik.errors.anio}
+                onBlur={formik.handleBlur}
+              >
+                {listaAños()?.map((año) => (
+                  <MenuItem value={año} key={año}>
+                    {año}
+                  </MenuItem>
+                ))}
+              </TextField>
+
               <Button
                 variant="contained"
                 style={{ width: "50%", margin: "0 auto" }}
+                type="submit"
               >
                 Crear Nómina
               </Button>

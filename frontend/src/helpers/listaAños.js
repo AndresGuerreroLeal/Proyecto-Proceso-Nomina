@@ -1,6 +1,6 @@
 function listaAños() {
   const max = new Date().getFullYear();
-  const min = max - 22;
+  const min = max;
   const años = [];
 
   for (let i = max; i >= min; i--) {

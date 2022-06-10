@@ -7,11 +7,14 @@ import AlertaContext from "../alerta/AlertaContext";
 import NominaContext from "./NominaContext";
 
 const NominaState = ({ children }) => {
+
+  localStorage.setItem("novedades", JSON.stringify([]));
+
   const [nominas, setNominas] = useState([]);
   const [reportesNominas,setReportesNominas] = useState([])
   const [cargando,setCargando] = useState(false)
   const [nomina,setNomina] = useState({})
-  
+
   const [modalNomina,setModalNomina] = useState(false)
   const [modalNuevaNomina,setModalNuevaNomina] = useState(false)
   const [modalNuevaNovedad,setModalNuevaNovedad] = useState(false)
@@ -40,9 +43,7 @@ const NominaState = ({ children }) => {
         }&pageSize=${rowsPerPageNominas}`,
         TokenAuth(token)
       );
-
-      console.log(data.docs)
-
+      
       setNominas(data.docs);
       setPageNominas(data.page - 1);
       setCountNominas(data.totalDocs);
@@ -119,10 +120,6 @@ const NominaState = ({ children }) => {
     consoñe.log(novedad);
   }
 
-  const crearNuevaNomina = (nomina) =>{
-    console.log(nomina);
-  }
-
   return (
     <NominaContext.Provider
       value={{
@@ -150,7 +147,7 @@ const NominaState = ({ children }) => {
         mostrarModalNuevaNomina,
         mostrarModalNuevaNovedad,
         crearNuevaNovedad,
-        crearNuevaNomina
+        setRowsPerPageReportes,
       }}
     >
       {children}
