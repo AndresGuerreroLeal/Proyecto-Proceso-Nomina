@@ -363,13 +363,15 @@ const Empleados = () => {
 
       {modalEmpleado && <ModalEmpleado />}
 
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => handleDownload("/api/1.0/report-employee/create")}
-      >
-        Generar reportes
-      </Button>
+      {empleados.length >= 1 && (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleDownload("/api/1.0/report-employee/create")}
+        >
+          Generar reportes
+        </Button>
+      )}
     </>
   );
 };

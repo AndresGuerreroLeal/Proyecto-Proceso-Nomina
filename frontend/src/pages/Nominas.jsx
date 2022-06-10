@@ -62,12 +62,6 @@ const columns = [
     minWidth: 80,
     align: "center",
   },
-  {
-    id: "acciones",
-    label: "Acciones",
-    minWidth: 80,
-    align: "center",
-  },
 ];
 
 const Nominas = () => {
@@ -167,16 +161,17 @@ const Nominas = () => {
         <Typography variant="h4" component="h2">
           Lista Nóminas
         </Typography>
-
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          style={{ height: "max-content" }}
-          onClick={mostrarModalNuevaNomina}
-        >
-          Crear Nómina
-        </Button>
+        {nominas?.length >= 1 && (
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            style={{ height: "max-content" }}
+            onClick={mostrarModalNuevaNomina}
+          >
+            Crear Nómina
+          </Button>
+        )}
       </div>
 
       {cargando ? (
@@ -272,7 +267,6 @@ const Nominas = () => {
                                   <LibraryBooksIcon />
                                 </Button>
                               )}
-                          
                             </TableCell>
                           );
                         })}
