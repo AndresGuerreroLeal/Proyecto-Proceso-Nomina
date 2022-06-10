@@ -15,6 +15,7 @@ const AuthState = ({ children }) => {
   const [alertaauth, setAlertaAuth] = useState();
   const [cantidadEmpleados, setCantidadEmpleados] = useState({});
   const [cantidadContratos, setCantidadContratos] = useState({});
+  const [cantidadNominas, setCantidadNominas] = useState({});
   const [cargandoAPI, setCargandoAPI] = useState(false);
 
   const navigate = useNavigate({});
@@ -149,6 +150,28 @@ const AuthState = ({ children }) => {
     }
   };
 
+  const obtenerCantidadNominas = async () => {
+    setCargandoAPI(true);
+    try {
+      const token = sessionStorage.getItem("token");
+
+      const { data } = await clienteAxios.get(
+        "/api/1.0/payroll/",
+        TokenAuth(token)
+      );
+
+      setCantidadNominas(data);
+    } catch (err) {
+      setAlertaAuth({
+        message: err.response.data.message,
+        categoria: "error",
+      });
+    } finally {
+      setCargandoAPI(false);
+    }
+  };
+
+
   return (
     <AuthContext.Provider
       value={{
@@ -159,6 +182,7 @@ const AuthState = ({ children }) => {
         cantidadEmpleados,
         cantidadContratos,
         cargandoAPI,
+        cantidadNominas,
         setToken,
         cerrarSesion,
         actualizarPerfil,
@@ -166,6 +190,7 @@ const AuthState = ({ children }) => {
         actualizarContrasenia,
         obtenerCantidadEmpleados,
         obtenerCantidadContratos,
+        obtenerCantidadNominas,
       }}
     >
       {children}

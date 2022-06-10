@@ -11,11 +11,12 @@ const useStyles = makeStyles((theme) => ({}));
 
 const Dashboard = () => {
 
-  const {cantidadEmpleados,cantidadContratos,cargandoAPI,obtenerCantidadEmpleados,obtenerCantidadContratos} = useContext(AuthContext)
+  const {cantidadEmpleados,cantidadContratos,cantidadNominas,cargandoAPI,obtenerCantidadEmpleados,obtenerCantidadContratos,obtenerCantidadNominas} = useContext(AuthContext)
 
   useEffect(()=>{
     obtenerCantidadEmpleados();
     obtenerCantidadContratos();
+    obtenerCantidadNominas();
   },[])
 
   return (
@@ -48,7 +49,7 @@ const Dashboard = () => {
             ) : (
               <>
                 <Typography component="h3" variant="h5">
-                  Ver Empleados
+                  Empleados
                 </Typography>
                 <div style={{ textAlign: "center" }}>
                   <p>Total empleados: {cantidadEmpleados?.cantidadEmpleados}</p>
@@ -77,7 +78,7 @@ const Dashboard = () => {
             ) : (
               <>
                 <Typography component="h3" variant="h5">
-                  Ver contactos
+                  Contactos
                 </Typography>
                 <div style={{ textAlign: "center" }}>
                   <p>Total contratos: {cantidadContratos?.cantidadContratos}</p>
@@ -103,10 +104,18 @@ const Dashboard = () => {
               flexDirection: "column",
             }}
           >
-            <Typography component="h3" variant="h5">
-              Ver nóminas
-            </Typography>
-            <p>Total nóminas: 30</p>
+            {cargandoAPI ? (
+              <CircularProgress />
+            ) : (
+              <>
+                <Typography component="h3" variant="h5">
+                  Nóminas
+                </Typography>
+                <div style={{ textAlign: "center" }}>
+                  <p>Total nóminas: {cantidadNominas?.cantidadNominas}</p>
+                </div>
+              </>
+            )}
           </Paper>
         </Grid>
       </Grid>

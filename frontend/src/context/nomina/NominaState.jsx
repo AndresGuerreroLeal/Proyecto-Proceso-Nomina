@@ -62,7 +62,7 @@ const NominaState = ({ children }) => {
       const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
-        `/api/1.0/report-contract/list?pageNumber=${
+        `/api/1.0/payroll/list?pageNumber=${
           pageReportes + 1
         }&pageSize=${rowsPerPageReportes}`,
         TokenAuth(token)
