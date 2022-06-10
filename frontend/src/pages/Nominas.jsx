@@ -10,6 +10,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
+import NewReleasesIcon from '@mui/icons-material/NewReleases';
 
 const columns = [
   { id: "name", label: "Name", minWidth: 170 },
