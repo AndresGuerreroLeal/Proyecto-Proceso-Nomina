@@ -21,7 +21,7 @@ import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
 import clienteAxios from "../config/axios";
 import { CircularProgress, MenuItem, TextField } from "@mui/material";
-import EditIcon from '@mui/icons-material/Edit';
+import NewReleasesIcon from '@mui/icons-material/NewReleases';
 import LibraryBooksIcon from '@mui/icons-material/LibraryBooks';
 import contratoContext from "../context/contrato/ContratoContext";
 import ModalContrato from "../components/ModalContrato";
@@ -152,7 +152,7 @@ const Nominas = () => {
   const handleSubmit = ()=>{
   }
 
-  const formik = formikMain(handleSubmit, values, "NovedadSchema");
+  const formik = formikMain(handleSubmit, values, "NominaSchema");
 
   const { message } = alerta;
 
@@ -288,6 +288,13 @@ const Nominas = () => {
                                   ? value.split("T")[0]
                                   : value}
                               </div>
+
+                              {column.id === "novedad" && (
+                                <Button variant="outlined" color="primary">
+                                  <NewReleasesIcon />
+                                </Button>
+                              )}
+
                               {column.id === "ver_detalle" && (
                                 <Button
                                   variant="outlined"
@@ -297,16 +304,6 @@ const Nominas = () => {
                                   <LibraryBooksIcon />
                                 </Button>
                               )}
-                              {column.id === "acciones" &&
-                                perfil?.roles.length >= 2 && (
-                                  <Button
-                                    variant="outlined"
-                                    color="primary"
-                                    onClick={() => handleContrato(row)}
-                                  >
-                                    <EditIcon />
-                                  </Button>
-                                )}
                             </TableCell>
                           );
                         })}

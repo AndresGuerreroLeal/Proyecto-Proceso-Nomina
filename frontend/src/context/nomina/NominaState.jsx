@@ -42,7 +42,6 @@ const NominaState = ({ children }) => {
       setCountNominas(data.totalDocs);
       setTotalPagesNominas(data.totalPages);
     } catch (err) {
-      console.log(err.response)
       mostrarAlerta({
         message: err.response.data.message,
         categoria: "error",
