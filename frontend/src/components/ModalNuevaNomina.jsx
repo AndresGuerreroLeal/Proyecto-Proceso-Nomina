@@ -66,7 +66,7 @@ const ModalNuevaNomina = () => {
         const downloadUrl = window.URL.createObjectURL(new Blob([file]));
         const link = document.createElement("a");
         link.href = downloadUrl;
-        link.setAttribute("download", `reportenomina.xlsx`);
+        link.setAttribute("download", `${nomina.nombre}.xlsx`);
         document.body.appendChild(link);
         link.click();
         link.remove();
