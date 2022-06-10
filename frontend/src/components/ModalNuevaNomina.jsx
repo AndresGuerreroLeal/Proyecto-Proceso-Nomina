@@ -45,8 +45,6 @@ const ModalNuevaNomina = () => {
   const { alerta, mostrarAlerta } = useContext(AlertaContext);
 
   const handleDownload = (docurl, nomina) => {
-    console.log(nomina);
-
     const token = sessionStorage.getItem("token");
     const novedades = JSON.parse(localStorage.getItem("novedades"));
 
