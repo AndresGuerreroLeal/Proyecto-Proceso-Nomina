@@ -102,7 +102,7 @@ const NominaState = ({ children }) => {
       const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
-        `/api/1.0/contract/${nomina._id}`,
+        `/api/1.0/payroll/get/${nomina._id}`,
         TokenAuth(token)
       );
 

@@ -11,7 +11,7 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 500,
+  width: 550,
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -73,7 +73,7 @@ const ModalNomina = () => {
             }}
           >
             <Typography variant="p" component="h3">
-              Empleado: {empleado.nombres}
+              Nómina: {nomina.numero_contrato}
             </Typography>
 
             <Grid item xs={12} justifyContent="flex-start">
@@ -83,93 +83,135 @@ const ModalNomina = () => {
 
               <div style={{ padding: "0.5rem" }}>
                 <Typography variant="p" component="h4">
-                  Nombre: <span className="texto">{empleado.nombres}</span>
+                  Nombres: <span className="texto">{nomina.nombres}</span>
                 </Typography>
 
                 <Typography variant="p" component="h4">
-                  Apellidos: <span className="texto">{empleado.apellidos}</span>
+                  Apellidos: <span className="texto">{nomina.apellidos}</span>
                 </Typography>
 
                 <Typography variant="p" component="h4">
-                  Número de celular:{" "}
-                  <span className="texto">{empleado.numero_celular}</span>
-                </Typography>
-
-                <Typography variant="p" component="h4">
-                  Correo: <span className="texto">{empleado.correo}</span>
+                  Estado: <span className="texto">{nomina.estado}</span>
                 </Typography>
               </div>
             </Grid>
 
             <Grid item xs={12} justifyContent="flex-start">
               <Typography variant="p" component="h3">
-                Datos Personales
+                Información Laboral
               </Typography>
 
               <div style={{ padding: "0.5rem" }}>
                 <Typography variant="p" component="h4">
-                  Tipo de documento:{" "}
-                  <span className="texto">{empleado.tipo_documento}</span>
+                  Número de contrato:{" "}
+                  <span className="texto">{nomina.numero_contrato}</span>
                 </Typography>
 
                 <Typography variant="p" component="h4">
-                  Número de documento:{" "}
-                  <span className="texto">{empleado.numero_documento}</span>
+                  Fecha de inicio:{" "}
+                  <span className="texto">{nomina.fecha_inicio}</span>
                 </Typography>
 
                 <Typography variant="p" component="h4">
-                  Documento:{" "}
-                  <Paper
-                    onClick={() => handleDownload(empleado.documento)}
-                    sx={{
-                      width: "30%",
-                      display: "inline-block",
-                      textAlign: "center",
-                      cursor: "pointer",
-                      backgroundColor: "#2196f3",
-                    }}
-                    elevation={0}
-                  >
-                    Ver documento
-                  </Paper>
-                </Typography>
-
-                <Typography variant="p" component="h4">
-                  Ciudad de residencia:{" "}
-                  <span className="texto">{empleado.ciudad_residencia}</span>
-                </Typography>
-
-                <Typography variant="p" component="h4">
-                  Dirección de residencia:{" "}
-                  <span className="texto">{empleado.direccion_residencia}</span>
+                  Cargo: <span className="texto">{nomina.cargo}</span>
                 </Typography>
               </div>
             </Grid>
 
             <Grid item xs={12} justifyContent="flex-start">
               <Typography variant="p" component="h3">
-                Datos de pago
+                Datos de Contrato
               </Typography>
 
               <div style={{ padding: "0.5rem" }}>
                 <Typography variant="p" component="h4">
-                  Método de pago:{" "}
-                  <span className="texto">{empleado.metodo_pago}</span>
+                  Tipo de contato:{" "}
+                  <span className="texto">{nomina.tipo_contrato}</span>
                 </Typography>
 
                 <Typography variant="p" component="h4">
-                  Entidad bancaria:{" "}
-                  <span className="texto">{empleado.entidad_bancaria}</span>
+                  Sueldo: <span className="texto">{nomina.sueldo}</span>
                 </Typography>
 
                 <Typography variant="p" component="h4">
-                  Tipo de cuenta:{" "}
-                  <span className="texto">{empleado.tipo_cuenta}</span>
+                  Tipo de cotizante:{" "}
+                  <span className="texto">{empleado.tipo_cotizante}</span>
+                </Typography>
+              </div>
+            </Grid>
+
+            <Grid item xs={12} justifyContent="flex-start">
+              <Typography variant="p" component="h3">
+                Datos para aportes de seguridad social y parafiscales
+              </Typography>
+
+              <div style={{ padding: "0.5rem" }}>
+                <Typography variant="p" component="h4">
+                  Fondo de salud:{" "}
+                  <span className="texto">{nomina.fondo_salud}</span>
                 </Typography>
 
                 <Typography variant="p" component="h4">
-                  Número de cuenta:{" "}
-                  <span className="texto">{empleado.numero_cuenta}</span>
+                  Porcentaje de salud del empleado:{" "}
+                  <span className="texto">
+                    {nomina.porcentaje_salud_empleado}
+                  </span>
+                </Typography>
+
+                <Typography variant="p" component="h4">
+                  Porcentaje de salud del empleador:{" "}
+                  <span className="texto">
+                    {nomina.porcentaje_salud_empleador}
+                  </span>
+                </Typography>
+
+                <Typography variant="p" component="h4">
+                  Fondo de pensiones:{" "}
+                  <span className="texto">{nomina.fondo_pensiones}</span>
+                </Typography>
+
+                <Typography variant="p" component="h4">
+                  Porcentaje de pensión del empleado:{" "}
+                  <span className="texto">
+                    {nomina.porcentaje_pension_empleado}
+                  </span>
+                </Typography>
+
+                <Typography variant="p" component="h4">
+                  Porcentaje de pensión del empleador:{" "}
+                  <span className="texto">
+                    {nomina.porcentaje_pension_empleador}
+                  </span>
+                </Typography>
+
+                <Typography variant="p" component="h4">
+                  Arl: <span className="texto">{nomina.arl}</span>
+                </Typography>
+
+                <Typography variant="p" component="h4">
+                  Fondo de cesantias:{" "}
+                  <span className="texto">{nomina.fondo_cesantias}</span>
+                </Typography>
+
+                <Typography variant="p" component="h4">
+                  Porcentaje parafiscal SENA:{" "}
+                  <span className="texto">
+                    {nomina.porcentaje_parafiscal_sena}
+                  </span>
+                </Typography>
+
+                <Typography variant="p" component="h4">
+                  Porcentaje parafiscal ICBF:{" "}
+                  <span className="texto">
+                    {nomina.porcentaje_parafiscal_icbf}
+                  </span>
+                </Typography>
+
+                <Typography variant="p" component="h4">
+                  Porcentaje parafiscal compensación:{" "}
+                  <span className="texto">
+                    {nomina.porcentaje_parafiscal_caja_compensacion}
+                  </span>
                 </Typography>
               </div>
             </Grid>
