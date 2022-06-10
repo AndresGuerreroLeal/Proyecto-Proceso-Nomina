@@ -135,7 +135,7 @@ const ModalNomina = () => {
 
                 <Typography variant="p" component="h4">
                   Tipo de cotizante:{" "}
-                  <span className="texto">{empleado.tipo_cotizante}</span>
+                  <span className="texto">{nomina.tipo_cotizante}</span>
                 </Typography>
               </div>
             </Grid>
@@ -152,36 +152,8 @@ const ModalNomina = () => {
                 </Typography>
 
                 <Typography variant="p" component="h4">
-                  Porcentaje de salud del empleado:{" "}
-                  <span className="texto">
-                    {nomina.porcentaje_salud_empleado}
-                  </span>
-                </Typography>
-
-                <Typography variant="p" component="h4">
-                  Porcentaje de salud del empleador:{" "}
-                  <span className="texto">
-                    {nomina.porcentaje_salud_empleador}
-                  </span>
-                </Typography>
-
-                <Typography variant="p" component="h4">
                   Fondo de pensiones:{" "}
                   <span className="texto">{nomina.fondo_pensiones}</span>
-                </Typography>
-
-                <Typography variant="p" component="h4">
-                  Porcentaje de pensión del empleado:{" "}
-                  <span className="texto">
-                    {nomina.porcentaje_pension_empleado}
-                  </span>
-                </Typography>
-
-                <Typography variant="p" component="h4">
-                  Porcentaje de pensión del empleador:{" "}
-                  <span className="texto">
-                    {nomina.porcentaje_pension_empleador}
-                  </span>
                 </Typography>
 
                 <Typography variant="p" component="h4">
@@ -194,24 +166,23 @@ const ModalNomina = () => {
                 </Typography>
 
                 <Typography variant="p" component="h4">
-                  Porcentaje parafiscal SENA:{" "}
-                  <span className="texto">
-                    {nomina.porcentaje_parafiscal_sena}
-                  </span>
+                  Total de Devengos:{" "}
+                  <span className="texto">{nomina.total_devengos}</span>
                 </Typography>
 
                 <Typography variant="p" component="h4">
-                  Porcentaje parafiscal ICBF:{" "}
-                  <span className="texto">
-                    {nomina.porcentaje_parafiscal_icbf}
-                  </span>
+                  Total de Deducciones{" "}
+                  <span className="texto">{nomina.total_deducciones}</span>
                 </Typography>
 
                 <Typography variant="p" component="h4">
-                  Porcentaje parafiscal compensación:{" "}
-                  <span className="texto">
-                    {nomina.porcentaje_parafiscal_caja_compensacion}
-                  </span>
+                  Total de Deducciones{" "}
+                  <span className="texto">{nomina.total_deducciones}</span>
+                </Typography>
+
+                <Typography variant="p" component="h4">
+                  Total Valor de Empleado{" "}
+                  <span className="texto">{nomina.total_valor_empleado}</span>
                 </Typography>
               </div>
             </Grid>
