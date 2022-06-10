@@ -30,14 +30,14 @@ import ModalNuevaNovedad from "../components/ModalNuevaNovedad";
 import ModalNuevaNomina from "../components/ModalNuevaNomina";
 
 const columns = [
-  { id: "cedula", label: "Cédula", minWidth: 100 },
+  { id: "numero_contrato", label: "Cédula", minWidth: 100 },
   {
     id: "nombres",
     label: "Nombres",
     minWidth: 100,
   },
   { id: "apellidos", label: "Apellidos", minWidth: 100 },
-  { id: "valor_contrato", label: "Valor de Contrato", minWidth: 100 },
+  { id: "sueldo", label: "Valor de Contrato", minWidth: 100 },
   {
     id: "fecha_inicio",
     label: "Fecha de Inicio",

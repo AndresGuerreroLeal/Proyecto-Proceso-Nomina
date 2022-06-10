@@ -35,11 +35,13 @@ const NominaState = ({ children }) => {
       const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
-        `/api/1.0/contract/list?pageNumber=${
+        `/api/1.0/payroll/list-info?pageNumber=${
           pageNominas + 1
         }&pageSize=${rowsPerPageNominas}`,
         TokenAuth(token)
       );
+
+      console.log(data.docs)
 
       setNominas(data.docs);
       setPageNominas(data.page - 1);
