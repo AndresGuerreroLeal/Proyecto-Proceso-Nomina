@@ -18,6 +18,7 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
+import DeleteIcon from "@mui/icons-material/Delete";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
@@ -36,6 +37,8 @@ const columns = [
   },
 ];
 
+
+
 const ReportesNominas = () => {
 
   const {
@@ -48,9 +51,21 @@ const ReportesNominas = () => {
     setPageReportes,
     setRowsPerPageReportes,
     obtenerReportes,
+    eliminarReporteNomina,
+    eliminarNomina,
+    obtenerNominaEliminar
   } = useContext(NominaContext);
 
   const { alerta } = useContext(AlertaContext);
+  
+  const { perfil } = useContext(AuthContext);
+
+  const [openEliminar,setOpenEliminar] = useState(false);
+  
+  const handleEliminar = ()=>{
+    eliminarReporteNomina(eliminarNomina);
+    setOpenEliminar(!openEliminar);
+  }
 
   useEffect(() => {
     const obtenerReportesState = async () => {
@@ -109,6 +124,15 @@ const ReportesNominas = () => {
 
   return (
     <>
+      {openEliminar && (
+        <ModalDialog
+          open={openEliminar}
+          setOpen={setOpenEliminar}
+          titulo={`¿Está seguro de eliminar la nómina?`}
+          contenido={"Se eliminará permanentemente sin medio de recuperación."}
+          eliminar={handleEliminar}
+        />
+      )}
 
       <div className={classes.header}>
         <Typography variant="h4" component="h2">
@@ -173,16 +197,49 @@ const ReportesNominas = () => {
                                   : value}
                               </div>
 
-                              {column.id === "acciones" && (
-                                <Button
-                                  variant="outlined"
-                                  color="primary"
-                                  onClick={() =>
-                                    handleDownload(row.nomina, row.nombre)
-                                  }
+                              {column.id === "acciones" &&
+                              perfil?.roles.length >= 2 ? (
+                                <div
+                                  key={column.id}
+                                  style={{
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    gap: "10px",
+                                  }}
                                 >
-                                  <DownloadIcon />
-                                </Button>
+                                  <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={() =>
+                                      handleDownload(row.nomina, row.nombre)
+                                    }
+                                  >
+                                    <DownloadIcon />
+                                  </Button>
+                                  <Button
+                                    variant="outlined"
+                                    color="secondary"
+                                    onClick={() => {
+                                      obtenerNominaEliminar(row);
+                                      setOpenEliminar(!openEliminar);
+                                    }}
+                                  >
+                                    <DeleteIcon />
+                                  </Button>
+                                </div>
+                              ) : (
+                                column.id === "acciones" && (
+                                  <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={() =>
+                                      handleDownload(row.nomina, row.nombre)
+                                    }
+                                  >
+                                    <DownloadIcon />
+                                  </Button>
+                                )
                               )}
                             </TableCell>
                           );

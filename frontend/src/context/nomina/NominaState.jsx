@@ -36,6 +36,8 @@ const NominaState = ({ children }) => {
   const [totalpagesReportes, setTotalPagesReportes] = useState(0);
   const [countReportes, setCountReportes] = useState(0);
 
+  const [eliminarNomina, setEliminarNomina] = useState({});
+
   const { mostrarAlerta } = useContext(AlertaContext);
 
   const obtenerNominas = async () => {
@@ -145,6 +147,45 @@ const NominaState = ({ children }) => {
     setCargando(false);
   };
 
+  const obtenerNominaEliminar = (nomina)=>{
+    setEliminarNomina(nomina)    
+  }
+
+  const eliminarReporteNomina = async(nomina)=>{
+    setCargando(true);
+
+    console.log(nomina)
+
+    try {
+      const token = sessionStorage.getItem("token");
+
+      const { data } = await clienteAxios.delete(
+        `/api/1.0/payroll/delete/${nomina._id}`,
+        TokenAuth(token)
+      );
+      
+      mostrarAlerta({
+        message: data.message,
+        categoria: "info",
+      });
+
+      setReportesNominas(
+        reportesNominas.filter((nominaState) => nominaState._id !== nomina._id)
+      );
+      
+      setCountReportes(countReportes - 1)
+
+    } catch (err) {
+      console.log(err.response);
+      mostrarAlerta({
+        message: err.response.data.message,
+        categoria: "info",
+      });
+    } finally {
+      setCargando(false);
+    }
+  }
+
   return (
     <NominaContext.Provider
       value={{
@@ -165,6 +206,7 @@ const NominaState = ({ children }) => {
         modalNuevaNomina,
         nominaNovedad,
         nominasDisabled,
+        eliminarNomina,
         setNominasDisabled,
         setPageNominas,
         setRowsPerPageNominas,
@@ -177,6 +219,8 @@ const NominaState = ({ children }) => {
         crearNuevaNovedad,
         setRowsPerPageReportes,
         setNominaNovedad,
+        obtenerNominaEliminar,
+        eliminarReporteNomina
       }}
     >
       {children}

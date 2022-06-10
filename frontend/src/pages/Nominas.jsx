@@ -16,6 +16,7 @@ import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
 import TableCell from "@mui/material/TableCell";
 import TableContainer from "@mui/material/TableContainer";
+import DeleteIcon from "@mui/icons-material/Delete";
 import TableHead from "@mui/material/TableHead";
 import TablePagination from "@mui/material/TablePagination";
 import TableRow from "@mui/material/TableRow";
@@ -28,6 +29,7 @@ import formikMain from "../helpers/formikMain";
 import ModalNomina from "../components/ModalNomina";
 import ModalNuevaNovedad from "../components/ModalNuevaNovedad";
 import ModalNuevaNomina from "../components/ModalNuevaNomina";
+import ModalDialog from "../components/ModalDialog";
 
 let NuevasNovedades = JSON.parse(localStorage.getItem("novedades"))
   ? JSON.parse(localStorage.getItem("novedades")).map(
@@ -52,12 +54,18 @@ const columns = [
   {
     id: "novedad",
     label: "Novedad",
-    minWidth: 100,
+    minWidth: 80,
   },
   {
     id: "ver_detalle",
     label: "Ver Detalle",
-    minWidth: 150,
+    minWidth: 80,
+    align: "center",
+  },
+  {
+    id: "acciones",
+    label: "Acciones",
+    minWidth: 80,
     align: "center",
   },
 ];
@@ -69,6 +77,7 @@ const Nominas = () => {
     modalNomina,
     setNominasDisabled,
     nomina,
+    eliminarNomina,
     setNominaNovedad,
     modalNuevaNovedad,
     modalNuevaNomina,
@@ -83,20 +92,20 @@ const Nominas = () => {
     mostrarModalNuevaNomina,
     mostrarModalNuevaNovedad,
     nominasDisabled,
+    obtenerNominaEliminar,
+    eliminarReporteNomina
   } = useContext(NominaContext);
-
-  let values = {
-    nombre: "",
-    año: "",
-    mes: "",
-    reset: true,
-  };
 
   const { perfil } = useContext(AuthContext);
 
   const { alerta } = useContext(AlertaContext);
 
-  const navigate = useNavigate();
+  const [openEliminar,setOpenEliminar] = useState(false);
+  
+  const handleEliminar = ()=>{
+      eliminarReporteNomina(eliminarNomina)
+      setOpenEliminar(!openEliminar);
+  }
 
   useEffect(() => {
     setNominasDisabled(
@@ -143,6 +152,16 @@ const Nominas = () => {
       {modalNomina && <ModalNomina />}
       {modalNuevaNovedad && <ModalNuevaNovedad />}
       {modalNuevaNomina && <ModalNuevaNomina />}
+
+      {openEliminar && (
+        <ModalDialog
+          open={openEliminar}
+          setOpen={setOpenEliminar}
+          titulo={`¿Está seguro de eliminar la nómina?`}
+          contenido={"Se eliminará permanentemente sin medio de recuperación."}
+          eliminar={handleEliminar}
+        />
+      )}
 
       <div className={classes.header}>
         <Typography variant="h4" component="h2">
@@ -253,6 +272,7 @@ const Nominas = () => {
                                   <LibraryBooksIcon />
                                 </Button>
                               )}
+                          
                             </TableCell>
                           );
                         })}
