@@ -20,7 +20,7 @@ const NominaState = ({ children }) => {
 
   const [nominasDisabled,setNominasDisabled] = useState([])
 
-  const [nominaNovedad,setNominaNovedad] = useState({})
+  const [nominaNovedad, setNominaNovedad] = useState(obtenerNovedades);
 
   const [modalNomina,setModalNomina] = useState(false)
   const [modalNuevaNomina,setModalNuevaNomina] = useState(false)
@@ -133,6 +133,11 @@ const NominaState = ({ children }) => {
 
     setNominaNovedad({});
 
+    mostrarAlerta({
+      message: "Se creo novedad exitosamente",
+      categoria: "success",
+    });
+          
     setModalNuevaNovedad(false);
 
     setCargando(false);

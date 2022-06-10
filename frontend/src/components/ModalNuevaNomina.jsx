@@ -42,7 +42,7 @@ const ModalNuevaNomina = () => {
   const { mostrarModalNuevaNomina, modalNuevaNomina,setNominasDisabled } =
     useContext(NominaContext);
 
-  const { alerta } = useContext(AlertaContext);
+  const { alerta,mostrarAlerta } = useContext(AlertaContext);
 
   const handleDownload = (docurl,nomina) => {
     const token = sessionStorage.getItem("token");
@@ -54,6 +54,11 @@ const ModalNuevaNomina = () => {
     setNominasDisabled([]);
 
     localStorage.removeItem("novedades");
+
+    mostrarAlerta({
+      message: "Se genero el reporte exitosamente",
+      categoria: "success",
+    });
 
     let config = {
       responseType: "blob",
@@ -86,8 +91,7 @@ const ModalNuevaNomina = () => {
         handleDownload("/api/1.0/payroll/create", nomina);
     };
     const formik = formikMain(handleSubmit, values, "NominaSchema");
-    
-  const { message } = alerta;
+
   return (
     <div>
       <Modal
@@ -111,8 +115,6 @@ const ModalNuevaNomina = () => {
             <Typography variant="p" component="h3">
               Crear nueva nómina
             </Typography>
-
-            {message && <Alerta />}
 
             <form
               style={{

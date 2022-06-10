@@ -67,6 +67,7 @@ const Nominas = () => {
     nominas,
     cargando,
     modalNomina,
+    setNominasDisabled,
     nomina,
     setNominaNovedad,
     modalNuevaNovedad,
@@ -97,16 +98,11 @@ const Nominas = () => {
 
   const navigate = useNavigate();
 
-  console.log(NuevasNovedades)
-
   useEffect(() => {
-    NuevasNovedades =
-      JSON.parse(localStorage.getItem("novedades")).length > 1
-        ? JSON.parse(localStorage.getItem("novedades")).map(
-            (novedad) => novedad._id
-          )
-        : [];
-  }, [nominasDisabled]);
+    setNominasDisabled(
+      JSON.parse(localStorage.getItem("novedades")).map((nomina) => nomina._id)
+    );
+  }, []);
 
   useEffect(() => {
     const obtenerNominasState = async () => {
@@ -141,8 +137,6 @@ const Nominas = () => {
   const classes = useStyles();
 
   const { message } = alerta;
-
-  console.log("aqui",nominasDisabled)
 
   return (
     <>
