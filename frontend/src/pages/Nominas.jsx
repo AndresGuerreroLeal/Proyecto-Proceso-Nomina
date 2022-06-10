@@ -88,15 +88,9 @@ const Nominas = () => {
 
   const {perfil} = useContext(AuthContext)
 
-  const {empleadosSinContrato,obtenerEmpleadosSinContrato} = useContext(EmpleadoContext)
-
   const { alerta } = useContext(AlertaContext);
 
   const navigate = useNavigate();
-
-  useEffect(()=>{
-    obtenerEmpleadosSinContrato();
-  },[])
 
   useEffect(() => {
     const obtenerNominasState = async () => {
@@ -298,7 +292,7 @@ const Nominas = () => {
                                 <Button
                                   variant="outlined"
                                   color="primary"
-                                  onClick={() => obtenerContrato(row)}
+                                  onClick={() => obtenerNomina(row)}
                                 >
                                   <LibraryBooksIcon />
                                 </Button>

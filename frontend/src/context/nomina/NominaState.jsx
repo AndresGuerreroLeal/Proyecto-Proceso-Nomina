@@ -10,10 +10,11 @@ const NominaState = ({ children }) => {
   const [nominas, setNominas] = useState([]);
   const [reportesNominas,setReportesNominas] = useState([])
   const [cargando,setCargando] = useState(false)
+  const [nomina,setNomina] = useState({})
 
   const [pageNominas, setPageNominas] = useState(0);
   const [rowsPerPageNominas, setRowsPerPageNominas] = useState(5);
-  const [totalpagesContratos, setTotalPagesNominas] = useState(0);
+  const [totalpagesNominas, setTotalPagesNominas] = useState(0);
   const [countNominas, setCountNominas] = useState(0);
 
   const [pageReportes, setPageReportes] = useState(0);
@@ -30,8 +31,8 @@ const NominaState = ({ children }) => {
       const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
-        `/api/1.0/contrat/list?pageNumber=${
-          pageEmpleados + 1
+        `/api/1.0/contract/list?pageNumber=${
+          pageNominas + 1
         }&pageSize=${rowsPerPageNominas}`,
         TokenAuth(token)
       );
@@ -41,6 +42,7 @@ const NominaState = ({ children }) => {
       setCountNominas(data.totalDocs);
       setTotalPagesNominas(data.totalPages);
     } catch (err) {
+      console.log(err.response)
       mostrarAlerta({
         message: err.response.data.message,
         categoria: "error",
@@ -78,17 +80,29 @@ const NominaState = ({ children }) => {
     }
   };
 
+  const obtenerNomina = ()=>{
+  }
+
   return (
     <NominaContext.Provider
       value={{
         nominas,
+        nomina,
         reportesNominas,
         pageReportes,
         rowsPerPageReportes,
         countReportes,
         totalpagesReportes,
+        pageNominas,
+        rowsPerPageNominas,
+        countNominas,
+        totalpagesNominas,
         cargando,
-        obtenerReportes
+        setPageNominas,
+        setRowsPerPageNominas,
+        obtenerNominas,
+        obtenerReportes,
+        obtenerNomina,
       }}
     >
       {children}
