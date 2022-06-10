@@ -109,6 +109,10 @@ const NominaController = {
         contrato.total_devengos = valoresNomina.total_devengos;
         contrato.total_deducciones = valoresNomina.total_deducciones;
         contrato.total_valor_empleado = valoresNomina.total_valor_empleado;
+        contrato.total_devengos =
+          contrato.total_devengos + contrato.valor_novedad;
+        contrato.total_valor_empleado =
+          contrato.total_valor_empleado + contrato.valor_novedad;
         return contrato;
       }
       contrato.total_devengos =
