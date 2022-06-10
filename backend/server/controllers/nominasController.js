@@ -32,6 +32,7 @@ const NominaController = {
     const primerDiaMes = new Date(req.body.anio, req.body.mes - 1, 1);
 
     const cantidadContratos = await Contrato.estimatedDocumentCount({
+      fecha_inicio: { $lte: ultimoDiaMes },
       estado: "ACTIVO",
     }).exec();
 
