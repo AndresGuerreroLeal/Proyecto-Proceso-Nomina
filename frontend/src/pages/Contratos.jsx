@@ -140,7 +140,6 @@ const Contratos = () => {
 
   return (
     <>
-
       {modalContrato && <ModalContrato />}
 
       <div className={classes.header}>
@@ -261,13 +260,15 @@ const Contratos = () => {
         </Paper>
       )}
 
-      <Button
-        variant="contained"
-        color="primary"
-        onClick={() => handleDownload("/api/1.0/report-contract/create")}
-      >
-        Generar reportes
-      </Button>
+      {contratos.length >= 1 && (
+        <Button
+          variant="contained"
+          color="primary"
+          onClick={() => handleDownload("/api/1.0/report-contract/create")}
+        >
+          Generar reportes
+        </Button>
+      )}
     </>
   );
 };

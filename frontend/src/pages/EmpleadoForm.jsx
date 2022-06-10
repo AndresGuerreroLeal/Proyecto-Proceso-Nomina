@@ -160,6 +160,7 @@ const EmpleadoForm = () => {
     if(empleadoEditar && id){
       formik.setFieldValue("nombres",empleadoEditar.nombres)
       formik.setFieldValue("apellidos",empleadoEditar.apellidos)
+      formik.setFieldValue("genero",empleadoEditar.genero)
       formik.setFieldValue("ciudad_residencia",empleadoEditar.ciudad_residencia)
       formik.setFieldValue("correo",empleadoEditar.correo)
       formik.setFieldValue("direccion_residencia",empleadoEditar.direccion_residencia)
@@ -247,9 +248,9 @@ const EmpleadoForm = () => {
                   helperText={formik.touched.genero && formik.errors.genero}
                   onBlur={formik.handleBlur}
                 >
-                  <MenuItem value="masculino">Masculino</MenuItem>
-                  <MenuItem value="femenino">Femenino</MenuItem>
-                  <MenuItem value="otro">Otro</MenuItem>
+                  <MenuItem value="M">Masculino</MenuItem>
+                  <MenuItem value="F">Femenino</MenuItem>
+                  <MenuItem value="O">Otro</MenuItem>
                 </TextField>
                 <TextField
                   label="Número de celular"

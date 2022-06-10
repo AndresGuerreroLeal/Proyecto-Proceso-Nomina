@@ -119,6 +119,21 @@ const ContratoSchema = Yup.object().shape({
     .required("Porcentaje parafiscal caja de compesación requerido"),
 });
 
+const NominaSchema = Yup.object().shape({
+  nombre: Yup.string().required("Nombre requerido"),
+  anio: Yup.string().required("Año requerido"),
+  mes: Yup.string().required("Mes requerido"),
+});
+
+const NovedadSchema = Yup.object().shape({
+  valor: Yup.string()
+    .required("Valor requerido")
+    .min(0, "Valor inválido")
+    .max(100000000, "Sueldo inválido"),
+  concepto: Yup.string().required("Concepto requerido"),
+});
+
+
 export default {
   LoginSchema,
   OlvideContraseniaSchema,
@@ -128,4 +143,6 @@ export default {
   ActualizarContraseniaSchema,
   ConceptoSchema,
   ContratoSchema,
+  NominaSchema,
+  NovedadSchema,
 };

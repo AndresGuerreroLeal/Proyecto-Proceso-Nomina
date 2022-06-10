@@ -82,6 +82,7 @@ const EmpleadoState = ({ children }) => {
       formData.append("metodo_pago", empleado.metodo_pago);
       formData.append("entidad_bancaria", empleado.entidad_bancaria);
       formData.append("tipo_cuenta", empleado.tipo_cuenta);
+      formData.append("genero", empleado.genero);      
       formData.append("numero_cuenta", empleado.numero_cuenta);
 
       const token = sessionStorage.getItem("token");
@@ -133,13 +134,15 @@ const EmpleadoState = ({ children }) => {
       const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
-        `/api/1.0/employee/${id}`,
+        `/api/1.0/employee/get/${id}`,
         TokenAuth(token)
       );
 
       setEmpledadoEditar({ ...data, eliminar: false });
     } catch (err) {
       console.log(err);
+      console.log(err.response);
+
     } finally {
       setCargando(false);
     }
@@ -168,6 +171,7 @@ const EmpleadoState = ({ children }) => {
       formData.append("metodo_pago", empleado.metodo_pago);
       formData.append("entidad_bancaria", empleado.entidad_bancaria);
       formData.append("tipo_cuenta", empleado.tipo_cuenta);
+      formData.append("genero", empleado.genero);
       formData.append("numero_cuenta", empleado.numero_cuenta);
       formData.append("_id", empleado._id);
 
