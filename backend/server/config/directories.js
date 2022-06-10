@@ -11,11 +11,13 @@ const pathArchivos = `${__dirname}/../archivos`;
 const pathDocumentos = `${__dirname}/../archivos/documentos`;
 const pathReportesEmpleados = `${__dirname}/../archivos/reportesEmpleados`;
 const pathReportesContratos = `${__dirname}/../archivos/reportesContratos`;
+const pathNominas = `${__dirname}/../archivos/nominas`;
 const paths = [
   pathArchivos,
   pathDocumentos,
   pathReportesEmpleados,
   pathReportesContratos,
+  pathNominas
 ];
 const createDirectories = () => {
   //Recorrer rutas y crear directorios

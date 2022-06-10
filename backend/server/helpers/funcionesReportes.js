@@ -89,6 +89,14 @@ const crearArchivoReporte = (
     }
   }
 
+  //Si es nomina generar datos totales de contratos
+  if (directorio === "nominas") {
+    ws.cell(datos.length + 2, 34).string("Datos totales");
+    ws.cell(datos.length + 2, 35).formula(`SUM(AI2:AI${datos.length + 1})`);
+    ws.cell(datos.length + 2, 36).formula(`SUM(AJ2:AJ${datos.length + 1})`);
+    ws.cell(datos.length + 2, 37).formula(`SUM(AK2:AK${datos.length + 1})`);
+  }
+
   //Obtener nombre, la ruta y guardar el reporte
   const nombreFinal = nombre.split(" ").join("-") + "-" + Date.now() + ".xlsx";
   const ruta = path.normalize(
