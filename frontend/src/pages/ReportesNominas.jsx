@@ -4,6 +4,8 @@ import { Link, useNavigate } from "react-router-dom";
 // Context
 import EmpleadoContext from "../context/empleado/EmpleadoContext";
 import AlertaContext from "../context/alerta/AlertaContext";
+import AuthContext from "../context/auth/AuthContext";
+import NominaContext from "../context/nomina/NominaContext";
 
 // Components
 import ModalDialog from "../components/ModalDialog";
@@ -22,8 +24,6 @@ import TableRow from "@mui/material/TableRow";
 import clienteAxios from "../config/axios";
 import { CircularProgress } from "@mui/material";
 import DownloadIcon from '@mui/icons-material/Download';
-import AuthContext from "../context/auth/AuthContext";
-import NominaContext from "../context/nomina/NominaContext";
 
 const columns = [
   { id: "numero", label: "Número", minWidth: 100 },

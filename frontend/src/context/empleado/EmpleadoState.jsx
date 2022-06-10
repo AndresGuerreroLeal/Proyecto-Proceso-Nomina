@@ -133,13 +133,15 @@ const EmpleadoState = ({ children }) => {
       const token = sessionStorage.getItem("token");
 
       const { data } = await clienteAxios.get(
-        `/api/1.0/employee/${id}`,
+        `/api/1.0/employee/get/${id}`,
         TokenAuth(token)
       );
 
       setEmpledadoEditar({ ...data, eliminar: false });
     } catch (err) {
       console.log(err);
+      console.log(err.response);
+
     } finally {
       setCargando(false);
     }
