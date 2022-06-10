@@ -8,12 +8,19 @@ import NominaContext from "./NominaContext";
 
 const NominaState = ({ children }) => {
 
-  localStorage.setItem("novedades", JSON.stringify([]));
+  let obtenerNovedades = JSON.parse(localStorage.getItem("novedades"));
+  if(!obtenerNovedades){
+    localStorage.setItem("novedades", JSON.stringify([]));
+  }
 
   const [nominas, setNominas] = useState([]);
   const [reportesNominas,setReportesNominas] = useState([])
   const [cargando,setCargando] = useState(false)
   const [nomina,setNomina] = useState({})
+
+  const [nominasDisabled,setNominasDisabled] = useState([])
+
+  const [nominaNovedad,setNominaNovedad] = useState({})
 
   const [modalNomina,setModalNomina] = useState(false)
   const [modalNuevaNomina,setModalNuevaNomina] = useState(false)
@@ -71,9 +78,6 @@ const NominaState = ({ children }) => {
         TokenAuth(token)
       );
 
-              
-      console.log(data)
-
       setReportesNominas(data.docs);
       setPageReportes(data.page - 1);
       setCountReportes(data.totalDocs);
@@ -97,9 +101,9 @@ const NominaState = ({ children }) => {
     setModalNuevaNomina(!modalNuevaNomina)
   }
 
-  const mostrarModalNuevaNovedad = ()=>{
-    setModalNuevaNovedad(!modalNuevaNovedad)
-  }
+  const mostrarModalNuevaNovedad = () => {
+    setModalNuevaNovedad(!modalNuevaNovedad);
+  };
 
   const obtenerNomina = async (nomina)=>{
     try {
@@ -119,9 +123,20 @@ const NominaState = ({ children }) => {
     }    
   }
 
-  const crearNuevaNovedad = (novedad)=>{
-    consoñe.log(novedad);
-  }
+  const crearNuevaNovedad = async (novedad, contrato) => {
+    setCargando(true);
+
+    let novedades = [...obtenerNovedades, { _id: contrato._id, ...novedad }];
+    localStorage.setItem("novedades", JSON.stringify(novedades));
+
+    setNominasDisabled([...nominasDisabled, contrato._id]);
+
+    setNominaNovedad({});
+
+    setModalNuevaNovedad(false);
+
+    setCargando(false);
+  };
 
   return (
     <NominaContext.Provider
@@ -141,6 +156,9 @@ const NominaState = ({ children }) => {
         modalNomina,
         modalNuevaNovedad,
         modalNuevaNomina,
+        nominaNovedad,
+        nominasDisabled,
+        setNominasDisabled,
         setPageNominas,
         setRowsPerPageNominas,
         obtenerNominas,
@@ -151,6 +169,7 @@ const NominaState = ({ children }) => {
         mostrarModalNuevaNovedad,
         crearNuevaNovedad,
         setRowsPerPageReportes,
+        setNominaNovedad,
       }}
     >
       {children}

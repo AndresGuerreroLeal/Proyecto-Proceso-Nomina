@@ -39,18 +39,21 @@ const ModalNuevaNomina = () => {
     reset: true,
   };
 
-  const { mostrarModalNuevaNomina, modalNuevaNomina } =
+  const { mostrarModalNuevaNomina, modalNuevaNomina,setNominasDisabled } =
     useContext(NominaContext);
 
   const { alerta } = useContext(AlertaContext);
 
-  
   const handleDownload = (docurl,nomina) => {
     const token = sessionStorage.getItem("token");
     const novedades = JSON.parse(localStorage.getItem("novedades"));
 
-    nomina.novedades = novedades; 
+    nomina.novedades = novedades && novedades; 
     nomina.enviar_desprendibles = true;
+
+    setNominasDisabled([]);
+
+    localStorage.removeItem("novedades");
 
     let config = {
       responseType: "blob",

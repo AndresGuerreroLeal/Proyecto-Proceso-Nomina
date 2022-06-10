@@ -29,6 +29,12 @@ import ModalNomina from "../components/ModalNomina";
 import ModalNuevaNovedad from "../components/ModalNuevaNovedad";
 import ModalNuevaNomina from "../components/ModalNuevaNomina";
 
+let NuevasNovedades = JSON.parse(localStorage.getItem("novedades"))
+  ? JSON.parse(localStorage.getItem("novedades")).map(
+      (novedad) => novedad._id
+    )
+  : [];
+
 const columns = [
   { id: "numero_contrato", label: "Cédula", minWidth: 100 },
   {
@@ -57,12 +63,12 @@ const columns = [
 ];
 
 const Nominas = () => {
-  
   const {
     nominas,
     cargando,
     modalNomina,
     nomina,
+    setNominaNovedad,
     modalNuevaNovedad,
     modalNuevaNomina,
     pageNominas,
@@ -75,20 +81,32 @@ const Nominas = () => {
     obtenerNomina,
     mostrarModalNuevaNomina,
     mostrarModalNuevaNovedad,
+    nominasDisabled,
   } = useContext(NominaContext);
-  
-    let values = {
-      nombre: "",
-      año: "",
-      mes: "",
-      reset: true,
-    };
-  
-  const {perfil} = useContext(AuthContext)
-  
+
+  let values = {
+    nombre: "",
+    año: "",
+    mes: "",
+    reset: true,
+  };
+
+  const { perfil } = useContext(AuthContext);
+
   const { alerta } = useContext(AlertaContext);
 
   const navigate = useNavigate();
+
+  console.log(NuevasNovedades)
+
+  useEffect(() => {
+    NuevasNovedades =
+      JSON.parse(localStorage.getItem("novedades")).length > 1
+        ? JSON.parse(localStorage.getItem("novedades")).map(
+            (novedad) => novedad._id
+          )
+        : [];
+  }, [nominasDisabled]);
 
   useEffect(() => {
     const obtenerNominasState = async () => {
@@ -98,6 +116,10 @@ const Nominas = () => {
     obtenerNominasState();
   }, [rowsPerPageNominas, pageNominas]);
 
+  const handleNovedad = (novedad) => {
+    setNominaNovedad(novedad);
+    mostrarModalNuevaNovedad();
+  };
 
 
   const handleChangePage = (event, newPage) => {
@@ -118,37 +140,9 @@ const Nominas = () => {
 
   const classes = useStyles();
 
-  const handleDownload = (docurl) => {
-    const token = sessionStorage.getItem("token");
-
-    let config = {
-      responseType: "blob",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    };
-
-    clienteAxios
-      .get(docurl, config)
-      .then((res) => res.data)
-      .then((file) => {
-        const downloadUrl = window.URL.createObjectURL(new Blob([file]));
-        const link = document.createElement("a");
-        link.href = downloadUrl;
-        link.setAttribute("download", `reportesnominas.xlsx`);
-        document.body.appendChild(link);
-        link.click();
-        link.remove();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const handleSubmit = ()=>{
-  }
-
   const { message } = alerta;
+
+  console.log("aqui",nominasDisabled)
 
   return (
     <>
@@ -233,14 +227,27 @@ const Nominas = () => {
                                   : value}
                               </div>
 
-                              {column.id === "novedad" && (
+                              {column.id === "novedad" &&
+                              nominasDisabled.includes(row._id) ? (
                                 <Button
                                   variant="outlined"
                                   color="primary"
-                                  onClick={mostrarModalNuevaNovedad}
+                                  onClick={() => handleNovedad(row)}
+                                  disabled
                                 >
                                   <NewReleasesIcon />
                                 </Button>
+                              ) : (
+                                column.id === "novedad" &&
+                                !nominasDisabled.includes(row._id) && (
+                                  <Button
+                                    variant="outlined"
+                                    color="primary"
+                                    onClick={() => handleNovedad(row)}
+                                  >
+                                    <NewReleasesIcon />
+                                  </Button>
+                                )
                               )}
 
                               {column.id === "ver_detalle" && (

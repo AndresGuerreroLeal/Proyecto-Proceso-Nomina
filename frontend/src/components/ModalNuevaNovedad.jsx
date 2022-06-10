@@ -29,13 +29,14 @@ const ModalNuevaNovedad = () => {
   let values = {
     valor: "",
     concepto: "",
+    reset: true,
   };
 
-  const { mostrarModalNuevaNovedad, modalNuevaNovedad, crearNuevaNovedad } =
+  const { mostrarModalNuevaNovedad, modalNuevaNovedad, crearNuevaNovedad,nominaNovedad } =
     useContext(NominaContext);
 
   const handleSubmit = (novedad) => {
-    crearNuevaNovedad(novedad);
+    crearNuevaNovedad(novedad,nominaNovedad);
   };
 
   const formik = formikMain(handleSubmit, values, "NovedadSchema");
@@ -71,6 +72,7 @@ const ModalNuevaNovedad = () => {
                 justifyContent: "center",
                 gap: "10px",
               }}
+              onSubmit={formik.handleSubmit}
             >
               <TextField
                 id="valor"
@@ -100,6 +102,7 @@ const ModalNuevaNovedad = () => {
               <Button
                 variant="contained"
                 style={{ width: "50%", margin: "0 auto" }}
+                type="submit"
               >
                 Guardar novedad
               </Button>
