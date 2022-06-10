@@ -109,7 +109,9 @@ const ModalNomina = () => {
 
                 <Typography variant="p" component="h4">
                   Fecha de inicio:{" "}
-                  <span className="texto">{nomina.fecha_inicio}</span>
+                  <span className="texto">
+                    {nomina.fecha_inicio.split("T")[0]}
+                  </span>
                 </Typography>
 
                 <Typography variant="p" component="h4">
@@ -168,11 +170,6 @@ const ModalNomina = () => {
                 <Typography variant="p" component="h4">
                   Total de Devengos:{" "}
                   <span className="texto">{nomina.total_devengos}</span>
-                </Typography>
-
-                <Typography variant="p" component="h4">
-                  Total de Deducciones{" "}
-                  <span className="texto">{nomina.total_deducciones}</span>
                 </Typography>
 
                 <Typography variant="p" component="h4">
