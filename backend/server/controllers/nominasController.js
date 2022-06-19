@@ -57,6 +57,9 @@ const NominaController = {
           if (contrato._id == novedad._id) {
             contrato.valor_novedad = novedad.valor;
             contrato.concepto_novedad = novedad.concepto;
+          } else {
+            contrato.valor_novedad = 0;
+            contrato.concepto_novedad = "No se realizo ninguna novedad";
           }
         }
       } else {
@@ -65,11 +68,10 @@ const NominaController = {
       }
       //Si no se trabajaron los 30 días del mes
       if (contrato.fecha_inicio > primerDiaMes) {
-        const diferenciaTiempo = Math.abs(ultimoDiaMes - contrato.fecha_inicio);
-        const dias = Math.ceil(diferenciaTiempo / (1000 * 60 * 60 * 24));
-        const sueldoDia = parseInt(contrato.sueldo / 30);
+        const dias = 30 - new Date(contrato.fecha_inicio).getDate();
+        const sueldoDia = contrato.sueldo / 30;
         contrato.sueldo = sueldoDia * dias;
-        const auxilioTransporteDia = parseInt(contrato.auxilio_transporte / 30);
+        const auxilioTransporteDia = contrato.auxilio_transporte / 30;
         contrato.auxilio_transporte = auxilioTransporteDia * dias;
         const valoresNomina = calculosNomina(contrato);
         contrato.porcentaje_salud_empleado =

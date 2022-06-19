@@ -545,7 +545,7 @@ const EmpleadoForm = () => {
                     >
                       {empleadoEditar?._id
                         ? "Guardar Cambios"
-                        : "Crear usuario"}
+                        : "Crear empleado"}
                     </Button>
                   </div>
                 )}
