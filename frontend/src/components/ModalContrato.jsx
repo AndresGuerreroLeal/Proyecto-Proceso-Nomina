@@ -55,7 +55,7 @@ const ModalContrato = () => {
 
                 <Typography variant="p" component="h4">
                   Fecha de inicio:{" "}
-                  <span className="texto">{contrato.fecha_inicio}</span>
+                  <span className="texto">{contrato.fecha_inicio.split("T")[0]}</span>
                 </Typography>
 
                 <Typography variant="p" component="h4">
